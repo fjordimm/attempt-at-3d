@@ -3,7 +3,10 @@ add_executable(AttemptAt3DExec
 	src/AttemptAt3D/Program.cpp
 )
 
+configure_file(CMakeConfig.h.in CMakeConfig.h)
+
 target_include_directories(AttemptAt3DExec PUBLIC include)
+target_include_directories(AttemptAt3DExec PUBLIC "${PROJECT_BINARY_DIR}/libs/AttemptAt3D")
 
 find_package(OpenGL REQUIRED)
 target_link_libraries(AttemptAt3DExec OpenGL::GL)

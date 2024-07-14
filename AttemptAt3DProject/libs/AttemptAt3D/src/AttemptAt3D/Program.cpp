@@ -2,12 +2,13 @@
 #define GLEW_STATIC
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-
 #include <cstdio>
 #include <cstdlib>
 #include <string>
 #include <fstream>
 #include <iostream>
+#include <string>
+#include "CMakeConfig.h"
 
 const char* vertexShaderSource = R"glsl(
 	#version 150 core
@@ -56,9 +57,12 @@ void checkShaderCompilation(GLuint shader)
 
 int main(void)
 {
-	std::ifstream ifs("MamaMia");
-	std::string content((std::istreambuf_iterator<char>(ifs)), (std::istreambuf_iterator<char>()));
-	std::cout << "content..." << content << std::endl;
+	std::string resDir = std::string(CMAKE_SOURCE_DIR) + "/res/";
+
+	std::cout << "thing..." << resDir << std::endl;
+	// std::ifstream ifs("MamaMia");
+	// std::string content((std::istreambuf_iterator<char>(ifs)), (std::istreambuf_iterator<char>()));
+	// std::cout << "content..." << content << std::endl;
 	
 	GLFWwindow* window;
 
