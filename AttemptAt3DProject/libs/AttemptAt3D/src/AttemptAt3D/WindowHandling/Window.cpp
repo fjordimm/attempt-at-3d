@@ -1,33 +1,57 @@
 
 #include "AttemptAt3D/WindowHandling/Window.h"
 
+#define GLEW_STATIC
+#include <glew.h>
 #include <gl/GL.h>
 #include <gl/GLU.h>
+#include <cstdio>
+#include <cstdlib>
 
-/* Windows globals, defines, and prototypes */ 
-// CHAR szAppName[]="Win OpenGL"; 
-// HWND  ghWnd; 
-HDC   ghDC; 
-HGLRC ghRC; 
-#define SWAPBUFFERS SwapBuffers(ghDC) 
-#define BLACK_INDEX     0 
-#define RED_INDEX       13 
-#define GREEN_INDEX     14 
-#define BLUE_INDEX      16 
-#define WIDTH           300 
-#define HEIGHT          200 
-BOOL bSetupPixelFormat(HDC); 
+const char* vertexShaderSource = R"glsl(
+	#version 150 core
 
-/* OpenGL globals, defines, and prototypes */ 
-GLfloat latitude, longitude, latinc, longinc; 
-GLdouble radius; 
-#define GLOBE    1 
-#define CYLINDER 2 
-#define CONE     3 
-GLvoid resize(GLsizei, GLsizei); 
-GLvoid initializeGL(GLsizei, GLsizei); 
-GLvoid drawScene(GLvoid); 
-void polarView( GLdouble, GLdouble, GLdouble, GLdouble);
+	in vec2 position;
+	in vec3 color;
+
+	out vec3 Color;
+
+	void main()
+	{
+		Color = color;
+		gl_Position = vec4(position, 0.0, 1.0);
+	}
+)glsl";
+
+const char* fragmentShaderSource = R"glsl(
+	#version 150 core
+
+	in vec3 Color;
+
+	out vec4 outColor;
+
+	void main()
+	{
+		outColor = vec4(Color, 1.0);
+	}
+)glsl";
+
+void checkShaderCompilation(GLuint shader)
+{
+	GLint status;
+	glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
+
+	if ((bool)status == true)
+	{ return; }
+	else
+	{
+		static char buf[512];
+		glGetShaderInfoLog(shader, 512, nullptr, buf);
+		std::fprintf(stderr, "=== Shader did not compile ===\n");
+		std::fprintf(stderr, "%s\n", buf);
+		std::exit(EXIT_FAILURE);
+	}
+}
 
 constexpr wchar_t WINDOW_CLASS_NAME[] = L"AttemptAt3D Window Class";
 constexpr wchar_t WINDOW_TITLE[] = L"AttemptAt3D Title Placeholder";
@@ -38,45 +62,28 @@ namespace AttemptAt3D::WindowHandling
 {
 	LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
-		PAINTSTRUCT    ps; 
-		RECT rect; 
+		PAINTSTRUCT paintstruct;
+		RECT viewRect;
 
 		switch (uMsg)
 		{
-		case WM_CREATE: 
-			ghDC = GetDC(hWnd); 
-			if (!bSetupPixelFormat(ghDC)) 
-				PostQuitMessage (0); 
+		// case WM_CREATE:
+		// 	HDC ghDC = GetDC(hWnd);
+		// 	if (!setupPixelFormat(ghDC))
+		// 	{ PostQuitMessage (0); }
 	
-			ghRC = wglCreateContext(ghDC); 
-			wglMakeCurrent(ghDC, ghRC); 
-			GetClientRect(hWnd, &rect); 
-			initializeGL(rect.right, rect.bottom); 
-			break; 
-		case WM_PAINT: 
-			BeginPaint(hWnd, &ps); 
-			EndPaint(hWnd, &ps); 
-			break;
-		case WM_SIZE: 
-			GetClientRect(hWnd, &rect); 
-			resize(rect.right, rect.bottom); 
-			break;
-		case WM_KEYDOWN: 
-			switch (wParam)
-			{ 
-			case VK_LEFT: 
-				longinc += 0.5F; 
-				break; 
-			case VK_RIGHT: 
-				longinc -= 0.5F; 
-				break; 
-			case VK_UP: 
-				latinc += 0.5F; 
-				break; 
-			case VK_DOWN: 
-				latinc -= 0.5F; 
-				break; 
-			}
+		// 	HGLRC ghRC = wglCreateContext(ghDC);
+		// 	wglMakeCurrent(ghDC, ghRC);
+		// 	GetClientRect(hWnd, &viewRect);
+		// 	// initializeGL(viewRect.right, viewRect.bottom);
+		// 	break;
+		// case WM_SIZE:
+		// 	GetClientRect(hWnd, &viewRect);
+		// 	// resize(viewRect.right, viewRect.bottom);
+		// 	break;
+		case WM_PAINT:
+			BeginPaint(hWnd, &paintstruct);
+			EndPaint(hWnd, &paintstruct);
 			break;
 		case WM_CLOSE:
 			DestroyWindow(hWnd);
@@ -90,18 +97,19 @@ namespace AttemptAt3D::WindowHandling
 	}
 
 	Window::Window()
-		: m_hInstance(GetModuleHandle(nullptr))
+		: hInstance(GetModuleHandle(nullptr))
 	{
 		WNDCLASS wndClass = {};
 		wndClass.lpszClassName = WINDOW_CLASS_NAME;
-		wndClass.hInstance = this->m_hInstance;
+		wndClass.hInstance = this->hInstance;
 		wndClass.hIcon = LoadIcon(NULL, IDI_INFORMATION);
 		wndClass.hCursor = LoadCursor(NULL, IDC_ARROW);
 		wndClass.lpfnWndProc = WindowProc;
-		wndClass.hbrBackground = (HBRUSH)(COLOR_WINDOW+1); 
+		// wndClass.hbrBackground = (HBRUSH)(COLOR_WINDOW+1); 
 
 		RegisterClass(&wndClass);
 
+		// TODO: the flags
 		DWORD style = WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU | WS_OVERLAPPEDWINDOW | WS_CLIPSIBLINGS | WS_CLIPCHILDREN;
 
 		int width = WINDOW_HEIGHT;
@@ -115,7 +123,7 @@ namespace AttemptAt3D::WindowHandling
 
 		AdjustWindowRect(&rect, style, false);
 
-		this->m_hWnd = CreateWindowEx(
+		this->hWnd = CreateWindowEx(
 			0,
 			WINDOW_CLASS_NAME,
 			WINDOW_TITLE,
@@ -126,21 +134,85 @@ namespace AttemptAt3D::WindowHandling
 			rect.bottom - rect.top,
 			NULL,
 			NULL,
-			this->m_hInstance,
+			this->hInstance,
 			NULL
 		);
 
-		ShowWindow(this->m_hWnd, SW_SHOW);
+		ShowWindow(this->hWnd, SW_SHOW);
 
-		UpdateWindow(this->m_hWnd);
+		UpdateWindow(this->hWnd);
+
+		this->mainLoop();
 	}
 
 	Window::~Window()
 	{
-		UnregisterClass(WINDOW_CLASS_NAME, this->m_hInstance);
+		UnregisterClass(WINDOW_CLASS_NAME, this->hInstance);
 	}
 
-	bool Window::ProcessMessages()
+	void Window::mainLoop()
+	{
+		glewExperimental = GL_TRUE;
+		glewInit();
+
+		////////////////////////////////////////
+			GLuint vao;
+			glGenVertexArrays(1, &vao);
+			glBindVertexArray(vao);
+
+			float verts1[] =
+			{
+				0.0f,  0.5f,      1.0f,0.0f,0.0f,
+				0.5f, -0.5f,      0.0f,1.0f,0.0f,
+				-0.5f, -0.5f,      0.0f,0.0f,1.0f
+			};
+
+			GLuint vbo;
+			glGenBuffers(1, &vbo);
+
+			glBindBuffer(GL_ARRAY_BUFFER, vbo);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(verts1), verts1, GL_STATIC_DRAW);
+
+			GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
+			glShaderSource(vertexShader, 1, &vertexShaderSource, nullptr);
+			glCompileShader(vertexShader);
+			checkShaderCompilation(vertexShader);
+
+			GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+			glShaderSource(fragmentShader, 1, &fragmentShaderSource, nullptr);
+			glCompileShader(fragmentShader);
+			checkShaderCompilation(fragmentShader);
+
+			GLuint shaderProgram = glCreateProgram();
+			glAttachShader(shaderProgram, vertexShader);
+			glAttachShader(shaderProgram, fragmentShader);
+
+			glLinkProgram(shaderProgram);
+			glUseProgram(shaderProgram);
+
+			GLint posAttrib = glGetAttribLocation(shaderProgram, "position");
+			glEnableVertexAttribArray(posAttrib);
+			glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), 0);
+
+			GLint colAttrib = glGetAttribLocation(shaderProgram, "color");
+			glEnableVertexAttribArray(colAttrib);
+			glVertexAttribPointer(colAttrib, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(2 * sizeof(float)));
+		////////////////////////////////////////
+
+		bool running = true;
+		while (running)
+		{
+			if (!this->processMessages())
+			{ running = false; }
+
+			this->draw();
+			
+
+			Sleep(10);
+		}
+	}
+
+	bool Window::processMessages()
 	{
 		MSG msg = {};
 
@@ -153,159 +225,45 @@ namespace AttemptAt3D::WindowHandling
 			DispatchMessage(&msg);
 		}
 
-		/////////////////////////////////////
-
-		drawScene();
-
-		/////////////////////////////////////
-
 		return true;
 	}
-}
 
-BOOL bSetupPixelFormat(HDC hdc) 
-{ 
-	PIXELFORMATDESCRIPTOR pfd, *ppfd; 
-	int pixelformat; 
+	void Window::draw()
+	{
 
-	ppfd = &pfd; 
+	}
 
-	ppfd->nSize = sizeof(PIXELFORMATDESCRIPTOR); 
-	ppfd->nVersion = 1; 
-	ppfd->dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL |  
-						PFD_DOUBLEBUFFER; 
-	ppfd->dwLayerMask = PFD_MAIN_PLANE; 
-	ppfd->iPixelType = PFD_TYPE_COLORINDEX; 
-	ppfd->cColorBits = 8; 
-	ppfd->cDepthBits = 16; 
-	ppfd->cAccumBits = 0; 
-	ppfd->cStencilBits = 0; 
-
-	pixelformat = ChoosePixelFormat(hdc, ppfd); 
-
-	if ( (pixelformat = ChoosePixelFormat(hdc, ppfd)) == 0 ) 
+	bool setupPixelFormat(HDC hdc)
 	{ 
-		MessageBox(NULL, L"ChoosePixelFormat failed", L"Error", MB_OK); 
-		return FALSE; 
+		PIXELFORMATDESCRIPTOR pfd, *ppfd;
+		int pixelformat;
+
+		ppfd = &pfd;
+
+		ppfd->nSize = sizeof(PIXELFORMATDESCRIPTOR);
+		ppfd->nVersion = 1;
+		ppfd->dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
+		ppfd->dwLayerMask = PFD_MAIN_PLANE;
+		ppfd->iPixelType = PFD_TYPE_COLORINDEX;
+		ppfd->cColorBits = 8;
+		ppfd->cDepthBits = 16;
+		ppfd->cAccumBits = 0;
+		ppfd->cStencilBits = 0;
+
+		pixelformat = ChoosePixelFormat(hdc, ppfd);
+
+		if ((pixelformat = ChoosePixelFormat(hdc, ppfd)) == 0)
+		{ 
+			MessageBox(NULL, L"ChoosePixelFormat failed", L"Error", MB_OK);
+			return false;
+		} 
+
+		if (SetPixelFormat(hdc, pixelformat, ppfd) == false)
+		{ 
+			MessageBox(NULL, L"SetPixelFormat failed", L"Error", MB_OK);
+			return false;
+		} 
+
+		return true;
 	} 
-
-	if (SetPixelFormat(hdc, pixelformat, ppfd) == FALSE) 
-	{ 
-		MessageBox(NULL, L"SetPixelFormat failed", L"Error", MB_OK); 
-		return FALSE; 
-	} 
-
-	return TRUE; 
-} 
-
-/* OpenGL code */ 
-
-GLvoid resize( GLsizei width, GLsizei height ) 
-{ 
-	GLfloat aspect; 
-
-	glViewport( 0, 0, width, height ); 
-
-	aspect = (GLfloat) width / height; 
-
-	glMatrixMode( GL_PROJECTION ); 
-	glLoadIdentity(); 
-	gluPerspective( 45.0, aspect, 3.0, 7.0 ); 
-	glMatrixMode( GL_MODELVIEW ); 
-}     
-
-GLvoid createObjects() 
-{ 
-	GLUquadricObj *quadObj; 
-
-	glNewList(GLOBE, GL_COMPILE); 
-		quadObj = gluNewQuadric (); 
-		gluQuadricDrawStyle (quadObj, GLU_LINE); 
-		gluSphere (quadObj, 1.5, 16, 16); 
-	glEndList(); 
-
-	glNewList(CONE, GL_COMPILE); 
-		quadObj = gluNewQuadric (); 
-		gluQuadricDrawStyle (quadObj, GLU_FILL); 
-		gluQuadricNormals (quadObj, GLU_SMOOTH); 
-		gluCylinder(quadObj, 0.3, 0.0, 0.6, 15, 10); 
-	glEndList(); 
-
-	glNewList(CYLINDER, GL_COMPILE); 
-		glPushMatrix (); 
-		glRotatef ((GLfloat)90.0, (GLfloat)1.0, (GLfloat)0.0, (GLfloat)0.0); 
-		glTranslatef ((GLfloat)0.0, (GLfloat)0.0, (GLfloat)-1.0); 
-		quadObj = gluNewQuadric (); 
-		gluQuadricDrawStyle (quadObj, GLU_FILL); 
-		gluQuadricNormals (quadObj, GLU_SMOOTH); 
-		gluCylinder (quadObj, 0.3, 0.3, 0.6, 12, 2); 
-		glPopMatrix (); 
-	glEndList(); 
-} 
-
-GLvoid initializeGL(GLsizei width, GLsizei height) 
-{ 
-	GLfloat     maxObjectSize, aspect; 
-	GLdouble    near_plane, far_plane; 
-
-	glClearIndex( (GLfloat)BLACK_INDEX); 
-	glClearDepth( 1.0 ); 
-
-	glEnable(GL_DEPTH_TEST); 
-
-	glMatrixMode( GL_PROJECTION ); 
-	aspect = (GLfloat) width / height; 
-	gluPerspective( 45.0, aspect, 3.0, 7.0 ); 
-	glMatrixMode( GL_MODELVIEW ); 
-
-	near_plane = 3.0; 
-	far_plane = 7.0; 
-	maxObjectSize = 3.0F; 
-	radius = near_plane + maxObjectSize/2.0; 
-
-	latitude = 0.0F; 
-	longitude = 0.0F; 
-	latinc = 6.0F; 
-	longinc = 2.5F; 
-
-	createObjects(); 
-} 
-
-void polarView(GLdouble radius, GLdouble twist, GLdouble latitude, 
-		GLdouble longitude) 
-{ 
-	glTranslated(0.0, 0.0, -radius); 
-	glRotated(-twist, 0.0, 0.0, 1.0); 
-	glRotated(-latitude, 1.0, 0.0, 0.0); 
-	glRotated(longitude, 0.0, 0.0, 1.0);      
-
-} 
-
-GLvoid drawScene(GLvoid) 
-{ 
-	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT ); 
-
-	glPushMatrix(); 
-
-		latitude += latinc; 
-		longitude += longinc; 
-
-		polarView( radius, 0, latitude, longitude ); 
-
-		glIndexi(RED_INDEX); 
-		glCallList(CONE); 
-
-		glIndexi(BLUE_INDEX); 
-		glCallList(GLOBE); 
-
-	glIndexi(GREEN_INDEX); 
-		glPushMatrix(); 
-			glTranslatef(0.8F, -0.65F, 0.0F); 
-			glRotatef(30.0F, 1.0F, 0.5F, 1.0F); 
-			glCallList(CYLINDER); 
-		glPopMatrix(); 
-
-	glPopMatrix(); 
-
-	SWAPBUFFERS; 
 }

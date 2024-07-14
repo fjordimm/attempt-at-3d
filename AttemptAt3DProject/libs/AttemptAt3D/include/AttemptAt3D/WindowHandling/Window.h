@@ -14,11 +14,17 @@ namespace AttemptAt3D::WindowHandling
 		~Window();
 		Window(const Window&) = delete;
 		Window& operator=(const Window&) = delete;
-
-		bool ProcessMessages();
 	
 	private:
-		HINSTANCE m_hInstance;
-		HWND m_hWnd;
+		HINSTANCE hInstance;
+		HWND hWnd;
+		HDC hDC;
+		HGLRC hRC;
+
+		void mainLoop();
+		bool processMessages();
+		void draw();
 	};
+
+	bool setupPixelFormat(HDC hdc);
 }
