@@ -22,6 +22,10 @@ using namespace AttemptAt3D;
 
 ///// Constants /////
 
+constexpr int INITIAL_WINDOW_WIDTH = 900;
+constexpr int INITIAL_WINDOW_HEIGHT = 480;
+constexpr char WINDOW_TITLE[] = "Test window";
+
 const char* vertexShaderSource = R"glsl(
 	#version 150 core
 
@@ -62,15 +66,107 @@ void checkShaderCompilation(GLuint shader);
 
 int main(void)
 {
-	Debug::logFatalError("burjhdh");
-
 	/* Create the window, initializing GLFW and GLEW */
 
-	// GLFWwindow* window;
-	// {
-	// 	if (!glfwInit())
-	// 	{ throw  }
-	// }
+	GLFWwindow* window;
+	{
+		if (!glfwInit())
+		{ Debug::logFatalError("glfwInit failed."); }
+
+		window = glfwCreateWindow(INITIAL_WINDOW_WIDTH, INITIAL_WINDOW_HEIGHT, WINDOW_TITLE, nullptr, nullptr);
+		if (!window)
+		{
+			glfwTerminate();
+			Debug::logFatalError("glfwCreateWindow failed.");
+		}
+
+		glfwMakeContextCurrent(window);
+
+		glewExperimental = GL_TRUE;
+		glewInit();
+	}
+
+	/*  */
+
+	GLuint vao;
+	float verts1[] =
+	{
+		 0.0f,  0.5f,      1.0f,0.0f,0.0f,
+		 0.5f, -0.5f,      0.0f,1.0f,0.0f,
+		-0.5f, -0.5f,      0.0f,0.0f,1.0f
+	};
+	GLuint vbo;
+	GLuint vertexShader;
+	GLuint fragmentShader;
+	GLuint shaderProgram;
+	GLint posAttrib;
+	GLint colAttrib;
+	{
+		glGenVertexArrays(1, &vao);
+		glBindVertexArray(vao);
+
+		glGenBuffers(1, &vbo);
+
+		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(verts1), verts1, GL_STATIC_DRAW);
+
+		vertexShader = glCreateShader(GL_VERTEX_SHADER);
+		glShaderSource(vertexShader, 1, &vertexShaderSource, nullptr);
+		glCompileShader(vertexShader);
+		checkShaderCompilation(vertexShader);
+
+		fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+		glShaderSource(fragmentShader, 1, &fragmentShaderSource, nullptr);
+		glCompileShader(fragmentShader);
+		checkShaderCompilation(fragmentShader);
+
+		shaderProgram = glCreateProgram();
+		glAttachShader(shaderProgram, vertexShader);
+		glAttachShader(shaderProgram, fragmentShader);
+
+		glLinkProgram(shaderProgram);
+		glUseProgram(shaderProgram);
+
+		posAttrib = glGetAttribLocation(shaderProgram, "position");
+		glEnableVertexAttribArray(posAttrib);
+		glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), 0);
+
+		colAttrib = glGetAttribLocation(shaderProgram, "color");
+		glEnableVertexAttribArray(colAttrib);
+		glVertexAttribPointer(colAttrib, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(2 * sizeof(float)));
+	}
+
+	/* Main Window Loop */
+
+	while (!glfwWindowShouldClose(window))
+    {
+		/* Process inputs */
+
+        /* Render stuff */
+
+		glClearColor(0.1f, 0.0f, 0.25f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
+
+		glDrawArrays(GL_TRIANGLES, 0, 3);
+
+        /* Do stuff required by GLFW */
+
+		glfwPollEvents();
+        glfwSwapBuffers(window);
+    }
+
+	/* Deletions */
+
+	glDeleteProgram(shaderProgram);
+	glDeleteShader(fragmentShader);
+	glDeleteShader(vertexShader);
+	glDeleteBuffers(1, &vbo);
+	glDeleteVertexArrays(1, &vao);
+
+	/* End */
+
+    glfwTerminate();
+    return 0;
 }
 
 ////////////////////////////////////////////////////////////
