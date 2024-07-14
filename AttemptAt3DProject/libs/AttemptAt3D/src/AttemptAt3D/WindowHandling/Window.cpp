@@ -29,7 +29,7 @@ namespace AttemptAt3D::WindowHandling
 		WNDCLASS wndClass = {};
 		wndClass.lpszClassName = WINDOW_CLASS_NAME;
 		wndClass.hInstance = this->m_hInstance;
-		wndClass.hIcon = LoadIcon(NULL, IDI_WINLOGO);
+		wndClass.hIcon = LoadIcon(NULL, IDI_INFORMATION);
 		wndClass.hCursor = LoadCursor(NULL, IDC_ARROW);
 		wndClass.lpfnWndProc = WindowProc;
 
