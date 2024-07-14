@@ -101,7 +101,7 @@ namespace AttemptAt3D::WindowHandling
 
 		RegisterClass(&wndClass);
 
-		DWORD style = WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU;
+		DWORD style = WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU | WS_OVERLAPPEDWINDOW | WS_CLIPSIBLINGS | WS_CLIPCHILDREN;
 
 		int width = WINDOW_HEIGHT;
 		int height = WINDOW_WIDTH;
