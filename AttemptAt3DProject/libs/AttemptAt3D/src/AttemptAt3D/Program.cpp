@@ -66,6 +66,11 @@ void checkShaderCompilation(GLuint shader);
 
 int main(void)
 {
+	const char* yuh = FileLoading::loadFile("res/shaders/vertexShaderSource.glsl");
+	std::cout << "weeeee" << std::endl;
+
+	/* Program Variables */
+
 	/* Create the window, initializing GLFW and GLEW */
 
 	GLFWwindow* window;
@@ -86,7 +91,7 @@ int main(void)
 		glewInit();
 	}
 
-	/*  */
+	/* OpenGL stuff */
 
 	GLuint vao;
 	float verts1[] =
@@ -162,8 +167,6 @@ int main(void)
 	glDeleteShader(vertexShader);
 	glDeleteBuffers(1, &vbo);
 	glDeleteVertexArrays(1, &vao);
-
-	/* End */
 
     glfwTerminate();
     return 0;
