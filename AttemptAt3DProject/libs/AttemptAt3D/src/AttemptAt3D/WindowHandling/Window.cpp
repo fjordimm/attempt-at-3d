@@ -76,7 +76,8 @@ namespace AttemptAt3D::WindowHandling
 			case VK_DOWN: 
 				latinc -= 0.5F; 
 				break; 
-			} 
+			}
+			break;
 		case WM_CLOSE:
 			DestroyWindow(hWnd);
 			break;
