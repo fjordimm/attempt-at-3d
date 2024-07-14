@@ -1,8 +1,10 @@
 
 #include "AttemptAt3D/WindowHandling/Window.h"
 
-const wchar_t* WINDOW_CLASS_NAME = L"AttemptAt3D Window Class";
-const wchar_t* WINDOW_TITLE = L"AttemptAt3D Title Placeholder";
+constexpr wchar_t WINDOW_CLASS_NAME[] = L"AttemptAt3D Window Class";
+constexpr wchar_t WINDOW_TITLE[] = L"AttemptAt3D Title Placeholder";
+constexpr int WINDOW_HEIGHT = 900;
+constexpr int WINDOW_WIDTH = 600;
 
 namespace AttemptAt3D::WindowHandling
 {
@@ -35,12 +37,12 @@ namespace AttemptAt3D::WindowHandling
 
 		DWORD style = WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU;
 
-		int width = 640;
-		int height = 480;
+		int width = WINDOW_HEIGHT;
+		int height = WINDOW_WIDTH;
 
 		RECT rect;
-		rect.left = 250;
-		rect.top = 250;
+		rect.left = 300;
+		rect.top = 100;
 		rect.right = rect.left + width;
 		rect.bottom = rect.top + height;
 

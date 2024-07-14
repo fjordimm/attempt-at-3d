@@ -6,16 +6,13 @@ using AttemptAt3D::WindowHandling::Window;
 
 int main(void)
 {
-	std::cout << "haha window" << std::endl;
-
-	Window* pWindow = new Window();
+	Window win;
 
 	bool running = true;
 	while (running)
 	{
-		if (!pWindow->ProcessMessages())
+		if (!win.ProcessMessages())
 		{
-			std::cout << "window closin" << std::endl;
 			running = false;
 		}
 
@@ -23,8 +20,6 @@ int main(void)
 
 		Sleep(10);
 	}
-
-	delete pWindow;
 
 	return 0;
 }
