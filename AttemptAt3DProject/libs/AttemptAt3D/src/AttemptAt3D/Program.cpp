@@ -23,7 +23,7 @@ using namespace AttemptAt3D;
 ///// Constants /////
 
 constexpr int INITIAL_WINDOW_WIDTH = 900;
-constexpr int INITIAL_WINDOW_HEIGHT = 480;
+constexpr int INITIAL_WINDOW_HEIGHT = 600;
 constexpr char WINDOW_TITLE[] = "Test window";
 
 constexpr char VERTEX_SHADER_SOURCE_PATH[] = "res/shaders/vertexShaderSource.glsl";
@@ -129,6 +129,11 @@ int main(void)
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		glDrawArrays(GL_TRIANGLES, 0, 3);
+
+		/* Adjust the canvas when the window is resized */
+
+		glfwSetWindowSizeCallback(window, [](GLFWwindow* window, int width, int height)
+		{ glViewport(0, 0, width, height); });
 
         /* Do stuff required by GLFW */
 
