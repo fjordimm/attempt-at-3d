@@ -156,16 +156,19 @@ int main(void)
 
         /* Render stuff */
 
+		auto nowTime = std::chrono::high_resolution_clock::now();
+		float timeElapsed = std::chrono::duration_cast<std::chrono::duration<float>>(nowTime - startTime).count();
+		// // std::cout << "time: " << timeElapsed << std::endl;
+		glm::mat4 trans;
+		trans = glm::rotate(trans, timeElapsed * glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
+		// verts1[0] = -0.3f - timeElapsed * 0.1f;
+		// glBufferData(GL_ARRAY_BUFFER, sizeof(verts1), verts1, GL_STATIC_DRAW);
+
 		glClearColor(0.1f, 0.0f, 0.25f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-
-		// auto nowTime = std::chrono::high_resolution_clock::now();
-		// float timeElapsed = std::chrono::duration_cast<std::chrono::duration<float>>(nowTime - startTime).count();
-		// // std::cout << "time: " << timeElapsed << std::endl;
-		// verts1[0] = -0.3f - timeElapsed * 0.1f;
-		// glBufferData(GL_ARRAY_BUFFER, sizeof(verts1), verts1, GL_STATIC_DRAW);
 
 		/* Adjust the canvas when the window is resized */
 
