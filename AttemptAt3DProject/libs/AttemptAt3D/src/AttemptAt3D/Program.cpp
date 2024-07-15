@@ -132,8 +132,8 @@ int main(void)
 
 		/* Adjust the canvas when the window is resized */
 
-		glfwSetWindowSizeCallback(window, [](GLFWwindow* window, int width, int height)
-		{ glViewport(0, 0, width, height); });
+		glfwSetWindowSizeCallback(window, [](GLFWwindow* _window, int _width, int _height)
+		{ glViewport(0, 0, _width, _height); });
 
         /* Do stuff required by GLFW */
 
