@@ -6,6 +6,9 @@
 #define GLEW_STATIC
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include <cstdio>
 #include <cstdlib>
 #include <string>
@@ -42,6 +45,11 @@ void checkShaderCompilation(GLuint shader);
 
 int main(void)
 {
+	// glm::mat4 trans = glm::mat4(1.0f);
+	// trans = glm::rotate(trans, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+	// glm::vec4 result = trans * glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
+	// printf("%f, %f, %f\n", result.x, result.y, result.z);
+
 	/* Program Variables */
 
 	/* Create the window, initializing GLFW and GLEW */
@@ -50,6 +58,9 @@ int main(void)
 	{
 		if (!glfwInit())
 		{ Debug::logFatalError("glfwInit failed."); }
+
+		// Window hints
+		glfwWindowHint(GLFW_SAMPLES, 5); // anti-aliasing
 
 		window = glfwCreateWindow(INITIAL_WINDOW_WIDTH, INITIAL_WINDOW_HEIGHT, WINDOW_TITLE, nullptr, nullptr);
 		if (!window)
@@ -88,6 +99,7 @@ int main(void)
 	GLuint shaderProgram;
 	GLint posAttrib;
 	GLint colAttrib;
+	GLint uniTrans;
 	{
 		glGenVertexArrays(1, &vao);
 		glBindVertexArray(vao);
@@ -128,6 +140,10 @@ int main(void)
 		colAttrib = glGetAttribLocation(shaderProgram, "color");
 		glEnableVertexAttribArray(colAttrib);
 		glVertexAttribPointer(colAttrib, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(2 * sizeof(float)));
+
+		uniTrans = glGetUniformLocation(shaderProgram, "trans");
+		glm::mat4 trans = glm::rotate(glm::mat4(1.0f), glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
 	}
 
 	/* Main Window Loop */
@@ -145,11 +161,11 @@ int main(void)
 
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
-		auto nowTime = std::chrono::high_resolution_clock::now();
-		float timeElapsed = std::chrono::duration_cast<std::chrono::duration<float>>(nowTime - startTime).count();
-		// std::cout << "time: " << timeElapsed << std::endl;
-		verts1[0] = -0.3f - timeElapsed * 0.1f;
-		glBufferData(GL_ARRAY_BUFFER, sizeof(verts1), verts1, GL_STATIC_DRAW);
+		// auto nowTime = std::chrono::high_resolution_clock::now();
+		// float timeElapsed = std::chrono::duration_cast<std::chrono::duration<float>>(nowTime - startTime).count();
+		// // std::cout << "time: " << timeElapsed << std::endl;
+		// verts1[0] = -0.3f - timeElapsed * 0.1f;
+		// glBufferData(GL_ARRAY_BUFFER, sizeof(verts1), verts1, GL_STATIC_DRAW);
 
 		/* Adjust the canvas when the window is resized */
 
