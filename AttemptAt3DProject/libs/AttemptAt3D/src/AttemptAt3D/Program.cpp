@@ -79,16 +79,20 @@ int main(void)
 
 	float verts1[] =
 	{
-		-0.3f,  0.3f,      1.0f,0.0f,0.0f,
-		 0.3f,  0.3f,      0.0f,1.0f,0.0f,
-		 0.3f, -0.3f,      0.0f,0.0f,1.0f,
-		-0.3f, -0.3f,      0.0f,1.0f,1.0f
+		// X     Y      Z          R    G    B
+		-0.3f,  0.3f,  0.0f,      1.0f,0.0f,0.0f,
+		 0.3f,  0.3f,  0.0f,      0.0f,1.0f,0.0f,
+		 0.3f, -0.3f,  0.0f,      0.0f,0.0f,1.0f,
+		-0.3f, -0.3f,  0.0f,      0.0f,1.0f,1.0f,
+		 0.0f,  0.0f,  1.0f,      1.0f,0.0f,1.0f
 	};
 
 	GLuint elems1[] =
 	{
 		0, 1, 2,
-		2, 3, 0
+		2, 3, 0,
+
+		0, 4, 1
 	};
 
 	GLuint vao;
@@ -137,11 +141,11 @@ int main(void)
 
 		posAttrib = glGetAttribLocation(shaderProgram, "position");
 		glEnableVertexAttribArray(posAttrib);
-		glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), 0);
+		glVertexAttribPointer(posAttrib, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), 0);
 
 		colAttrib = glGetAttribLocation(shaderProgram, "color");
 		glEnableVertexAttribArray(colAttrib);
-		glVertexAttribPointer(colAttrib, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(2 * sizeof(float)));
+		glVertexAttribPointer(colAttrib, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
 
 		uniModel = glGetUniformLocation(shaderProgram, "model");
 		glm::mat4 model = glm::rotate(glm::mat4(1.0f), glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
@@ -149,7 +153,7 @@ int main(void)
 
 		uniView = glGetUniformLocation(shaderProgram, "view");
 		glm::mat4 view = glm::lookAt(
-			glm::vec3(1.2f, 1.2f, 1.2f),
+			glm::vec3(0.0f, 3.0f, -3.0f),
 			glm::vec3(0.0f, 0.0f, 0.0f),
 			glm::vec3(0.0f, 0.0f, 1.0f)
 		);
@@ -182,7 +186,7 @@ int main(void)
 		glClearColor(0.1f, 0.0f, 0.25f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, 0);
 
 		/* Adjust the canvas when the window is resized */
 
