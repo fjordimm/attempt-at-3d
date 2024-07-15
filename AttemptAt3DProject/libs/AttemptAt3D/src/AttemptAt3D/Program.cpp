@@ -77,6 +77,8 @@ int main(void)
 
 	/* OpenGL stuff */
 
+	glEnable(GL_DEPTH_TEST);
+
 	float verts1[] =
 	{
 		// X     Y      Z          R    G    B
@@ -92,7 +94,10 @@ int main(void)
 		0, 1, 2,
 		2, 3, 0,
 
-		0, 4, 1
+		0, 4, 1,
+		1, 4, 2,
+		2, 4, 3,
+		3, 4, 0
 	};
 
 	GLuint vao;
@@ -184,9 +189,9 @@ int main(void)
 		// glBufferData(GL_ARRAY_BUFFER, sizeof(verts1), verts1, GL_STATIC_DRAW);
 
 		glClearColor(0.1f, 0.0f, 0.25f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, 18, GL_UNSIGNED_INT, 0);
 
 		/* Adjust the canvas when the window is resized */
 
