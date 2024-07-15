@@ -12,6 +12,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <chrono>
 #include "CMakeConfig.h"
 #include "AttemptAt3D/FileLoading/FileLoading.h"
 #include "AttemptAt3D/Debug/Debug.h"
@@ -88,7 +89,6 @@ int main(void)
 	GLint posAttrib;
 	GLint colAttrib;
 	{
-
 		glGenVertexArrays(1, &vao);
 		glBindVertexArray(vao);
 
@@ -132,6 +132,8 @@ int main(void)
 
 	/* Main Window Loop */
 
+	auto startTime = std::chrono::high_resolution_clock::now();
+
 	while (!glfwWindowShouldClose(window))
     {
 		/* Process inputs */
@@ -141,8 +143,13 @@ int main(void)
 		glClearColor(0.1f, 0.0f, 0.25f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		// glDrawArrays(GL_TRIANGLES, 0, 3);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+		auto nowTime = std::chrono::high_resolution_clock::now();
+		float timeElapsed = std::chrono::duration_cast<std::chrono::duration<float>>(nowTime - startTime).count();
+		// std::cout << "time: " << timeElapsed << std::endl;
+		verts1[0] = -0.3f - timeElapsed * 0.1f;
+		glBufferData(GL_ARRAY_BUFFER, sizeof(verts1), verts1, GL_STATIC_DRAW);
 
 		/* Adjust the canvas when the window is resized */
 
