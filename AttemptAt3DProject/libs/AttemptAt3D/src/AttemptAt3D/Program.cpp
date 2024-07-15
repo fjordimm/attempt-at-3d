@@ -26,33 +26,8 @@ constexpr int INITIAL_WINDOW_WIDTH = 900;
 constexpr int INITIAL_WINDOW_HEIGHT = 480;
 constexpr char WINDOW_TITLE[] = "Test window";
 
-const char* vertexShaderSource = R"glsl(
-	#version 150 core
-
-	in vec2 position;
-	in vec3 color;
-
-	out vec3 Color;
-
-	void main()
-	{
-		Color = color;
-		gl_Position = vec4(position, 0.0, 1.0);
-	}
-)glsl";
-
-const char* fragmentShaderSource = R"glsl(
-	#version 150 core
-
-	in vec3 Color;
-
-	out vec4 outColor;
-
-	void main()
-	{
-		outColor = vec4(Color, 1.0);
-	}
-)glsl";
+constexpr char VERTEX_SHADER_SOURCE_PATH[] = "res/shaders/vertexShaderSource.glsl";
+constexpr char FRAGMENT_SHADER_SOURCE_PATH[] = "res/shaders/fragmentShaderSource.glsl";
 
 ////////////////////////////////////////////////////////////
 
@@ -66,9 +41,6 @@ void checkShaderCompilation(GLuint shader);
 
 int main(void)
 {
-	const char* yuh = FileLoading::loadFile("res/shaders/vertexShaderSource.glsl");
-	std::cout << "weeeee" << std::endl;
-
 	/* Program Variables */
 
 	/* Create the window, initializing GLFW and GLEW */
@@ -115,15 +87,19 @@ int main(void)
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(verts1), verts1, GL_STATIC_DRAW);
 
+		const char* vertexShaderSource = FileLoading::loadFile(VERTEX_SHADER_SOURCE_PATH);
 		vertexShader = glCreateShader(GL_VERTEX_SHADER);
 		glShaderSource(vertexShader, 1, &vertexShaderSource, nullptr);
 		glCompileShader(vertexShader);
 		checkShaderCompilation(vertexShader);
+		delete[] vertexShaderSource;
 
+		const char* fragmentShaderSource = FileLoading::loadFile(FRAGMENT_SHADER_SOURCE_PATH);
 		fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 		glShaderSource(fragmentShader, 1, &fragmentShaderSource, nullptr);
 		glCompileShader(fragmentShader);
 		checkShaderCompilation(fragmentShader);
+		delete[] fragmentShaderSource;
 
 		shaderProgram = glCreateProgram();
 		glAttachShader(shaderProgram, vertexShader);
@@ -181,7 +157,7 @@ void checkShaderCompilation(GLuint shader)
 	GLint status;
 	glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
 
-	if (status == true)
+	if (status)
 	{ return; }
 	else
 	{

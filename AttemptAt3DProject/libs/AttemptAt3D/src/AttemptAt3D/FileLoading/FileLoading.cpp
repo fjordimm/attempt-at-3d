@@ -4,6 +4,7 @@
 #include "CMakeConfig.h"
 #include "AttemptAt3D/Debug/Debug.h"
 #include <iostream>
+#include <fstream>
 
 namespace AttemptAt3D::FileLoading
 {
@@ -20,14 +21,15 @@ namespace AttemptAt3D::FileLoading
 		}
 
 		fseek(file, 0, SEEK_END);
-		exit(1);
 		size_t size = ftell(file);
+		fseek(file, 0, SEEK_SET);
 
-		char* ret = new char[size];
+		char* ret = new char[size + 1];
 
-		rewind(file);
-		fread(ret, sizeof(char), size, file);
+		size_t charsRead = fread(ret, sizeof(char), size, file);
+		ret[charsRead] = '\0';
 
+		fclose(file);
 		return ret;
 	}
 }
