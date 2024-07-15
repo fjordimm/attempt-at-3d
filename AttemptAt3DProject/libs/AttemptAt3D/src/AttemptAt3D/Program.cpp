@@ -65,13 +65,22 @@ int main(void)
 
 	/* OpenGL stuff */
 
-	GLuint vao;
 	float verts1[] =
 	{
-		 0.0f,  0.5f,      1.0f,0.0f,0.0f,
-		 0.5f, -0.5f,      0.0f,1.0f,0.0f,
-		-0.5f, -0.5f,      0.0f,0.0f,1.0f
+		-0.3f,  0.3f,      1.0f,0.0f,0.0f,
+		 0.3f,  0.3f,      0.0f,1.0f,0.0f,
+		 0.3f, -0.3f,      0.0f,0.0f,1.0f,
+		-0.3f, -0.3f,      0.0f,1.0f,1.0f
 	};
+
+	GLuint elems1[] =
+	{
+		0, 1, 2,
+		2, 3, 0
+	};
+
+	GLuint vao;
+	GLuint ebo;
 	GLuint vbo;
 	GLuint vertexShader;
 	GLuint fragmentShader;
@@ -79,13 +88,17 @@ int main(void)
 	GLint posAttrib;
 	GLint colAttrib;
 	{
+
 		glGenVertexArrays(1, &vao);
 		glBindVertexArray(vao);
 
 		glGenBuffers(1, &vbo);
-
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(verts1), verts1, GL_STATIC_DRAW);
+
+		glGenBuffers(1, &ebo);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elems1), elems1, GL_STATIC_DRAW);
 
 		const char* vertexShaderSource = FileLoading::loadFile(VERTEX_SHADER_SOURCE_PATH);
 		vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -128,7 +141,8 @@ int main(void)
 		glClearColor(0.1f, 0.0f, 0.25f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		// glDrawArrays(GL_TRIANGLES, 0, 3);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 		/* Adjust the canvas when the window is resized */
 
