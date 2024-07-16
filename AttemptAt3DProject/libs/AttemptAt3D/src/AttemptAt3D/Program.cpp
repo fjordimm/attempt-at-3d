@@ -31,6 +31,7 @@ constexpr int INITIAL_WINDOW_HEIGHT = 600;
 constexpr char WINDOW_TITLE[] = "Test window";
 
 constexpr char VERTEX_SHADER_SOURCE_PATH[] = "res/shaders/vertexShaderSource.glsl";
+constexpr char GEOMETRY_SHADER_SOURCE_PATH[] = "res/shaders/geometryShaderSource.glsl";
 constexpr char FRAGMENT_SHADER_SOURCE_PATH[] = "res/shaders/fragmentShaderSource.glsl";
 
 ////////////////////////////////////////////////////////////
@@ -105,6 +106,7 @@ int main(void)
 	GLuint vbo;
 	GLuint ebo;
 	GLuint vertexShader;
+	GLuint geometryShader;
 	GLuint fragmentShader;
 	GLuint shaderProgram;
 	GLint posAttrib;
@@ -131,6 +133,13 @@ int main(void)
 		checkShaderCompilation(vertexShader);
 		delete[] vertexShaderSource;
 
+		const char* geometryShaderSource = FileLoading::loadFile(GEOMETRY_SHADER_SOURCE_PATH);
+		geometryShader = glCreateShader(GL_GEOMETRY_SHADER);
+		glShaderSource(geometryShader, 1, &geometryShaderSource, nullptr);
+		glCompileShader(geometryShader);
+		checkShaderCompilation(geometryShader);
+		delete[] geometryShaderSource;
+
 		const char* fragmentShaderSource = FileLoading::loadFile(FRAGMENT_SHADER_SOURCE_PATH);
 		fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 		glShaderSource(fragmentShader, 1, &fragmentShaderSource, nullptr);
@@ -140,6 +149,7 @@ int main(void)
 
 		shaderProgram = glCreateProgram();
 		glAttachShader(shaderProgram, vertexShader);
+		glAttachShader(shaderProgram, geometryShader);
 		glAttachShader(shaderProgram, fragmentShader);
 
 		glLinkProgram(shaderProgram);
@@ -181,6 +191,7 @@ int main(void)
 
         /* Render stuff */
 
+		/*
 		auto nowTime = std::chrono::high_resolution_clock::now();
 		float timeElapsed = std::chrono::duration_cast<std::chrono::duration<float>>(nowTime - startTime).count();
 		// // std::cout << "time: " << timeElapsed << std::endl;
@@ -195,6 +206,7 @@ int main(void)
 			glm::vec3(0.0f, 0.0f, 1.0f)
 		);
 		glUniformMatrix4fv(uniView, 1, GL_FALSE, glm::value_ptr(view));
+		*/
 
 		glClearColor(0.1f, 0.0f, 0.25f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
