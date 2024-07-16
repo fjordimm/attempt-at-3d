@@ -193,18 +193,15 @@ int main(void)
 
 		auto nowTime = std::chrono::high_resolution_clock::now();
 		float timeElapsed = std::chrono::duration_cast<std::chrono::duration<float>>(nowTime - startTime).count();
-		// // std::cout << "time: " << timeElapsed << std::endl;
 		glm::mat4 model = glm::rotate(glm::mat4(1.0f), 0.5f * timeElapsed * glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		glUniformMatrix4fv(uniModel, 1, GL_FALSE, glm::value_ptr(model));
-		// verts1[0] = -0.3f - timeElapsed * 0.1f;
-		// glBufferData(GL_ARRAY_BUFFER, sizeof(verts1), verts1, GL_STATIC_DRAW);
 
-		glm::mat4 view = glm::lookAt(
-			glm::vec3(2.0f, -2.0f + timeElapsed * 0.5f, 3.0f),
-			glm::vec3(0.0f, -2.0f + timeElapsed * 0.5f, 0.0f),
-			glm::vec3(0.0f, 0.0f, 1.0f)
-		);
-		glUniformMatrix4fv(uniView, 1, GL_FALSE, glm::value_ptr(view));
+		// glm::mat4 view = glm::lookAt(
+		// 	glm::vec3(2.0f, -2.0f + timeElapsed * 0.5f, 3.0f),
+		// 	glm::vec3(0.0f, -2.0f + timeElapsed * 0.5f, 0.0f),
+		// 	glm::vec3(0.0f, 0.0f, 1.0f)
+		// );
+		// glUniformMatrix4fv(uniView, 1, GL_FALSE, glm::value_ptr(view));
 
 		glClearColor(0.1f, 0.0f, 0.25f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
