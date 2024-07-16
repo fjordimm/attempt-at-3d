@@ -5,7 +5,8 @@ layout(triangle_strip, max_vertices = 3) out;
 
 in vec3 vColor[];
 
-out vec3 fColor;
+out vec3 gColor;
+out vec3 gNormal;
 
 void main()
 {
@@ -18,10 +19,13 @@ void main()
 	// gl_Position = gl_in[2].gl_Position;
 	// EmitVertex();
 
+	vec3 normalVector = normalize(cross((gl_in[2].gl_Position - gl_in[0].gl_Position).xyz, (gl_in[1].gl_Position - gl_in[0].gl_Position).xyz));
+
 	for (int i = 0; i < gl_in.length(); i++)
 	{
 		gl_Position = gl_in[i].gl_Position;
-		fColor = vColor[i];
+		gColor = vColor[i];
+		gNormal = normalVector;
 		EmitVertex();
 	}
 

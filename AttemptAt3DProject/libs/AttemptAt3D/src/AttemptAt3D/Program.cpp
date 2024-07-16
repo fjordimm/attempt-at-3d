@@ -78,18 +78,18 @@ int main(void)
 	float verts1[] =
 	{
 		// X      Y      Z         R    G    B
-		 -0.3f, +0.3f, +0.0f,     0.0f,0.0f,1.0f,
-		 +0.3f, +0.3f, +0.0f,     0.0f,0.0f,1.0f,
-		 +0.3f, -0.3f, +0.0f,     0.0f,0.0f,1.0f,
-		 -0.3f, -0.3f, +0.0f,     0.0f,0.0f,1.0f,
-		 
 		 -0.3f, +0.3f, +0.0f,     1.0f,0.0f,0.0f,
+		 +0.3f, +0.3f, +0.0f,     1.0f,0.0f,0.0f,
+		 +0.3f, -0.3f, +0.0f,     1.0f,0.0f,0.0f,
+		 -0.3f, -0.3f, +0.0f,     1.0f,0.0f,0.0f,
+		 
+		 +0.3f, +0.3f, +0.0f,     1.0f,0.0f,0.0f,
+		 +0.0f, +0.0f, +0.8f,     1.0f,0.0f,0.0f,
+		 -0.3f, +0.3f, +0.0f,     1.0f,0.0f,0.0f,
+		 
+		 +0.3f, -0.3f, +0.0f,     1.0f,0.0f,0.0f,
 		 +0.0f, +0.0f, +0.8f,     1.0f,0.0f,0.0f,
 		 +0.3f, +0.3f, +0.0f,     1.0f,0.0f,0.0f,
-		 
-		 +0.3f, +0.3f, +0.0f,     0.0f,1.0f,0.0f,
-		 +0.0f, +0.0f, +0.8f,     0.0f,1.0f,0.0f,
-		 +0.3f, -0.3f, +0.0f,     0.0f,1.0f,0.0f,
 	};
 
 	GLuint elems1[] =
@@ -191,7 +191,6 @@ int main(void)
 
         /* Render stuff */
 
-		/*
 		auto nowTime = std::chrono::high_resolution_clock::now();
 		float timeElapsed = std::chrono::duration_cast<std::chrono::duration<float>>(nowTime - startTime).count();
 		// // std::cout << "time: " << timeElapsed << std::endl;
@@ -206,7 +205,6 @@ int main(void)
 			glm::vec3(0.0f, 0.0f, 1.0f)
 		);
 		glUniformMatrix4fv(uniView, 1, GL_FALSE, glm::value_ptr(view));
-		*/
 
 		glClearColor(0.1f, 0.0f, 0.25f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
