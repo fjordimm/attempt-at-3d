@@ -7,7 +7,7 @@ out vec4 outColor;
 
 void main()
 {
-	float shadingMult = gNormal.z;
+	float shadingMult = 0.5f * gNormal.z + 0.5f;
 
 	outColor = vec4(gColor * shadingMult, 1.0);
 }

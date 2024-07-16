@@ -4,22 +4,14 @@ layout(triangles) in;
 layout(triangle_strip, max_vertices = 3) out;
 
 in vec3 vColor[];
+in vec4 vCoord[];
 
 out vec3 gColor;
 out vec3 gNormal;
 
 void main()
 {
-	// gl_Position = gl_in[0].gl_Position;
-	// EmitVertex();
-
-	// gl_Position = gl_in[1].gl_Position;
-	// EmitVertex();
-
-	// gl_Position = gl_in[2].gl_Position;
-	// EmitVertex();
-
-	vec3 normalVector = normalize(cross((gl_in[2].gl_Position - gl_in[0].gl_Position).xyz, (gl_in[1].gl_Position - gl_in[0].gl_Position).xyz));
+	vec3 normalVector = normalize(cross((vCoord[2] - vCoord[0]).xyz, (vCoord[1] - vCoord[0]).xyz));
 
 	for (int i = 0; i < gl_in.length(); i++)
 	{
