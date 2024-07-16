@@ -81,12 +81,19 @@ int main(void)
 
 	float verts1[] =
 	{
-		// X     Y      Z          R    G    B
-		-0.3f,  0.3f,  0.0f,      1.0f,0.0f,0.0f,
-		 0.3f,  0.3f,  0.0f,      0.0f,1.0f,0.0f,
-		 0.3f, -0.3f,  0.0f,      0.0f,0.0f,1.0f,
-		-0.3f, -0.3f,  0.0f,      0.0f,1.0f,1.0f,
-		 0.0f,  0.0f,  1.0f,      1.0f,0.0f,1.0f
+		// X      Y      Z          R    G    B
+		 -0.3f, +0.3f, +0.0f,      1.0f,1.0f,1.0f,
+		 +0.3f, +0.3f, +0.0f,      1.0f,1.0f,1.0f,
+		 +0.3f, -0.3f, +0.0f,      1.0f,1.0f,1.0f,
+		 -0.3f, -0.3f, +0.0f,      1.0f,1.0f,1.0f,
+		 
+		 -0.3f, +0.3f, +0.0f,      1.0f,0.0f,0.0f,
+		 +0.0f, +0.0f, +1.0f,      1.0f,0.0f,0.0f,
+		 +0.3f, +0.3f, +0.0f,      1.0f,0.0f,0.0f,
+		 
+		 +0.3f, +0.3f, +0.0f,      0.0f,1.0f,0.0f,
+		 +0.0f, +0.0f, +1.0f,      0.0f,1.0f,0.0f,
+		 +0.3f, -0.3f, +0.0f,      0.0f,1.0f,0.0f,
 	};
 
 	GLuint elems1[] =
@@ -94,10 +101,9 @@ int main(void)
 		0, 1, 2,
 		2, 3, 0,
 
-		0, 4, 1,
-		1, 4, 2,
-		2, 4, 3,
-		3, 4, 0
+		4, 5, 6,
+
+		7, 8, 9
 	};
 
 	GLuint vao;
@@ -158,7 +164,7 @@ int main(void)
 
 		uniView = glGetUniformLocation(shaderProgram, "view");
 		glm::mat4 view = glm::lookAt(
-			glm::vec3(0.0f, 3.0f, -3.0f),
+			glm::vec3(0.0f, 3.0f, 3.0f),
 			glm::vec3(0.0f, 0.0f, 0.0f),
 			glm::vec3(0.0f, 0.0f, 1.0f)
 		);
@@ -191,7 +197,7 @@ int main(void)
 		glClearColor(0.1f, 0.0f, 0.25f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		glDrawElements(GL_TRIANGLES, 18, GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, 6 * 4, GL_UNSIGNED_INT, 0);
 
 		/* Adjust the canvas when the window is resized */
 
