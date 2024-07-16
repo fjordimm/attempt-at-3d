@@ -82,18 +82,18 @@ int main(void)
 	float verts1[] =
 	{
 		// X      Y      Z          R    G    B
-		 -0.3f, +0.0f, +0.3f,      0.0f,0.0f,1.0f,
-		 +0.3f, +0.0f, +0.3f,      0.0f,0.0f,1.0f,
-		 +0.3f, +0.0f, -0.3f,      0.0f,0.0f,1.0f,
-		 -0.3f, +0.0f, -0.3f,      0.0f,0.0f,1.0f,
+		 -0.3f, +0.3f, +0.0f,      0.0f,0.0f,1.0f,
+		 +0.3f, +0.3f, +0.0f,      0.0f,0.0f,1.0f,
+		 +0.3f, -0.3f, +0.0f,      0.0f,0.0f,1.0f,
+		 -0.3f, -0.3f, +0.0f,      0.0f,0.0f,1.0f,
 		 
-		 -0.3f, +0.0f, +0.3f,      1.0f,0.0f,0.0f,
-		 +0.0f, +0.8f, +0.0f,      1.0f,0.0f,0.0f,
-		 +0.3f, +0.0f, +0.3f,      1.0f,0.0f,0.0f,
+		 -0.3f, +0.3f, +0.0f,      1.0f,0.0f,0.0f,
+		 +0.0f, +0.0f, +0.8f,      1.0f,0.0f,0.0f,
+		 +0.3f, +0.3f, +0.0f,      1.0f,0.0f,0.0f,
 		 
-		 +0.3f, +0.0f, +0.3f,      0.0f,1.0f,0.0f,
-		 +0.0f, +0.8f, +0.0f,      0.0f,1.0f,0.0f,
-		 +0.3f, +0.0f, -0.3f,      0.0f,1.0f,0.0f,
+		 +0.3f, +0.3f, +0.0f,      0.0f,1.0f,0.0f,
+		 +0.0f, +0.0f, +0.8f,      0.0f,1.0f,0.0f,
+		 +0.3f, -0.3f, +0.0f,      0.0f,1.0f,0.0f,
 	};
 
 	GLuint elems1[] =
@@ -165,9 +165,9 @@ int main(void)
 
 		uniView = glGetUniformLocation(shaderProgram, "view");
 		glm::mat4 view = glm::lookAt(
-			glm::vec3(5.0f, 3.0f, -5.0f),
+			glm::vec3(0.0f, 5.0f, 5.0f),
 			glm::vec3(0.0f, 0.0f, 0.0f),
-			glm::vec3(0.0f, 1.0f, 0.0f)
+			glm::vec3(0.0f, 0.0f, 1.0f)
 		);
 		glUniformMatrix4fv(uniView, 1, GL_FALSE, glm::value_ptr(view));
 
@@ -189,15 +189,15 @@ int main(void)
 		auto nowTime = std::chrono::high_resolution_clock::now();
 		float timeElapsed = std::chrono::duration_cast<std::chrono::duration<float>>(nowTime - startTime).count();
 		// // std::cout << "time: " << timeElapsed << std::endl;
-	// glm::mat4 model = glm::rotate(glm::mat4(1.0f), timeElapsed * glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	// glUniformMatrix4fv(uniModel, 1, GL_FALSE, glm::value_ptr(model));
+		glm::mat4 model = glm::rotate(glm::mat4(1.0f), timeElapsed * glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(uniModel, 1, GL_FALSE, glm::value_ptr(model));
 		// verts1[0] = -0.3f - timeElapsed * 0.1f;
 		// glBufferData(GL_ARRAY_BUFFER, sizeof(verts1), verts1, GL_STATIC_DRAW);
 
 		glm::mat4 view = glm::lookAt(
-			glm::vec3(5.0f, 3.0f, -5.0f + timeElapsed * 0.9f),
-			glm::vec3(0.0f, 0.0f, -5.0f + timeElapsed * 0.9f),
-			glm::vec3(0.0f, 1.0f, 0.0f)
+			glm::vec3(5.0f, -2.0f + timeElapsed * 0.9f, 3.0f),
+			glm::vec3(0.0f, -2.0f + timeElapsed * 0.9f, 0.0f),
+			glm::vec3(0.0f, 0.0f, 1.0f)
 		);
 		glUniformMatrix4fv(uniView, 1, GL_FALSE, glm::value_ptr(view));
 
