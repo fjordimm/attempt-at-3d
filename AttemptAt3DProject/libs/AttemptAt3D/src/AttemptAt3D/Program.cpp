@@ -95,6 +95,23 @@ int main(void)
 		 +0.3f, +0.3f, +0.8f,     1.0f,1.0f,1.0f,
 	};
 
+	float verts2[] =
+	{
+		// X      Y      Z         R    G    B
+		 -0.3f, +0.3f, +0.8f,     1.0f,1.0f,1.0f,
+		 -0.3f, -0.3f, +0.8f,     1.0f,1.0f,1.0f,
+		 +0.3f, +0.3f, +0.8f,     1.0f,1.0f,1.0f,
+		 +0.3f, -0.3f, +0.8f,     1.0f,1.0f,1.0f,
+		 
+		 +0.3f, +0.3f, +0.8f,     1.0f,1.0f,1.0f,
+		 +0.0f, +0.0f, +0.0f,     1.0f,1.0f,1.0f,
+		 -0.3f, +0.3f, +0.8f,     1.0f,1.0f,1.0f,
+		 
+		 -0.3f, +0.3f, +0.8f,     1.0f,1.0f,1.0f,
+		 +0.0f, +0.0f, +0.0f,     1.0f,1.0f,1.0f,
+		 -0.3f, -0.3f, +0.8f,     1.0f,1.0f,1.0f,
+	};
+
 	GLuint elems1[] =
 	{
 		0, 1, 2,
@@ -104,6 +121,10 @@ int main(void)
 
 		7, 8, 9
 	};
+
+	GLuint vao2;
+	GLuint vbo2;
+	GLuint ebo2;
 
 	GLuint vao;
 	GLuint vbo;
@@ -124,6 +145,7 @@ int main(void)
 
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		// glNamedBufferData(vbo, sizeof(verts1), verts1, GL_STATIC_DRAW);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(verts1), verts1, GL_STATIC_DRAW);
 
 		glGenBuffers(1, &ebo);
@@ -206,7 +228,7 @@ int main(void)
 		float timeElapsed = std::chrono::duration_cast<std::chrono::duration<float>>(nowTime - startTime).count();
 		
 		{
-			glm::mat4 model = glm::rotate(glm::mat4(1.0f), timeElapsed * glm::radians(-15.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+			glm::mat4 model = glm::rotate(glm::mat4(1.0f), timeElapsed * glm::radians(15.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 			glUniformMatrix4fv(uniModel, 1, GL_FALSE, glm::value_ptr(model));
 		}
 
@@ -218,9 +240,19 @@ int main(void)
 			glUniformMatrix4fv(uniSunRot, 1, GL_FALSE, glm::value_ptr(sunRotY * sunRotX));
 		}
 
+		{
+			// if (timeElapsed > 2.1f)
+			// {
+			// 	glBufferData(GL_ARRAY_BUFFER, sizeof(verts2), verts2, GL_STATIC_DRAW);
+			// }
+		}
+
 		glClearColor(0.1f, 0.0f, 0.25f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		glBufferData(GL_ARRAY_BUFFER, sizeof(verts1), verts1, GL_STATIC_DRAW);
+		glDrawElements(GL_TRIANGLES, 6 * 4, GL_UNSIGNED_INT, 0);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(verts2), verts2, GL_STATIC_DRAW);
 		glDrawElements(GL_TRIANGLES, 6 * 4, GL_UNSIGNED_INT, 0);
 
 		/* Adjust the canvas when the window is resized */
