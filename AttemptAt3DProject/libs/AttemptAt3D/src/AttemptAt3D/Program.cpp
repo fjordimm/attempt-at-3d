@@ -75,28 +75,30 @@ int main(void)
 	/* OpenGL stuff */
 
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
 
 	float verts1[] =
 	{
 		// X      Y      Z         R    G    B
-		 -0.3f, +0.3f, +0.0f,     1.0f,1.0f,1.0f,
-		 +0.3f, +0.3f, +0.0f,     1.0f,1.0f,1.0f,
-		 +0.3f, -0.3f, +0.0f,     1.0f,1.0f,1.0f,
-		 -0.3f, -0.3f, +0.0f,     1.0f,1.0f,1.0f,
+		 -0.3f, +0.3f, +0.8f,     1.0f,1.0f,1.0f,
+		 -0.3f, -0.3f, +0.8f,     1.0f,1.0f,1.0f,
+		 +0.3f, +0.3f, +0.8f,     1.0f,1.0f,1.0f,
+		 +0.3f, -0.3f, +0.8f,     1.0f,1.0f,1.0f,
 		 
-		 +0.3f, +0.3f, +0.0f,     1.0f,1.0f,1.0f,
-		 +0.0f, +0.0f, +0.8f,     1.0f,1.0f,1.0f,
-		 -0.3f, +0.3f, +0.0f,     1.0f,1.0f,1.0f,
+		 -0.3f, -0.3f, +0.8f,     1.0f,1.0f,1.0f,
+		 +0.0f, +0.0f, +0.0f,     1.0f,1.0f,1.0f,
+		 +0.3f, -0.3f, +0.8f,     1.0f,1.0f,1.0f,
 		 
-		 +0.3f, -0.3f, +0.0f,     1.0f,1.0f,1.0f,
-		 +0.0f, +0.0f, +0.8f,     1.0f,1.0f,1.0f,
-		 +0.3f, +0.3f, +0.0f,     1.0f,1.0f,1.0f,
+		 +0.3f, -0.3f, +0.8f,     1.0f,1.0f,1.0f,
+		 +0.0f, +0.0f, +0.0f,     1.0f,1.0f,1.0f,
+		 +0.3f, +0.3f, +0.8f,     1.0f,1.0f,1.0f,
 	};
 
 	GLuint elems1[] =
 	{
 		0, 1, 2,
-		2, 3, 0,
+		3, 2, 1,
 
 		4, 5, 6,
 
@@ -172,7 +174,7 @@ int main(void)
 
 		uniView = glGetUniformLocation(shaderProgram, "view");
 		glm::mat4 view = glm::lookAt(
-			glm::vec3(0.0f, 5.0f, 5.0f),
+			glm::vec3(0.0f, -5.0f, 5.0f),
 			glm::vec3(0.0f, 0.0f, 0.0f),
 			glm::vec3(0.0f, 0.0f, 1.0f)
 		);
@@ -204,7 +206,7 @@ int main(void)
 		float timeElapsed = std::chrono::duration_cast<std::chrono::duration<float>>(nowTime - startTime).count();
 		
 		{
-			glm::mat4 model = glm::rotate(glm::mat4(1.0f), 0.1f * timeElapsed * glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+			glm::mat4 model = glm::rotate(glm::mat4(1.0f), timeElapsed * glm::radians(-15.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 			glUniformMatrix4fv(uniModel, 1, GL_FALSE, glm::value_ptr(model));
 		}
 
