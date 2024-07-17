@@ -9,6 +9,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <glm/gtx/quaternion.hpp>
 #include <cstdio>
 #include <cstdlib>
 #include <string>
@@ -114,6 +115,7 @@ int main(void)
 	GLint uniModel;
 	GLint uniView;
 	GLint uniProj;
+	GLint uniSunQuat;
 	{
 		glGenVertexArrays(1, &vao);
 		glBindVertexArray(vao);
@@ -179,6 +181,11 @@ int main(void)
 		uniProj = glGetUniformLocation(shaderProgram, "proj");
 		glm::mat4 proj = glm::perspective(glm::radians(45.0f), 1.0f /*aspect ratio*/, 1.0f, 10.0f);
 		glUniformMatrix4fv(uniProj, 1, GL_FALSE, glm::value_ptr(proj));
+
+		uniSunQuat = glGetUniformLocation(shaderProgram, "sunQuat");
+		glm::quat sunQuatPre = glm::angleAxis(glm::radians(90.f), glm::vec3(1.0f, 0.0f, 0.0f));
+		glm::mat4 sunQuat = glm::toMat4(sunQuatPre);
+		glUniformMatrix4fv(uniSunQuat, 1, GL_FALSE, glm::value_ptr(sunQuat));
 	}
 
 	/* Main Window Loop */
