@@ -79,18 +79,18 @@ int main(void)
 	float verts1[] =
 	{
 		// X      Y      Z         R    G    B
-		 1000.0f-0.3f, +0.3f, +0.0f,     1.0f,1.0f,1.0f,
-		 1000.0f+0.3f, +0.3f, +0.0f,     1.0f,1.0f,1.0f,
-		 1000.0f+0.3f, -0.3f, +0.0f,     1.0f,1.0f,1.0f,
-		 1000.0f-0.3f, -0.3f, +0.0f,     1.0f,1.0f,1.0f,
+		 -0.3f, +0.3f, +0.0f,     1.0f,1.0f,1.0f,
+		 +0.3f, +0.3f, +0.0f,     1.0f,1.0f,1.0f,
+		 +0.3f, -0.3f, +0.0f,     1.0f,1.0f,1.0f,
+		 -0.3f, -0.3f, +0.0f,     1.0f,1.0f,1.0f,
 		 
 		 +0.3f, +0.3f, +0.0f,     1.0f,1.0f,1.0f,
 		 +0.0f, +0.0f, +0.8f,     1.0f,1.0f,1.0f,
 		 -0.3f, +0.3f, +0.0f,     1.0f,1.0f,1.0f,
 		 
-		 1000.0f+0.3f, -0.3f, +0.0f,     1.0f,1.0f,1.0f,
-		 1000.0f+0.0f, +0.0f, +0.8f,     1.0f,1.0f,1.0f,
-		 1000.0f+0.3f, +0.3f, +0.0f,     1.0f,1.0f,1.0f,
+		 +0.3f, -0.3f, +0.0f,     1.0f,1.0f,1.0f,
+		 +0.0f, +0.0f, +0.8f,     1.0f,1.0f,1.0f,
+		 +0.3f, +0.3f, +0.0f,     1.0f,1.0f,1.0f,
 	};
 
 	GLuint elems1[] =
@@ -115,7 +115,7 @@ int main(void)
 	GLint uniModel;
 	GLint uniView;
 	GLint uniProj;
-	GLint uniSunQuat;
+	GLint uniSunRot;
 	{
 		glGenVertexArrays(1, &vao);
 		glBindVertexArray(vao);
@@ -182,10 +182,12 @@ int main(void)
 		glm::mat4 proj = glm::perspective(glm::radians(45.0f), 1.0f /*aspect ratio*/, 1.0f, 10.0f);
 		glUniformMatrix4fv(uniProj, 1, GL_FALSE, glm::value_ptr(proj));
 
-		uniSunQuat = glGetUniformLocation(shaderProgram, "sunQuat");
-		glm::quat sunQuatPre = glm::angleAxis(glm::radians(90.f), glm::vec3(1.0f, 0.0f, 0.0f));
-		glm::mat4 sunQuat = glm::toMat4(sunQuatPre);
-		glUniformMatrix4fv(uniSunQuat, 1, GL_FALSE, glm::value_ptr(sunQuat));
+		uniSunRot = glGetUniformLocation(shaderProgram, "sunRot");
+		glm::quat sunQuatX = glm::angleAxis(glm::radians(0.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		glm::mat4 sunRotX = glm::toMat4(sunQuatX);
+		glm::quat sunQuatY = glm::angleAxis(glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		glm::mat4 sunRotY = glm::toMat4(sunQuatY);
+		glUniformMatrix4fv(uniSunRot, 1, GL_FALSE, glm::value_ptr(sunRotY * sunRotX));
 	}
 
 	/* Main Window Loop */
@@ -200,15 +202,19 @@ int main(void)
 
 		auto nowTime = std::chrono::high_resolution_clock::now();
 		float timeElapsed = std::chrono::duration_cast<std::chrono::duration<float>>(nowTime - startTime).count();
-		glm::mat4 model = glm::rotate(glm::mat4(1.0f), 0.5f * timeElapsed * glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-		glUniformMatrix4fv(uniModel, 1, GL_FALSE, glm::value_ptr(model));
+		
+		{
+			glm::mat4 model = glm::rotate(glm::mat4(1.0f), 0.1f * timeElapsed * glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+			glUniformMatrix4fv(uniModel, 1, GL_FALSE, glm::value_ptr(model));
+		}
 
-		// glm::mat4 view = glm::lookAt(
-		// 	glm::vec3(2.0f, -2.0f + timeElapsed * 0.5f, 3.0f),
-		// 	glm::vec3(0.0f, -2.0f + timeElapsed * 0.5f, 0.0f),
-		// 	glm::vec3(0.0f, 0.0f, 1.0f)
-		// );
-		// glUniformMatrix4fv(uniView, 1, GL_FALSE, glm::value_ptr(view));
+		{
+			glm::quat sunQuatX = glm::angleAxis(timeElapsed * glm::radians(400.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+			glm::mat4 sunRotX = glm::toMat4(sunQuatX);
+			glm::quat sunQuatY = glm::angleAxis(timeElapsed * glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+			glm::mat4 sunRotY = glm::toMat4(sunQuatY);
+			glUniformMatrix4fv(uniSunRot, 1, GL_FALSE, glm::value_ptr(sunRotY * sunRotX));
+		}
 
 		glClearColor(0.1f, 0.0f, 0.25f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
