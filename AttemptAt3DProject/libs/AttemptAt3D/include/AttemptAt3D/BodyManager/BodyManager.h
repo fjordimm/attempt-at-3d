@@ -6,6 +6,7 @@
 #include <GLFW/glfw3.h>
 #include "AttemptAt3D/BodyManager/Body.h"
 #include <list>
+#include <memory>
 
 // TODO: reorganize the order of private/public in classes
 
@@ -27,15 +28,15 @@ namespace AttemptAt3D
 
 		class BodyReference
 		{
-			friend class BodyManager;
-
-		private:
+		public:
 			std::list<_BodyManager::Body>::iterator iter; // since there is no node type for std::list, I use an iterator with the cursor at the current element which has the same functionality
 
 			BodyReference();
 			~BodyReference();
 			BodyReference(const BodyReference&) = delete;
 			BodyReference& operator=(const BodyReference&) = delete;
+
+			friend class BodyManager;
 		};
 	
 	private:

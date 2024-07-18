@@ -1,6 +1,8 @@
 
 #include "AttemptAt3D/BodyManager/BodyManager.h"
 
+#include <cstdio>
+
 namespace AttemptAt3D
 {
 	using BodyReference = BodyManager::BodyReference;
@@ -29,7 +31,22 @@ namespace AttemptAt3D
 
 	void BodyManager::drawAllBodies()
 	{
-		
+		for (Body& body : this->bodies)
+		{
+			std::printf("Body:\n");
+
+			std::printf("  vertices:\n");
+			for (int i = 0; i < body.get_verticesLen(); i++)
+			{
+				std::printf("    %f\n", body.get_vertices()[i]);
+			}
+
+			std::printf("  elements:\n");
+			for (int i = 0; i < body.get_elementsLen(); i++)
+			{
+				std::printf("    %u\n", body.get_elements()[i]);
+			}
+		}
 	}
 
 	/* BodyReference class */
