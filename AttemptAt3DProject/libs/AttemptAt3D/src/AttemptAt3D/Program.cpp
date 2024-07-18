@@ -3,13 +3,6 @@
 
 ///// Includes /////
 
-// #define DO_MEMORY_CHECK
-// #ifdef DO_MEMORY_CHECK
-// #define _CRTDBG_MAP_ALLOC
-// #include <stdlib.h>
-// #include <crtdbg.h>
-// #endif
-
 #define GLEW_STATIC
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -63,6 +56,9 @@ int main(void)
 	// _CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_WNDW);
 	// _CrtDumpMemoryLeaks();
 	// _CrtDbgReport();
+
+	// printf("yippeeeeeee\n");
+	// exit(0);
 
 	/* Program Variables */
 
@@ -293,11 +289,6 @@ int main(void)
 	glDeleteVertexArrays(1, &vao);
     glfwTerminate();
 
-	// // valgrind test:
-	// int* bruh = new int[5];
-
-	// _CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_DEBUG);
-	// _CrtDumpMemoryLeaks();
     return 0;
 }
 
