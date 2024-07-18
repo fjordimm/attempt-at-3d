@@ -3,6 +3,13 @@
 
 ///// Includes /////
 
+// #define DO_MEMORY_CHECK
+// #ifdef DO_MEMORY_CHECK
+// #define _CRTDBG_MAP_ALLOC
+// #include <stdlib.h>
+// #include <crtdbg.h>
+// #endif
+
 #define GLEW_STATIC
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -47,6 +54,16 @@ void checkShaderCompilation(GLuint shader);
 
 int main(void)
 {
+	// // valgrind test:
+	// int* bruh = new int[5];
+	// // delete[] bruh;
+
+	// printf("Is valid pointer? %i\n", _CrtIsValidHeapPointer(bruh));
+
+	// _CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_WNDW);
+	// _CrtDumpMemoryLeaks();
+	// _CrtDbgReport();
+
 	/* Program Variables */
 
 	/* Create the window, initializing GLFW and GLEW */
@@ -81,35 +98,35 @@ int main(void)
 	float verts1[] =
 	{
 		// X      Y      Z         R    G    B
-		 -0.3f, +0.3f, +0.8f,     1.0f,1.0f,1.0f,
-		 -0.3f, -0.3f, +0.8f,     1.0f,1.0f,1.0f,
-		 +0.3f, +0.3f, +0.8f,     1.0f,1.0f,1.0f,
-		 +0.3f, -0.3f, +0.8f,     1.0f,1.0f,1.0f,
+		 -0.3f, +0.3f, +0.8f,     1.0f,0.0f,0.0f,
+		 -0.3f, -0.3f, +0.8f,     1.0f,0.0f,0.0f,
+		 +0.3f, +0.3f, +0.8f,     1.0f,0.0f,0.0f,
+		 +0.3f, -0.3f, +0.8f,     1.0f,0.0f,0.0f,
 		 
-		 -0.3f, -0.3f, +0.8f,     1.0f,1.0f,1.0f,
-		 +0.0f, +0.0f, +0.0f,     1.0f,1.0f,1.0f,
-		 +0.3f, -0.3f, +0.8f,     1.0f,1.0f,1.0f,
+		 -0.3f, -0.3f, +0.8f,     1.0f,0.0f,0.0f,
+		 +0.0f, +0.0f, +0.0f,     1.0f,0.0f,0.0f,
+		 +0.3f, -0.3f, +0.8f,     1.0f,0.0f,0.0f,
 		 
-		 +0.3f, -0.3f, +0.8f,     1.0f,1.0f,1.0f,
-		 +0.0f, +0.0f, +0.0f,     1.0f,1.0f,1.0f,
-		 +0.3f, +0.3f, +0.8f,     1.0f,1.0f,1.0f,
+		 +0.3f, -0.3f, +0.8f,     1.0f,0.0f,0.0f,
+		 +0.0f, +0.0f, +0.0f,     1.0f,0.0f,0.0f,
+		 +0.3f, +0.3f, +0.8f,     1.0f,0.0f,0.0f,
 	};
 
 	float verts2[] =
 	{
 		// X      Y      Z         R    G    B
-		 -0.3f, +0.3f, +0.8f,     1.0f,1.0f,1.0f,
-		 -0.3f, -0.3f, +0.8f,     1.0f,1.0f,1.0f,
-		 +0.3f, +0.3f, +0.8f,     1.0f,1.0f,1.0f,
-		 +0.3f, -0.3f, +0.8f,     1.0f,1.0f,1.0f,
+		 -0.3f, +0.3f, +0.8f,     0.0f,1.0f,0.0f,
+		 -0.3f, -0.3f, +0.8f,     0.0f,1.0f,0.0f,
+		 +0.3f, +0.3f, +0.8f,     0.0f,1.0f,0.0f,
+		 +0.3f, -0.3f, +0.8f,     0.0f,1.0f,0.0f,
 		 
-		 +0.3f, +0.3f, +0.8f,     1.0f,1.0f,1.0f,
-		 +0.0f, +0.0f, +0.0f,     1.0f,1.0f,1.0f,
-		 -0.3f, +0.3f, +0.8f,     1.0f,1.0f,1.0f,
+		 +0.3f, +0.3f, +0.8f,     0.0f,1.0f,0.0f,
+		 +0.0f, +0.0f, +0.0f,     0.0f,1.0f,0.0f,
+		 -0.3f, +0.3f, +0.8f,     0.0f,1.0f,0.0f,
 		 
-		 -0.3f, +0.3f, +0.8f,     1.0f,1.0f,1.0f,
-		 +0.0f, +0.0f, +0.0f,     1.0f,1.0f,1.0f,
-		 -0.3f, -0.3f, +0.8f,     1.0f,1.0f,1.0f,
+		 -0.3f, +0.3f, +0.8f,     0.0f,1.0f,0.0f,
+		 +0.0f, +0.0f, +0.0f,     0.0f,1.0f,0.0f,
+		 -0.3f, -0.3f, +0.8f,     0.0f,1.0f,0.0f,
 	};
 
 	GLuint elems1[] =
@@ -266,15 +283,21 @@ int main(void)
         glfwSwapBuffers(window);
     }
 
-	/* Deletions */
+	/* Deletions and Termination of GLFW */
 
 	glDeleteProgram(shaderProgram);
 	glDeleteShader(fragmentShader);
 	glDeleteShader(vertexShader);
+	glDeleteBuffers(1, &ebo);
 	glDeleteBuffers(1, &vbo);
 	glDeleteVertexArrays(1, &vao);
-
     glfwTerminate();
+
+	// // valgrind test:
+	// int* bruh = new int[5];
+
+	// _CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_DEBUG);
+	// _CrtDumpMemoryLeaks();
     return 0;
 }
 

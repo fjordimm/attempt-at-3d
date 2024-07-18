@@ -1,3 +1,5 @@
 @cd .\AttemptAt3DProject\build\
-@.\libs\AttemptAt3D\Debug\AttemptAt3DExec.exe
+@REM @.\libs\AttemptAt3D\AttemptAt3DExec.exe
+@REM @ninja test
+ctest -T memcheck -D CTEST_MEMORYCHECK_COMMAND=""
 @cd ..\..
