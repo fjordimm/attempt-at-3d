@@ -4,9 +4,9 @@
 #define GLEW_STATIC
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include "AttemptAt3D/BodyManager/Body.h"
 #include <list>
 #include <memory>
+#include "AttemptAt3D/BodyManager/Body.h"
 
 namespace AttemptAt3D
 {
@@ -25,10 +25,11 @@ namespace AttemptAt3D
 		/* Constructors */
 
 	   public:
-		BodyManager();
 		BodyManager(const BodyManager&) = delete;
 		BodyManager& operator=(const BodyManager&) = delete;
 		BodyManager(BodyManager&&) {}
+		
+		BodyManager();
 
 		/* Methods */
 
@@ -52,10 +53,11 @@ namespace AttemptAt3D
 			/* Constructors */
 
 		   public:
-			BodyReference();
 			BodyReference(const BodyReference&) = delete;
 			BodyReference& operator=(const BodyReference&) = delete;
 			BodyReference(BodyReference&&) {}
+			
+			BodyReference();
 		};
 	};
 }

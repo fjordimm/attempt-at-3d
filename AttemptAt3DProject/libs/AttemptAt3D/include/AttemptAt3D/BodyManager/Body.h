@@ -34,10 +34,11 @@ namespace AttemptAt3D::_BodyManager
 		/* Constructors */
 
 	   public:
-		Body();
 		Body(const Body&) = delete;
 		Body& operator=(const Body&) = delete;
 		Body(Body&&) {}
+		
+		Body();
 
 		/* Methods */
 

@@ -1,6 +1,10 @@
 
 #pragma once
 
+#define GLEW_STATIC
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+#include <string>
 #include "AttemptAt3D/BodyManager/BodyManager.h"
 
 namespace AttemptAt3D
@@ -10,6 +14,8 @@ namespace AttemptAt3D
 		/* Fields */
 
 	   private:
+		GLFWwindow* windowForGlfw;
+
 		BodyManager bodyManager;
 
 		/* Getters and Setters */
@@ -20,16 +26,16 @@ namespace AttemptAt3D
 		/* Constructors */
 
 	   public:
-		Head();
-		~Head();
 		Head(const Head&) = delete;
 		Head& operator=(const Head&) = delete;
 		Head(Head&&) {}
 
+		Head();
+
 		/* Methods */
 
 	   public:
-		void start();
+		void start(int windowWidth = 600, int windowHeight = 600, const std::string windowTitle = "Placeholder Window Title");
 	
 	   private:
 		void mainLoop();
