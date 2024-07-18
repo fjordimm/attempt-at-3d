@@ -8,9 +8,12 @@ namespace AttemptAt3D
 	using BodyReference = BodyManager::BodyReference;
 	using Body = _BodyManager::Body;
 
-	BodyManager::BodyManager() {}
+	/* Constructors */
 
+	BodyManager::BodyManager() {}
 	BodyManager::~BodyManager() {}
+
+	/* Methods */
 
 	std::unique_ptr<BodyReference> BodyManager::makeNewBody(std::size_t verticesLen, std::unique_ptr<float[]> vertices, std::size_t elementsLen, std::unique_ptr<GLuint[]> elements)
 	{
@@ -49,9 +52,13 @@ namespace AttemptAt3D
 		}
 	}
 
-	/* BodyReference class */
-	
-	BodyReference::BodyReference() {}
+	/* Subclasses */
 
-	BodyReference::~BodyReference() {}
+	/// BodyReference ///
+	////////////////////////////////////////////////////////////
+		/* Constructors */
+
+		BodyReference::BodyReference() {}
+		BodyReference::~BodyReference() {}
+	////////////////////////////////////////////////////////////
 }

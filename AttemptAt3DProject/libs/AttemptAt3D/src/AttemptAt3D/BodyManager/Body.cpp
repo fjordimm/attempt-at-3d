@@ -3,8 +3,10 @@
 
 namespace AttemptAt3D::_BodyManager
 {
-	Body::Body()
-	:	vao(-1),
+	/* Constructors */
+
+	Body::Body() :
+		vao(-1),
 		vbo(-1),
 		ebo(-1),
 		verticesLen(0),
@@ -14,6 +16,8 @@ namespace AttemptAt3D::_BodyManager
 	{}
 
 	Body::~Body() {}
+
+	/* Methods */
 
 	void Body::doGens()
 	{

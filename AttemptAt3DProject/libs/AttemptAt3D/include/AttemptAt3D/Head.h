@@ -10,6 +10,7 @@ namespace AttemptAt3D
 		~Head();
 		Head(const Head&) = delete;
 		Head& operator=(const Head&) = delete;
+		Head(Head&&) {}
 
 		void go();
 	
