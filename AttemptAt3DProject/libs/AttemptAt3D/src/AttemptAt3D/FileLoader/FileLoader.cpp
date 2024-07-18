@@ -1,12 +1,12 @@
 
-#include "AttemptAt3D/FileLoading/FileLoading.h"
+#include "AttemptAt3D/FileLoader/FileLoader.h"
 
 #include "CMakeConfig.h"
 #include "AttemptAt3D/Debug/Debug.h"
 #include <iostream>
 #include <fstream>
 
-namespace AttemptAt3D::FileLoading
+namespace AttemptAt3D::FileLoader
 {
 	const char* LoadFile(const char* name)
 	{
