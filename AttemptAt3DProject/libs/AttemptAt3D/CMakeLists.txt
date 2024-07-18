@@ -3,8 +3,8 @@ configure_file(CMakeConfig.h.in CMakeConfig.h)
 
 add_executable(AttemptAt3DExec
 	src/AttemptAt3D/Program.cpp
-	src/AttemptAt3D/FileLoading/FileLoading.cpp
 	src/AttemptAt3D/Debug/Debug_logging.cpp
+	src/AttemptAt3D/FileLoading/FileLoading.cpp
 	src/AttemptAt3D/BodyManager/BodyManager.cpp
 	src/AttemptAt3D/BodyManager/Body.cpp
 )

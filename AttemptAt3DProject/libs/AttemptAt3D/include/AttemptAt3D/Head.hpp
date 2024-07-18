@@ -5,7 +5,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <string>
-#include "AttemptAt3D/BodyManager/BodyManager.h"
+#include "AttemptAt3D/BodyManager/BodyManager.hpp"
 
 namespace AttemptAt3D
 {

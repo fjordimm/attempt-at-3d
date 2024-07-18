@@ -1,40 +1,57 @@
 
-#include "AttemptAt3D/Debug/Debug_logging.h"
+#include "AttemptAt3D/Debug/Debug.hpp"
+#include "AttemptAt3D/Debug/Debug_logging.hpp"
 
 #include <cstdio>
+#include <cstdarg>
 #include <cstdlib>
-#include <mutex>
 
 namespace AttemptAt3D::Debug
 {
-	static std::mutex _Mutex_Debug;
-
 	void Log(const char* msg)
 	{
-		std::lock_guard<std::mutex> _lock(_Mutex_Debug);
+		std::lock_guard<std::mutex> _lock(_globalMutex_Debug);
 
 		std::fprintf(stderr, "===DEBUG===: %s\n", msg);
 	}
 
 	void LogWarning(const char* msg)
 	{
-		std::lock_guard<std::mutex> _lock(_Mutex_Debug);
+		std::lock_guard<std::mutex> _lock(_globalMutex_Debug);
 
 		std::fprintf(stderr, "===WARNING===: %s\n", msg);
 	}
 
 	void LogNonfatalError(const char* msg)
 	{
-		std::lock_guard<std::mutex> _lock(_Mutex_Debug);
+		std::lock_guard<std::mutex> _lock(_globalMutex_Debug);
 
 		std::fprintf(stderr, "===NONFATAL ERROR===: %s\n", msg);
 	}
 
 	void LogFatalError(const char* msg)
 	{
-		std::lock_guard<std::mutex> _lock(_Mutex_Debug);
+		std::lock_guard<std::mutex> _lock(_globalMutex_Debug);
 		
 		std::fprintf(stderr, "===FATAL ERROR===: %s\n", msg);
+		std::exit(EXIT_FAILURE);
+	}
+
+	void Printf(char const* const format, ...)
+	{
+		std::lock_guard<std::mutex> _lock(_globalMutex_Debug);
+
+		std::va_list argptr;
+		va_start(argptr, format);
+		std::vfprintf(stderr, format, argptr);
+		va_end(argptr);
+	}
+
+	void Exit()
+	{
+		std::lock_guard<std::mutex> _lock(_globalMutex_Debug);
+
+		std::fprintf(stderr, "===EXITING===\n");
 		std::exit(EXIT_FAILURE);
 	}
 }

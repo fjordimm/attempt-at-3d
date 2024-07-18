@@ -1,10 +1,10 @@
 
-#include "AttemptAt3D/FileLoading/FileLoading.h"
+#include "AttemptAt3D/FileLoading/FileLoading.hpp"
 
-#include "CMakeConfig.h"
-#include "AttemptAt3D/Debug/Debug.h"
 #include <iostream>
 #include <fstream>
+#include "CMakeConfig.h"
+#include "AttemptAt3D/Debug/Debug.hpp"
 
 namespace AttemptAt3D::FileLoading
 {

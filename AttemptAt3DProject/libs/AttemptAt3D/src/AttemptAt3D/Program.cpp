@@ -4,7 +4,8 @@
 // #include <cstdio>
 // #include <list>
 
-#include "AttemptAt3D/BodyManager/BodyManager.h"
+#include "AttemptAt3D/BodyManager/BodyManager.hpp"
+// #include "AttemptAt3D/Debug/Debug.hpp"
 
 // void printList(std::list<int>& l)
 // {
@@ -19,6 +20,8 @@ int main(void)
 {
 	// AttemptAt3D::Head head;
 	// head.go();
+
+	//////////////////////////////
 
 	// std::list<int> loi;
 	// loi.push_back(10);
@@ -46,6 +49,8 @@ int main(void)
 	// printList(loi);
 	// std::printf("one: %i\n", *it1);
 	// std::printf("two: %i\n", *it2);
+
+	/////////////////////
 
 	AttemptAt3D::BodyManager bm;
 

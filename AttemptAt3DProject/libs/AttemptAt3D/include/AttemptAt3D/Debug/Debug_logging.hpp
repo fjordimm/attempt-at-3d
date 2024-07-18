@@ -7,4 +7,6 @@ namespace AttemptAt3D::Debug
 	void LogWarning(const char* msg);
 	void LogNonfatalError(const char* msg);
 	void LogFatalError(const char* msg);
+	void Printf(char const* const format, ...);
+	void Exit();
 }

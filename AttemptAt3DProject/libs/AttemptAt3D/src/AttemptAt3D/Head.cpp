@@ -1,6 +1,6 @@
 
-#include "AttemptAt3D/Head.h"
-#include "AttemptAt3D/Debug/Debug.h"
+#include "AttemptAt3D/Head.hpp"
+#include "AttemptAt3D/Debug/Debug.hpp"
 
 namespace AttemptAt3D
 {
