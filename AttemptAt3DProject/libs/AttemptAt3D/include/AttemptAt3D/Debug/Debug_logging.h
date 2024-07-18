@@ -3,8 +3,8 @@
 
 namespace AttemptAt3D::Debug
 {
-	void log(const char* msg);
-	void logWarning(const char* msg);
-	void logNonfatalError(const char* msg);
-	void logFatalError(const char* msg);
+	void Log(const char* msg);
+	void LogWarning(const char* msg);
+	void LogNonfatalError(const char* msg);
+	void LogFatalError(const char* msg);
 }

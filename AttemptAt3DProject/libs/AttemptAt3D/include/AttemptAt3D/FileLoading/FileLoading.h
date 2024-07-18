@@ -6,5 +6,5 @@
 namespace AttemptAt3D::FileLoading
 {
 	// Responsibility of the receiver to free the string returned
-	const char* loadFile(const char* name);
+	const char* LoadFile(const char* name);
 }

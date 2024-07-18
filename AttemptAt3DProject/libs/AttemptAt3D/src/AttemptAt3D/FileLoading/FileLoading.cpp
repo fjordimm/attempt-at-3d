@@ -8,7 +8,7 @@
 
 namespace AttemptAt3D::FileLoading
 {
-	const char* loadFile(const char* name)
+	const char* LoadFile(const char* name)
 	{
 		std::string fullName = std::string(CMAKE_SOURCE_DIR) + "/libs/AttemptAt3D/" + name;
 
@@ -16,7 +16,7 @@ namespace AttemptAt3D::FileLoading
 
 		if (!file)
 		{
-			Debug::logNonfatalError("Couldn't open file, returned nullptr.");
+			Debug::LogNonfatalError("Couldn't open file, returned nullptr.");
 			return nullptr;
 		}
 

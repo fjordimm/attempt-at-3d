@@ -24,8 +24,6 @@
 #include "AttemptAt3D/FileLoading/FileLoading.h"
 #include "AttemptAt3D/Debug/Debug.h"
 
-using namespace AttemptAt3D;
-
 ////////////////////////////////////////////////////////////
 
 ///// Constants /////
@@ -48,44 +46,8 @@ void checkShaderCompilation(GLuint shader);
 
 ///// Main Function /////
 
-static std::mutex _GlobalMutex;
-
-void haha(const std::string& str)
-{
-	// std::lock_guard<std::mutex> _lockGuard(_GlobalMutex);
-
-	std::this_thread::sleep_for(std::chrono::milliseconds(50));
-	std::printf("%s\n", str.c_str());
-}
-
-int hehe(int a)
-{
-	std::this_thread::sleep_for(std::chrono::milliseconds(50));
-	return a * 10;
-}
-
 int main(void)
 {
-	auto a1 = std::async(haha, "one");
-	auto a2 = std::async(haha, "two");
-	auto a3 = std::async(haha, "three");
-
-	a1.wait();
-	a2.wait();
-	a3.wait();
-
-	std::printf("-----------------------\n");
-
-	auto a4 = std::async(hehe, 4);
-	auto a5 = std::async(hehe, 5);
-	auto a6 = std::async(hehe, 6);
-
-	std::printf("num: %i\n", a4.get());
-	std::printf("num: %i\n", a5.get());
-	std::printf("num: %i\n", a6.get());
-
-	exit(0);
-
 	/* Program Variables */
 
 	/* Create the window, initializing GLFW and GLEW */
@@ -93,7 +55,7 @@ int main(void)
 	GLFWwindow* window;
 	{
 		if (!glfwInit())
-		{ Debug::logFatalError("glfwInit failed."); }
+		{ AttemptAt3D::Debug::LogFatalError("glfwInit failed."); }
 
 		// Window hints
 		glfwWindowHint(GLFW_SAMPLES, 5); // anti-aliasing
@@ -102,7 +64,7 @@ int main(void)
 		if (!window)
 		{
 			glfwTerminate();
-			Debug::logFatalError("glfwCreateWindow failed.");
+			AttemptAt3D::Debug::LogFatalError("glfwCreateWindow failed.");
 		}
 
 		glfwMakeContextCurrent(window);
@@ -191,21 +153,21 @@ int main(void)
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elems1), elems1, GL_STATIC_DRAW);
 
-		const char* vertexShaderSource = FileLoading::loadFile(VERTEX_SHADER_SOURCE_PATH);
+		const char* vertexShaderSource = AttemptAt3D::FileLoading::LoadFile(VERTEX_SHADER_SOURCE_PATH);
 		vertexShader = glCreateShader(GL_VERTEX_SHADER);
 		glShaderSource(vertexShader, 1, &vertexShaderSource, nullptr);
 		glCompileShader(vertexShader);
 		checkShaderCompilation(vertexShader);
 		delete[] vertexShaderSource;
 
-		const char* geometryShaderSource = FileLoading::loadFile(GEOMETRY_SHADER_SOURCE_PATH);
+		const char* geometryShaderSource = AttemptAt3D::FileLoading::LoadFile(GEOMETRY_SHADER_SOURCE_PATH);
 		geometryShader = glCreateShader(GL_GEOMETRY_SHADER);
 		glShaderSource(geometryShader, 1, &geometryShaderSource, nullptr);
 		glCompileShader(geometryShader);
 		checkShaderCompilation(geometryShader);
 		delete[] geometryShaderSource;
 
-		const char* fragmentShaderSource = FileLoading::loadFile(FRAGMENT_SHADER_SOURCE_PATH);
+		const char* fragmentShaderSource = AttemptAt3D::FileLoading::LoadFile(FRAGMENT_SHADER_SOURCE_PATH);
 		fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 		glShaderSource(fragmentShader, 1, &fragmentShaderSource, nullptr);
 		glCompileShader(fragmentShader);

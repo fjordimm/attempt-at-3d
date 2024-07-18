@@ -3,25 +3,28 @@
 
 #include <cstdio>
 #include <cstdlib>
+#include <mutex>
 
 namespace AttemptAt3D::Debug
 {
-	void log(const char* msg)
+	static std::mutex _GlobalMutex_debugPrinting;
+
+	void Log(const char* msg)
 	{
 		std::fprintf(stderr, "===DEBUG===: %s\n", msg);
 	}
 
-	void logWarning(const char* msg)
+	void LogWarning(const char* msg)
 	{
 		std::fprintf(stderr, "===WARNING===: %s\n", msg);
 	}
 
-	void logNonfatalError(const char* msg)
+	void LogNonfatalError(const char* msg)
 	{
 		std::fprintf(stderr, "===NONFATAL ERROR===: %s\n", msg);
 	}
 
-	void logFatalError(const char* msg)
+	void LogFatalError(const char* msg)
 	{
 		std::fprintf(stderr, "===FATAL ERROR===: %s\n", msg);
 		std::exit(EXIT_FAILURE);
