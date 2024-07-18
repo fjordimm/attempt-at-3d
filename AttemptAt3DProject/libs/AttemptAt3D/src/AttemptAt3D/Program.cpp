@@ -47,19 +47,6 @@ void checkShaderCompilation(GLuint shader);
 
 int main(void)
 {
-	// // valgrind test:
-	// int* bruh = new int[5];
-	// // delete[] bruh;
-
-	// printf("Is valid pointer? %i\n", _CrtIsValidHeapPointer(bruh));
-
-	// _CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_WNDW);
-	// _CrtDumpMemoryLeaks();
-	// _CrtDbgReport();
-
-	// printf("yippeeeeeee\n");
-	// exit(0);
-
 	/* Program Variables */
 
 	/* Create the window, initializing GLFW and GLEW */
