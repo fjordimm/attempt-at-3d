@@ -17,6 +17,9 @@
 #include <iostream>
 #include <string>
 #include <chrono>
+#include <future>
+#include <mutex>
+#include <thread>
 #include "CMakeConfig.h"
 #include "AttemptAt3D/FileLoading/FileLoading.h"
 #include "AttemptAt3D/Debug/Debug.h"
@@ -45,8 +48,44 @@ void checkShaderCompilation(GLuint shader);
 
 ///// Main Function /////
 
+static std::mutex _GlobalMutex;
+
+void haha(const std::string& str)
+{
+	// std::lock_guard<std::mutex> _lockGuard(_GlobalMutex);
+
+	std::this_thread::sleep_for(std::chrono::milliseconds(50));
+	std::printf("%s\n", str.c_str());
+}
+
+int hehe(int a)
+{
+	std::this_thread::sleep_for(std::chrono::milliseconds(50));
+	return a * 10;
+}
+
 int main(void)
 {
+	auto a1 = std::async(haha, "one");
+	auto a2 = std::async(haha, "two");
+	auto a3 = std::async(haha, "three");
+
+	a1.wait();
+	a2.wait();
+	a3.wait();
+
+	std::printf("-----------------------\n");
+
+	auto a4 = std::async(hehe, 4);
+	auto a5 = std::async(hehe, 5);
+	auto a6 = std::async(hehe, 6);
+
+	std::printf("num: %i\n", a4.get());
+	std::printf("num: %i\n", a5.get());
+	std::printf("num: %i\n", a6.get());
+
+	exit(0);
+
 	/* Program Variables */
 
 	/* Create the window, initializing GLFW and GLEW */
