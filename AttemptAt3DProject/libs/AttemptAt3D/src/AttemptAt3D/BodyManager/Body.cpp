@@ -10,12 +10,10 @@ namespace AttemptAt3D::_BodyManager
 		vbo(-1),
 		ebo(-1),
 		verticesLen(0),
-		vertices{},
+		vertices(nullptr),
 		elementsLen(0),
-		elements{}
+		elements(nullptr)
 	{}
-
-	Body::~Body() {}
 
 	/* Methods */
 

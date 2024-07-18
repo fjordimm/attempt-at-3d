@@ -2,6 +2,7 @@
 #include "AttemptAt3D/BodyManager/BodyManager.h"
 
 #include <cstdio>
+#include <iostream>
 
 namespace AttemptAt3D
 {
@@ -10,8 +11,9 @@ namespace AttemptAt3D
 
 	/* Constructors */
 
-	BodyManager::BodyManager() {}
-	BodyManager::~BodyManager() {}
+	BodyManager::BodyManager() :
+		bodies()
+	{}
 
 	/* Methods */
 
@@ -58,7 +60,8 @@ namespace AttemptAt3D
 	////////////////////////////////////////////////////////////
 		/* Constructors */
 
-		BodyReference::BodyReference() {}
-		BodyReference::~BodyReference() {}
+		BodyReference::BodyReference() :
+			iter{}
+		{}
 	////////////////////////////////////////////////////////////
 }
