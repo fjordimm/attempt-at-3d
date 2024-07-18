@@ -45,9 +45,14 @@ namespace AttemptAt3D
 		{
 			friend class BodyManager;
 
-		public:
+			/* Fields */
+
+			private:
 			std::list<_BodyManager::Body>::iterator iter; // since there is no node type for std::list, I use an iterator with the cursor at the current element which has the same functionality
 
+			/* Constructors */
+
+			public:
 			BodyReference();
 			~BodyReference();
 			BodyReference(const BodyReference&) = delete;
