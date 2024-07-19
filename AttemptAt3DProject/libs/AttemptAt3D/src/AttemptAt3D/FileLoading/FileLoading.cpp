@@ -30,6 +30,8 @@ namespace AttemptAt3D::FileLoading
 		buf[charsRead] = '\0';
 
 		fclose(file);
-		return std::unique_ptr<const std::string>(new const std::string(buf));
+
+		std::unique_ptr<const std::string> ret(new const std::string(buf));
+		return std::move(ret);
 	}
 }

@@ -43,8 +43,9 @@ namespace AttemptAt3D::_BodyManager
 
 	   public:
 		void setData(std::size_t verticesLen, std::unique_ptr<float[]> vertices, std::size_t elementsLen, std::unique_ptr<GLuint[]> elements);
-		void doGens();
-		void bindAndAttachData();
+		void doGlGens();
+		void attachDataToGlBuffers();
+		void bindDataAndDraw();
 		void cleanupForGl();
 	};
 }

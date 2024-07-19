@@ -1,6 +1,8 @@
 
 #include "AttemptAt3D/BodyManager/Body.hpp"
 
+#include "AttemptAt3D/Debug/Debug.hpp"
+
 namespace AttemptAt3D::_BodyManager
 {
 	/* Constructors */
@@ -25,21 +27,54 @@ namespace AttemptAt3D::_BodyManager
 		this->elements = std::move(elements);
 	}
 
-	void Body::doGens()
+	void Body::doGlGens()
 	{
+		Debug::Log("doGlGens");
+		// glGenVertexArrays(1, &this->vao);
+		// glGenBuffers(1, &this->vbo);
+		// glGenBuffers(1, &this->ebo);
+
+		// Temp
 		glGenVertexArrays(1, &this->vao);
+		glBindVertexArray(this->vao);
+
 		glGenBuffers(1, &this->vbo);
+		glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
+		
 		glGenBuffers(1, &this->ebo);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->ebo);
 	}
 
-	void Body::bindAndAttachData()
+	void Body::attachDataToGlBuffers()
 	{
-		glBindVertexArray(this->vao);
-		glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->ebo);
+		Debug::Log("attachDataToGlBuffers");
+		// glNamedBufferData(this->vbo, this->verticesLen * sizeof(this->vertices[0]), this->vertices.get(), GL_STATIC_DRAW);
+		// glNamedBufferData(this->ebo, this->elementsLen * sizeof(this->elements[0]), this->elements.get(), GL_STATIC_DRAW);
+	}
 
+	void Body::bindDataAndDraw()
+	{
+		// Debug::Log("Verts...");
+		// for (int i = 0; i < this->verticesLen; i++)
+		// {
+		// 	Debug::Printf("  %f\n", this->vertices[i]);
+		// }
+
+		// Debug::Log("Elems...");
+		// for (int i = 0; i < this->elementsLen; i++)
+		// {
+		// 	Debug::Printf("  %i\n", this->elements[i]);
+		// }
+
+		// glBindVertexArray(this->vao);
+		// glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
+		// glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->ebo);
+
+		// Temp
 		glBufferData(GL_ARRAY_BUFFER, this->verticesLen * sizeof(this->vertices[0]), this->vertices.get(), GL_STATIC_DRAW);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->elementsLen * sizeof(this->elements[0]), this->elements.get(), GL_STATIC_DRAW);
+
+		glDrawElements(GL_TRIANGLES, 6 * 4, GL_UNSIGNED_INT, 0);
 	}
 
 	void Body::cleanupForGl()

@@ -36,19 +36,24 @@ namespace AttemptAt3D
 
 	void ShaderManager::compileAndActivateShaders()
 	{
-		const char* vertexShaderSource = FileLoading::LoadFile(VERTEX_SHADER_SOURCE_PATH)->c_str();
+		Debug::Log("compileAndActivateShaders");
+
+		std::unique_ptr<const std::string> _vertexShaderSource = FileLoading::LoadFile(VERTEX_SHADER_SOURCE_PATH);
+		const char* vertexShaderSource = _vertexShaderSource->c_str();
 		this->vertexShader = glCreateShader(GL_VERTEX_SHADER);
 		glShaderSource(this->vertexShader, 1, &vertexShaderSource, nullptr);
 		glCompileShader(this->vertexShader);
 		checkShaderCompilation(this->vertexShader);
 
-		const char* geometryShaderSource = FileLoading::LoadFile(GEOMETRY_SHADER_SOURCE_PATH)->c_str();
+		std::unique_ptr<const std::string> _geometryShaderSource = FileLoading::LoadFile(GEOMETRY_SHADER_SOURCE_PATH);
+		const char* geometryShaderSource = _geometryShaderSource->c_str();
 		this->geometryShader = glCreateShader(GL_GEOMETRY_SHADER);
 		glShaderSource(this->geometryShader, 1, &geometryShaderSource, nullptr);
 		glCompileShader(this->geometryShader);
 		checkShaderCompilation(this->geometryShader);
 
-		const char* fragmentShaderSource = FileLoading::LoadFile(FRAGMENT_SHADER_SOURCE_PATH)->c_str();
+		std::unique_ptr<const std::string> _fragmentShaderSource = FileLoading::LoadFile(FRAGMENT_SHADER_SOURCE_PATH);
+		const char* fragmentShaderSource = _fragmentShaderSource->c_str();
 		this->fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 		glShaderSource(this->fragmentShader, 1, &fragmentShaderSource, nullptr);
 		glCompileShader(this->fragmentShader);
@@ -87,16 +92,22 @@ namespace AttemptAt3D
 		glm::mat4 uni_proj_val = glm::perspective(glm::radians(45.0f), 1.0f /*aspect ratio*/, 1.0f, 10.0f);
 		glUniformMatrix4fv(this->uni_proj, 1, GL_FALSE, glm::value_ptr(uni_proj_val));
 
-		this->uni_sunRot = glGetUniformLocation(this->shaderProgram, "sunRot");
-		glm::mat4 uni_sunRot_val;
-		{
-			glm::quat quatX = glm::angleAxis(glm::radians(0.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-			glm::mat4 rotX = glm::toMat4(quatX);
-			glm::quat quatY = glm::angleAxis(glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-			glm::mat4 rotY = glm::toMat4(quatY);
-			uni_sunRot_val = rotY * rotX;
-		}
-		glUniformMatrix4fv(this->uni_sunRot, 1, GL_FALSE, glm::value_ptr(uni_sunRot_val));
+		// this->uni_sunRot = glGetUniformLocation(this->shaderProgram, "sunRot");
+		// glm::mat4 uni_sunRot_val;
+		// {
+		// 	glm::quat quatX = glm::angleAxis(glm::radians(0.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		// 	glm::mat4 rotX = glm::toMat4(quatX);
+		// 	glm::quat quatY = glm::angleAxis(glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		// 	glm::mat4 rotY = glm::toMat4(quatY);
+		// 	uni_sunRot_val = rotY * rotX;
+		// }
+		// glUniformMatrix4fv(this->uni_sunRot, 1, GL_FALSE, glm::value_ptr(uni_sunRot_val));
+		this->uni_sunRot = glGetUniformLocation(shaderProgram, "sunRot");
+		glm::quat sunQuatX = glm::angleAxis(glm::radians(0.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		glm::mat4 sunRotX = glm::toMat4(sunQuatX);
+		glm::quat sunQuatY = glm::angleAxis(glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		glm::mat4 sunRotY = glm::toMat4(sunQuatY);
+		glUniformMatrix4fv(this->uni_sunRot, 1, GL_FALSE, glm::value_ptr(sunRotY * sunRotX));
 	}
 
 	void ShaderManager::cleanupForGl()
@@ -109,6 +120,8 @@ namespace AttemptAt3D
 
 	void ShaderManager::checkShaderCompilation(GLuint shader)
 	{
+		Debug::Log("Checking!!!!!!!!!!");
+
 		GLint status;
 		glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
 

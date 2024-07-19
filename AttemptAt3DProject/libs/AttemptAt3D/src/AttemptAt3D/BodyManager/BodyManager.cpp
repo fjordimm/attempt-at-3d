@@ -22,6 +22,8 @@ namespace AttemptAt3D
 	{
 		std::unique_ptr<Body> body = std::make_unique<Body>();
 		body->setData(verticesLen, std::move(vertices), elementsLen, std::move(elements));
+		body->doGlGens();
+		body->attachDataToGlBuffers();
 		this->bodies.push_back(std::move(body));
 
 		std::unique_ptr<BodyReference> ret = std::make_unique<BodyReference>();
@@ -42,6 +44,9 @@ namespace AttemptAt3D
 		{
 			Body* body = body_r.get();
 
+			body->bindDataAndDraw();
+
+			/*
 			std::printf("Body:\n");
 
 			std::printf("  vertices:\n");
@@ -55,6 +60,7 @@ namespace AttemptAt3D
 			{
 				std::printf("    %u\n", body->get_elements()[i]);
 			}
+			*/
 		}
 	}
 
