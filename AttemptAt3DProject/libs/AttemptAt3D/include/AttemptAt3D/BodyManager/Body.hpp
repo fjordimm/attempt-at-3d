@@ -39,6 +39,7 @@ namespace AttemptAt3D::_BodyManager
 		Body(Body&&) {}
 		
 		Body();
+		~Body();
 
 		/* Methods */
 

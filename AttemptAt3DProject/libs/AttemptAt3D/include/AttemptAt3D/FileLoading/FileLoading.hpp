@@ -1,10 +1,10 @@
 
 #pragma once
 
+#include <memory>
 #include <string>
 
 namespace AttemptAt3D::FileLoading
 {
-	// Responsibility of the receiver to free the string returned
-	const char* LoadFile(const char* name);
+	std::unique_ptr<const std::string> LoadFile(const std::string name);
 }

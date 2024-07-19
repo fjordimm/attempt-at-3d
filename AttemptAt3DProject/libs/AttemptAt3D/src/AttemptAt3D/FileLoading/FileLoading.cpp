@@ -8,7 +8,7 @@
 
 namespace AttemptAt3D::FileLoading
 {
-	const char* LoadFile(const char* name)
+	std::unique_ptr<const std::string> LoadFile(const std::string name)
 	{
 		std::string fullName = std::string(CMAKE_SOURCE_DIR) + "/libs/AttemptAt3D/" + name;
 
@@ -24,12 +24,12 @@ namespace AttemptAt3D::FileLoading
 		size_t size = ftell(file);
 		fseek(file, 0, SEEK_SET);
 
-		char* ret = new char[size + 1];
+		char* buf = new char[size + 1];
 
-		size_t charsRead = fread(ret, sizeof(char), size, file);
-		ret[charsRead] = '\0';
+		size_t charsRead = fread(buf, sizeof(char), size, file);
+		buf[charsRead] = '\0';
 
 		fclose(file);
-		return ret;
+		return std::unique_ptr<const std::string>(new const std::string(buf));
 	}
 }

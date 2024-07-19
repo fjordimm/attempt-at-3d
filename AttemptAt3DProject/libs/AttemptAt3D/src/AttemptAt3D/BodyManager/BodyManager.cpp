@@ -3,6 +3,7 @@
 
 #include <cstdio>
 #include <iostream>
+#include "AttemptAt3D/Debug/Debug.hpp"
 
 namespace AttemptAt3D
 {
@@ -17,7 +18,7 @@ namespace AttemptAt3D
 
 	/* Methods */
 
-	std::unique_ptr<BodyReference> BodyManager::makeNewBody(std::size_t verticesLen, std::unique_ptr<float[]> vertices, std::size_t elementsLen, std::unique_ptr<GLuint[]> elements)
+	std::unique_ptr<BodyReference> BodyManager::addNewBody(std::size_t verticesLen, std::unique_ptr<float[]> vertices, std::size_t elementsLen, std::unique_ptr<GLuint[]> elements)
 	{
 		this->bodies.push_back({});
 		this->bodies.back().setData(verticesLen, std::move(vertices), elementsLen, std::move(elements));
@@ -31,6 +32,7 @@ namespace AttemptAt3D
 
 	void BodyManager::removeBody(std::unique_ptr<BodyReference> bodyReference)
 	{
+		Debug::Log("start of removeBody");
 		this->bodies.erase(bodyReference->iter);
 	}
 

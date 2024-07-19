@@ -39,5 +39,6 @@ namespace AttemptAt3D
 	
 	   private:
 		void mainLoop();
+		void endGlfw();
 	};
 }

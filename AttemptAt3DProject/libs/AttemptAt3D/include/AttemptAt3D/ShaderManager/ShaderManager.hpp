@@ -4,6 +4,8 @@
 #define GLEW_STATIC
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <memory>
+#include <string>
 
 namespace AttemptAt3D
 {
@@ -12,9 +14,6 @@ namespace AttemptAt3D
 		/* Fields */
 
 	   private:
-		const char* vertexShaderSource;
-		const char* geometryShaderSource;
-		const char* fragmentShaderSource;
 		GLuint vertexShader;
 		GLuint geometryShader;
 		GLuint fragmentShader;
@@ -34,7 +33,6 @@ namespace AttemptAt3D
 		ShaderManager(ShaderManager&&) {}
 		
 		ShaderManager();
-		~ShaderManager();
 
 		/* Methods */
 

@@ -15,6 +15,13 @@ namespace AttemptAt3D::_BodyManager
 		elements(nullptr)
 	{}
 
+	Body::~Body()
+	{
+		glDeleteBuffers(1, &this->ebo);
+		glDeleteBuffers(1, &this->vbo);
+		glDeleteVertexArrays(1, &this->vao);
+	}
+
 	/* Methods */
 
 	void Body::doGens()
