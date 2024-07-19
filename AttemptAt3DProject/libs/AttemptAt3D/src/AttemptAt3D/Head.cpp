@@ -1,4 +1,6 @@
 
+#include <memory>
+#include <cstring>
 #include "AttemptAt3D/Head.hpp"
 #include "AttemptAt3D/Debug/Debug.hpp"
 
@@ -48,7 +50,7 @@ namespace AttemptAt3D
 		/* Test vertices */
 
 		{
-			float verts1[] =
+			const float _verts1[] =
 			{
 				// X      Y      Z         R    G    B
 				-0.3f, +0.3f, +0.8f,     1.0f,0.0f,0.0f,
@@ -64,8 +66,11 @@ namespace AttemptAt3D
 				+0.0f, +0.0f, +0.0f,     1.0f,0.0f,0.0f,
 				+0.3f, +0.3f, +0.8f,     1.0f,0.0f,0.0f,
 			};
+			const std::size_t verts1_s = sizeof(_verts1) / sizeof(_verts1[0]);
+			std::unique_ptr<float[]> verts1(new float[verts1_s]);
+			std::memcpy(verts1.get(), _verts1, sizeof(_verts1));
 
-			GLuint elems1[] =
+			const GLuint _elems1[] =
 			{
 				0, 1, 2,
 				3, 2, 1,
@@ -74,8 +79,12 @@ namespace AttemptAt3D
 
 				7, 8, 9
 			};
+			const std::size_t elems1_s = sizeof(_elems1) / sizeof(_elems1[0]);
+			std::unique_ptr<GLuint[]> elems1(new GLuint[elems1_s]);
+			std::memcpy(elems1.get(), _elems1, sizeof(_elems1));
 
-			auto b = this->bodyManager.addNewBody(60, std::unique_ptr<float[]>(verts1), 12, std::unique_ptr<GLuint[]>(elems1));
+			auto b = this->bodyManager.addNewBody(verts1_s, std::move(verts1), elems1_s, std::move(elems1));
+			// this->bodyManager.removeBody(std::move(b));
 		}
 
 		/* Main Loop */

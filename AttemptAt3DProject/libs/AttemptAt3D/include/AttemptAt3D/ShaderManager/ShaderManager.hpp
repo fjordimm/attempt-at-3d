@@ -30,7 +30,7 @@ namespace AttemptAt3D
 	   public:
 		ShaderManager(const ShaderManager&) = delete;
 		ShaderManager& operator=(const ShaderManager&) = delete;
-		ShaderManager(ShaderManager&&) {}
+		// ShaderManager(ShaderManager&&) {}
 		
 		ShaderManager();
 

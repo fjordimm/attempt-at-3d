@@ -31,7 +31,7 @@ namespace AttemptAt3D
 	   public:
 		Head(const Head&) = delete;
 		Head& operator=(const Head&) = delete;
-		Head(Head&&) {}
+		// Head(Head&&) {}
 
 		Head();
 

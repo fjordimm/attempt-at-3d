@@ -20,8 +20,9 @@ namespace AttemptAt3D
 
 	std::unique_ptr<BodyReference> BodyManager::addNewBody(std::size_t verticesLen, std::unique_ptr<float[]> vertices, std::size_t elementsLen, std::unique_ptr<GLuint[]> elements)
 	{
-		this->bodies.push_back({});
-		this->bodies.back().setData(verticesLen, std::move(vertices), elementsLen, std::move(elements));
+		std::unique_ptr<Body> body = std::make_unique<Body>();
+		body->setData(verticesLen, std::move(vertices), elementsLen, std::move(elements));
+		this->bodies.push_back(std::move(body));
 
 		std::unique_ptr<BodyReference> ret = std::make_unique<BodyReference>();
 		ret->iter = this->bodies.cend();
@@ -37,29 +38,33 @@ namespace AttemptAt3D
 
 	void BodyManager::drawAllBodies()
 	{
-		for (Body& body : this->bodies)
+		for (std::unique_ptr<Body>& body_r : this->bodies)
 		{
+			Body* body = body_r.get();
+
 			std::printf("Body:\n");
 
 			std::printf("  vertices:\n");
-			for (int i = 0; i < body.get_verticesLen(); i++)
+			for (int i = 0; i < body->get_verticesLen(); i++)
 			{
-				std::printf("    %f\n", body.get_vertices()[i]);
+				std::printf("    %f\n", body->get_vertices()[i]);
 			}
 
 			std::printf("  elements:\n");
-			for (int i = 0; i < body.get_elementsLen(); i++)
+			for (int i = 0; i < body->get_elementsLen(); i++)
 			{
-				std::printf("    %u\n", body.get_elements()[i]);
+				std::printf("    %u\n", body->get_elements()[i]);
 			}
 		}
 	}
 
 	void BodyManager::cleanupForGl()
 	{
-		for (Body& body : this->bodies)
+		for (std::unique_ptr<Body>& body_r : this->bodies)
 		{
-			body.cleanupForGl();
+			Body* body = body_r.get();
+
+			body->cleanupForGl();
 		}
 	}
 

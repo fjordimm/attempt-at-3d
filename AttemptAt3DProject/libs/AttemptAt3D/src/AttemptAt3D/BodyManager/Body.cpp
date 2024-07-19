@@ -17,19 +17,19 @@ namespace AttemptAt3D::_BodyManager
 
 	/* Methods */
 
-	void Body::doGens()
-	{
-		glGenVertexArrays(1, &this->vao);
-		glGenBuffers(1, &this->vbo);
-		glGenBuffers(1, &this->ebo);
-	}
-
 	void Body::setData(std::size_t verticesLen, std::unique_ptr<float[]> vertices, std::size_t elementsLen, std::unique_ptr<GLuint[]> elements)
 	{
 		this->verticesLen = verticesLen;
 		this->vertices = std::move(vertices);
 		this->elementsLen = elementsLen;
 		this->elements = std::move(elements);
+	}
+
+	void Body::doGens()
+	{
+		glGenVertexArrays(1, &this->vao);
+		glGenBuffers(1, &this->vbo);
+		glGenBuffers(1, &this->ebo);
 	}
 
 	void Body::bindAndAttachData()
