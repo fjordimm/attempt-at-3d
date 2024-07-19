@@ -8,6 +8,7 @@ namespace AttemptAt3D
 
 	Head::Head() :
 		windowForGlfw(nullptr),
+		shaderManager(),
 		bodyManager()
 	{}
 	
@@ -109,14 +110,8 @@ namespace AttemptAt3D
 
 	void Head::endGlfw()
 	{
-		// TODO
-		// glDeleteProgram(shaderProgram);
-		// glDeleteShader(fragmentShader);
-		// glDeleteShader(vertexShader);
-		// glDeleteBuffers(1, &ebo);
-		// glDeleteBuffers(1, &vbo);
-		// glDeleteVertexArrays(1, &vao);
-
+		this->shaderManager.cleanup();
+		this->bodyManager.cleanup();
 		glfwTerminate();
 	}
 }

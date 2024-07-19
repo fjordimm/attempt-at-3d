@@ -38,6 +38,7 @@ namespace AttemptAt3D
 
 	   public:
 		void compileAndActivateShaders();
+		void cleanup();
 
 	   private:
 		void checkShaderCompilation(GLuint shader);

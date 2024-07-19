@@ -15,13 +15,6 @@ namespace AttemptAt3D::_BodyManager
 		elements(nullptr)
 	{}
 
-	Body::~Body()
-	{
-		glDeleteBuffers(1, &this->ebo);
-		glDeleteBuffers(1, &this->vbo);
-		glDeleteVertexArrays(1, &this->vao);
-	}
-
 	/* Methods */
 
 	void Body::doGens()
@@ -47,5 +40,12 @@ namespace AttemptAt3D::_BodyManager
 
 		glBufferData(GL_ARRAY_BUFFER, this->verticesLen * sizeof(this->vertices[0]), this->vertices.get(), GL_STATIC_DRAW);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->elementsLen * sizeof(this->elements[0]), this->elements.get(), GL_STATIC_DRAW);
+	}
+
+	void Body::cleanup()
+	{
+		glDeleteBuffers(1, &this->ebo);
+		glDeleteBuffers(1, &this->vbo);
+		glDeleteVertexArrays(1, &this->vao);
 	}
 }

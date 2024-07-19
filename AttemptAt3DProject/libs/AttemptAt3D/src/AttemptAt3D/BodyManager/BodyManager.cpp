@@ -16,11 +16,6 @@ namespace AttemptAt3D
 		bodies()
 	{}
 
-	BodyManager::~BodyManager()
-	{
-		this->bodies.clear();
-	}
-
 	/* Methods */
 
 	std::unique_ptr<BodyReference> BodyManager::addNewBody(std::size_t verticesLen, std::unique_ptr<float[]> vertices, std::size_t elementsLen, std::unique_ptr<GLuint[]> elements)
@@ -58,6 +53,11 @@ namespace AttemptAt3D
 				std::printf("    %u\n", body.get_elements()[i]);
 			}
 		}
+	}
+
+	void BodyManager::cleanup()
+	{
+		this->bodies.clear();
 	}
 
 	/* Subclasses */
