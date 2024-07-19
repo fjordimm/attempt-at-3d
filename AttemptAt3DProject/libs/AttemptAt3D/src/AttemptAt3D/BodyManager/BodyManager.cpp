@@ -68,11 +68,6 @@ namespace AttemptAt3D
 		}
 	}
 
-	void BodyManager::cleanup()
-	{
-		this->bodies.clear();
-	}
-
 	/* Subclasses */
 
 	/// BodyReference ///

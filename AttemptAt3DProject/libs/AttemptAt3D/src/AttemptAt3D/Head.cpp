@@ -122,6 +122,5 @@ namespace AttemptAt3D
 		this->shaderManager.cleanupForGl();
 		this->bodyManager.cleanupForGl();
 		glfwTerminate();
-		this->bodyManager.cleanup();
 	}
 }

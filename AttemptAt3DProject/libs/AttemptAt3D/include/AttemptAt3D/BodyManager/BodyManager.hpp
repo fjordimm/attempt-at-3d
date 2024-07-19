@@ -27,7 +27,6 @@ namespace AttemptAt3D
 	   public:
 		BodyManager(const BodyManager&) = delete;
 		BodyManager& operator=(const BodyManager&) = delete;
-		// BodyManager(BodyManager&&) {}
 		
 		BodyManager();
 
@@ -38,7 +37,6 @@ namespace AttemptAt3D
 		void removeBody(std::unique_ptr<BodyReference> bodyReference); // since the parameter is a unique_ptr to the BodyReference, it doesn't move it anywhere else so it implicitly deletes it
 		void drawAllBodies();
 		void cleanupForGl();
-		void cleanup();
 
 		/* Subclasses */
 
@@ -57,7 +55,6 @@ namespace AttemptAt3D
 		   public:
 			BodyReference(const BodyReference&) = delete;
 			BodyReference& operator=(const BodyReference&) = delete;
-			// BodyReference(BodyReference&&) {}
 			
 			BodyReference();
 		};

@@ -36,7 +36,6 @@ namespace AttemptAt3D::_BodyManager
 	   public:
 		Body(const Body&) = delete;
 		Body& operator=(const Body&) = delete;
-		// Body(Body&&) {}
 		
 		Body();
 
