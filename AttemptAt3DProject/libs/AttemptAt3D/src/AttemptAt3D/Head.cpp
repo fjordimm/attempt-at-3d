@@ -110,8 +110,9 @@ namespace AttemptAt3D
 
 	void Head::endGlfw()
 	{
-		this->shaderManager.cleanup();
-		this->bodyManager.cleanup();
+		this->shaderManager.cleanupForGl();
+		this->bodyManager.cleanupForGl();
 		glfwTerminate();
+		this->bodyManager.cleanup();
 	}
 }

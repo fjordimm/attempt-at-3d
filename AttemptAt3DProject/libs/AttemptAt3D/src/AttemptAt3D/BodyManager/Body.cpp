@@ -42,7 +42,7 @@ namespace AttemptAt3D::_BodyManager
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->elementsLen * sizeof(this->elements[0]), this->elements.get(), GL_STATIC_DRAW);
 	}
 
-	void Body::cleanup()
+	void Body::cleanupForGl()
 	{
 		glDeleteBuffers(1, &this->ebo);
 		glDeleteBuffers(1, &this->vbo);

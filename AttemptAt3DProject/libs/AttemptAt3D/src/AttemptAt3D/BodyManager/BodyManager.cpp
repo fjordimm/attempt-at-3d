@@ -55,6 +55,14 @@ namespace AttemptAt3D
 		}
 	}
 
+	void BodyManager::cleanupForGl()
+	{
+		for (Body& body : this->bodies)
+		{
+			body.cleanupForGl();
+		}
+	}
+
 	void BodyManager::cleanup()
 	{
 		this->bodies.clear();

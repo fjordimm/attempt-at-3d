@@ -99,7 +99,7 @@ namespace AttemptAt3D
 		glUniformMatrix4fv(this->uni_sunRot, 1, GL_FALSE, glm::value_ptr(uni_sunRot_val));
 	}
 
-	void ShaderManager::cleanup()
+	void ShaderManager::cleanupForGl()
 	{
 		glDeleteProgram(this->shaderProgram);
 		glDeleteShader(this->vertexShader);
