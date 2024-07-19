@@ -83,8 +83,44 @@ namespace AttemptAt3D
 			std::unique_ptr<GLuint[]> elems1(new GLuint[elems1_s]);
 			std::memcpy(elems1.get(), _elems1, sizeof(_elems1));
 
-			auto b = this->bodyManager.addNewBody(verts1_s, std::move(verts1), elems1_s, std::move(elems1));
-			// this->bodyManager.removeBody(std::move(b));
+
+			///////////////////
+
+			const float _verts2[] =
+			{
+				// X      Y      Z         R    G    B
+				-0.3f, +0.3f, +1.8f,     0.0f,1.0f,0.0f,
+				-0.3f, -0.3f, +1.8f,     0.0f,1.0f,0.0f,
+				+0.3f, +0.3f, +1.8f,     0.0f,1.0f,0.0f,
+				+0.3f, -0.3f, +1.8f,     0.0f,1.0f,0.0f,
+				
+				-0.3f, -0.3f, +1.8f,     0.0f,1.0f,0.0f,
+				+0.0f, +0.0f, +1.0f,     0.0f,1.0f,0.0f,
+				+0.3f, -0.3f, +1.8f,     0.0f,1.0f,0.0f,
+				
+				+0.3f, -0.3f, +1.8f,     0.0f,1.0f,0.0f,
+				+0.0f, +0.0f, +1.0f,     0.0f,1.0f,0.0f,
+				+0.3f, +0.3f, +1.8f,     0.0f,1.0f,0.0f,
+			};
+			const std::size_t verts2_s = sizeof(_verts2) / sizeof(_verts2[0]);
+			std::unique_ptr<float[]> verts2(new float[verts2_s]);
+			std::memcpy(verts2.get(), _verts2, sizeof(_verts2));
+
+			const GLuint _elems2[] =
+			{
+				0, 1, 2,
+				3, 2, 1,
+
+				4, 5, 6,
+
+				7, 8, 9
+			};
+			const std::size_t elems2_s = sizeof(_elems2) / sizeof(_elems2[0]);
+			std::unique_ptr<GLuint[]> elems2(new GLuint[elems2_s]);
+			std::memcpy(elems2.get(), _elems2, sizeof(_elems2));
+
+			auto b1 = this->bodyManager.addNewBody(verts1_s, std::move(verts1), elems1_s, std::move(elems1));
+			auto b2 = this->bodyManager.addNewBody(verts2_s, std::move(verts2), elems2_s, std::move(elems2));
 		}
 
 		/* Activate Shaders */

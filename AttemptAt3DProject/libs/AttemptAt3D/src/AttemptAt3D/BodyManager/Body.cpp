@@ -32,6 +32,8 @@ namespace AttemptAt3D::_BodyManager
 		glGenVertexArrays(1, &this->vao);
 		glGenBuffers(1, &this->vbo);
 		glGenBuffers(1, &this->ebo);
+
+		Debug::Printf("Names: {%u, %u, %u}\n", this->vao, this->vbo, this->ebo);
 	}
 
 	void Body::attachDataToGlBuffers()
@@ -40,8 +42,11 @@ namespace AttemptAt3D::_BodyManager
 		glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->ebo);
 
-		glNamedBufferData(this->vbo, this->verticesLen * sizeof(this->vertices[0]), this->vertices.get(), GL_STATIC_DRAW);
-		glNamedBufferData(this->ebo, this->elementsLen * sizeof(this->elements[0]), this->elements.get(), GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, this->verticesLen * sizeof(this->vertices[0]), this->vertices.get(), GL_DYNAMIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->elementsLen * sizeof(this->elements[0]), this->elements.get(), GL_DYNAMIC_DRAW);
+
+		// glNamedBufferData(this->vbo, this->verticesLen * sizeof(this->vertices[0]), this->vertices.get(), GL_STATIC_DRAW);
+		// glNamedBufferData(this->ebo, this->elementsLen * sizeof(this->elements[0]), this->elements.get(), GL_STATIC_DRAW);
 	}
 
 	void Body::drawBody()
@@ -50,7 +55,10 @@ namespace AttemptAt3D::_BodyManager
 		glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->ebo);
 
-		glDrawElements(GL_TRIANGLES, 6 * 4, GL_UNSIGNED_INT, 0);
+		glBufferData(GL_ARRAY_BUFFER, this->verticesLen * sizeof(this->vertices[0]), this->vertices.get(), GL_DYNAMIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->elementsLen * sizeof(this->elements[0]), this->elements.get(), GL_DYNAMIC_DRAW);
+
+		glDrawElements(GL_TRIANGLES, this->elementsLen, GL_UNSIGNED_INT, 0);
 	}
 
 	void Body::cleanupForGl()

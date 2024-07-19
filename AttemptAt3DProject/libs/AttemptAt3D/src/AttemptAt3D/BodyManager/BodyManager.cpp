@@ -40,10 +40,13 @@ namespace AttemptAt3D
 
 	void BodyManager::drawAllBodies()
 	{
+		// Debug::Log("drawing all bodies");
 		for (std::unique_ptr<Body>& body_r : this->bodies)
 		{
 			Body* body = body_r.get();
-
+			
+			// Debug::Log("drawing body");
+			// Debug::Printf("body = %p\n", body);
 			body->drawBody();
 		}
 	}
