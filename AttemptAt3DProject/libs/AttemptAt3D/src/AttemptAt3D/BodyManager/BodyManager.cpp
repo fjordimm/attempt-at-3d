@@ -44,23 +44,7 @@ namespace AttemptAt3D
 		{
 			Body* body = body_r.get();
 
-			body->bindDataAndDraw();
-
-			/*
-			std::printf("Body:\n");
-
-			std::printf("  vertices:\n");
-			for (int i = 0; i < body->get_verticesLen(); i++)
-			{
-				std::printf("    %f\n", body->get_vertices()[i]);
-			}
-
-			std::printf("  elements:\n");
-			for (int i = 0; i < body->get_elementsLen(); i++)
-			{
-				std::printf("    %u\n", body->get_elements()[i]);
-			}
-			*/
+			body->drawBody();
 		}
 	}
 

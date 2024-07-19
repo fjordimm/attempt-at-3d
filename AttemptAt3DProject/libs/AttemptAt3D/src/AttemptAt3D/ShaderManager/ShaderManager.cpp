@@ -36,8 +36,6 @@ namespace AttemptAt3D
 
 	void ShaderManager::compileAndActivateShaders()
 	{
-		Debug::Log("compileAndActivateShaders");
-
 		std::unique_ptr<const std::string> _vertexShaderSource = FileLoading::LoadFile(VERTEX_SHADER_SOURCE_PATH);
 		const char* vertexShaderSource = _vertexShaderSource->c_str();
 		this->vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -120,8 +118,6 @@ namespace AttemptAt3D
 
 	void ShaderManager::checkShaderCompilation(GLuint shader)
 	{
-		Debug::Log("Checking!!!!!!!!!!");
-
 		GLint status;
 		glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
 
