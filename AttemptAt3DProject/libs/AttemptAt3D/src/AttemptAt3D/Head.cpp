@@ -74,10 +74,7 @@ namespace AttemptAt3D
 				7, 8, 9
 			};
 
-			// auto b = this->bodyManager.addNewBody(60, std::unique_ptr<float[]>(verts1), 12, std::unique_ptr<GLuint[]>(elems1));
-			// Debug::Log("removing...");
-			// this->bodyManager.removeBody(std::move(b));
-			// Debug::Log("removed");
+			auto b = this->bodyManager.addNewBody(60, std::unique_ptr<float[]>(verts1), 12, std::unique_ptr<GLuint[]>(elems1));
 		}
 
 		/* Main Loop */
@@ -121,7 +118,5 @@ namespace AttemptAt3D
 		// glDeleteVertexArrays(1, &vao);
 
 		glfwTerminate();
-
-		Debug::Log("at the end of time");
 	}
 }

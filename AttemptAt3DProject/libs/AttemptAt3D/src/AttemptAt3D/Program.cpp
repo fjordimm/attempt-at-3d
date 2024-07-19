@@ -7,7 +7,5 @@ int main(void)
 	AttemptAt3D::Head head;
 	head.start();
 
-	AttemptAt3D::Debug::Log("after the end of time");
-
 	return 0;
 }

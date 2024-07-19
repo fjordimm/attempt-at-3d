@@ -30,6 +30,7 @@ namespace AttemptAt3D
 		BodyManager(BodyManager&&) {}
 		
 		BodyManager();
+		~BodyManager();
 
 		/* Methods */
 
@@ -48,7 +49,7 @@ namespace AttemptAt3D
 			/* Fields */
 
 		   private:
-			std::list<_BodyManager::Body>::iterator iter; // since there is no way to get a node for std::list, I use an iterator with the cursor at the current element which has the same functionality
+			std::list<_BodyManager::Body>::const_iterator iter; // since there is no way to get a node for std::list, I use an iterator with the cursor at the current element which has the same functionality
 
 			/* Constructors */
 
