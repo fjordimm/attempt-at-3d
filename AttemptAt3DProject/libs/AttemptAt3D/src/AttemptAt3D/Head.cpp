@@ -143,7 +143,7 @@ namespace AttemptAt3D
 			glClearColor(0.1f, 0.0f, 0.25f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-			this->bodyManager.drawAllBodies();
+			this->bodyManager.drawAllBodies(this->shaderManager);
 
 			/* Adjust the canvas when the window is resized */
 

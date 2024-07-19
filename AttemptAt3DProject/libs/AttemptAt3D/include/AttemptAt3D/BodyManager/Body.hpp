@@ -6,6 +6,7 @@
 #include <GLFW/glfw3.h>
 #include <memory>
 #include <vector>
+#include "AttemptAt3D/ShaderManager/ShaderManager.hpp"
 
 namespace AttemptAt3D::_BodyManager
 {
@@ -45,7 +46,7 @@ namespace AttemptAt3D::_BodyManager
 		void setData(std::size_t verticesLen, std::unique_ptr<float[]> vertices, std::size_t elementsLen, std::unique_ptr<GLuint[]> elements);
 		void doGlGens();
 		void attachDataToGlBuffers();
-		void drawBody();
+		void drawBody(ShaderManager& shaderManager);
 		void cleanupForGl();
 	};
 }

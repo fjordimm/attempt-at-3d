@@ -38,7 +38,7 @@ namespace AttemptAt3D
 		this->bodies.erase(bodyReference->iter);
 	}
 
-	void BodyManager::drawAllBodies()
+	void BodyManager::drawAllBodies(ShaderManager& shaderManager)
 	{
 		// Debug::Log("drawing all bodies");
 		for (std::unique_ptr<Body>& body_r : this->bodies)
@@ -47,7 +47,7 @@ namespace AttemptAt3D
 			
 			// Debug::Log("drawing body");
 			// Debug::Printf("body = %p\n", body);
-			body->drawBody();
+			body->drawBody(shaderManager);
 		}
 	}
 
