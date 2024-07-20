@@ -6,18 +6,14 @@
 #include <GLFW/glfw3.h>
 #include <list>
 #include <memory>
-#include "AttemptAt3D/BodyManager/Body.hpp"
+#include "AttemptAt3D/BodyManager/_BodyManager/Body.hpp"
+#include "AttemptAt3D/BodyManager/BodyReference.hpp"
 #include "AttemptAt3D/ShaderManager/ShaderManager.hpp"
 
 namespace AttemptAt3D
 {
 	class BodyManager
 	{
-		/* Forward Declarations */
-
-	   public:
-		class BodyReference;
-
 		/* Fields */
 
 	   private:
@@ -38,26 +34,5 @@ namespace AttemptAt3D
 		void removeBody(std::unique_ptr<BodyReference> bodyReference); // since the parameter is a unique_ptr to the BodyReference, it doesn't move it anywhere else so it implicitly deletes it
 		void drawAllBodies();
 		void cleanupForGl();
-
-		/* Subclasses */
-
-	   public:
-		class BodyReference
-		{
-			friend class BodyManager;
-
-			/* Fields */
-
-		   private:
-			std::list<std::unique_ptr<_BodyManager::Body>>::const_iterator iter; // since there is no way to get a node for std::list, I use an iterator with the cursor at the current element which has the same functionality
-
-			/* Constructors */
-
-		   public:
-			BodyReference(const BodyReference&) = delete;
-			BodyReference& operator=(const BodyReference&) = delete;
-			
-			BodyReference();
-		};
 	};
 }

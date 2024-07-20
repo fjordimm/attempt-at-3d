@@ -8,7 +8,8 @@ add_executable(AttemptAt3DExec
 	src/AttemptAt3D/FileLoading/FileLoading.cpp
 	src/AttemptAt3D/ShaderManager/ShaderManager.cpp
 	src/AttemptAt3D/BodyManager/BodyManager.cpp
-	src/AttemptAt3D/BodyManager/Body.cpp
+	src/AttemptAt3D/BodyManager/_BodyManager/Body.cpp
+	src/AttemptAt3D/BodyManager/BodyReference.cpp
 )
 
 target_include_directories(AttemptAt3DExec PUBLIC include)

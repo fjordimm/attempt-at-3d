@@ -15,7 +15,6 @@ namespace AttemptAt3D::_______
 	   public:
 		___(const ___&) = delete;
 		___& operator=(const ___&) = delete;
-		___(___&&) {}
 		
 		___();
 

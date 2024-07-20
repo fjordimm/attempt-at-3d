@@ -1,5 +1,5 @@
 
-#include "AttemptAt3D/BodyManager/Body.hpp"
+#include "AttemptAt3D/BodyManager/_BodyManager/Body.hpp"
 
 #include "AttemptAt3D/Debug/Debug.hpp"
 

@@ -7,7 +7,6 @@
 
 namespace AttemptAt3D
 {
-	using BodyReference = BodyManager::BodyReference;
 	using Body = _BodyManager::Body;
 
 	/* Constructors */
@@ -56,15 +55,4 @@ namespace AttemptAt3D
 			body->cleanupForGl();
 		}
 	}
-
-	/* Subclasses */
-
-	/// BodyReference ///
-	////////////////////////////////////////////////////////////
-		/* Constructors */
-
-		BodyReference::BodyReference() :
-			iter{}
-		{}
-	////////////////////////////////////////////////////////////
 }
