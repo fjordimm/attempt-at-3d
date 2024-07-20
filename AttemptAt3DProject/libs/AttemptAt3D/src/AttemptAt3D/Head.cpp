@@ -8,6 +8,7 @@
 #include "AttemptAt3D/(Debug)/Debug.hpp"
 #include "AttemptAt3D/(Mesh)/Mesh.hpp"
 #include "AttemptAt3D/(Mesh)/MeshSamples/InvertedPyramid.hpp"
+#include "AttemptAt3D/(Mesh)/MeshSamples/Cube.hpp"
 
 namespace AttemptAt3D
 {
@@ -15,6 +16,7 @@ namespace AttemptAt3D
 	static std::unique_ptr<AttemptAt3D::BodyReference> b1;
 	static std::unique_ptr<AttemptAt3D::BodyReference> b2;
 	static std::unique_ptr<AttemptAt3D::BodyReference> b3;
+	static std::unique_ptr<AttemptAt3D::BodyReference> b4;
 
 	/* Constructors */
 
@@ -104,6 +106,9 @@ namespace AttemptAt3D
 
 		b3 = this->bodyManager.addNewBody(this->shaderManager, MeshSamples::InvertedPyramid().make());
 		b3->access_bodyTransform() = glm::translate(b3->access_bodyTransform(), glm::vec3(1.4f, 0.0f, 0.0f));
+		
+		b4 = this->bodyManager.addNewBody(this->shaderManager, MeshSamples::Cube().make());
+		b4->access_bodyTransform() = glm::translate(b4->access_bodyTransform(), glm::vec3(0.0f, 10.0f, -4.0f));
 
 		/* Main Loop */
 
@@ -147,6 +152,13 @@ namespace AttemptAt3D
 			{
 				glm::mat4 rot = glm::toMat4(glm::angleAxis(-0.0008f * deltaTime, glm::vec3(0.0f, 0.0f, 1.0f)));
 				b3->access_bodyTransform() *= rot;
+			}
+
+			{
+				glm::mat4 rotX = glm::toMat4(glm::angleAxis(-0.0007f * deltaTime, glm::vec3(1.0f, 0.0f, 0.0f)));
+				glm::mat4 rotZ = glm::toMat4(glm::angleAxis(-0.0010f * deltaTime, glm::vec3(0.0f, 0.0f, 1.0f)));
+				b4->access_bodyTransform() *= rotX;
+				b4->access_bodyTransform() *= rotZ;
 			}
 		}
 

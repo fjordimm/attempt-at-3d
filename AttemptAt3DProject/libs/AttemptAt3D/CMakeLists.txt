@@ -13,6 +13,7 @@ add_executable(AttemptAt3DExec
 	"src/AttemptAt3D/(Mesh)/Mesh.cpp"
 	"src/AttemptAt3D/(Mesh)/MeshSamples/MeshSample.cpp"
 	"src/AttemptAt3D/(Mesh)/MeshSamples/InvertedPyramid.cpp"
+	"src/AttemptAt3D/(Mesh)/MeshSamples/Cube.cpp"
 )
 
 target_include_directories(AttemptAt3DExec PUBLIC include)
