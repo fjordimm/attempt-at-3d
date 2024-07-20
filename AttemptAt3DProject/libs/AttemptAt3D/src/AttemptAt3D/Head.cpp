@@ -14,6 +14,7 @@ namespace AttemptAt3D
 	// TODO: delete
 	static std::unique_ptr<AttemptAt3D::BodyReference> b1;
 	static std::unique_ptr<AttemptAt3D::BodyReference> b2;
+	static std::unique_ptr<AttemptAt3D::BodyReference> b3;
 
 	/* Constructors */
 
@@ -89,14 +90,20 @@ namespace AttemptAt3D
 
 		this->shaderManager.compileAndActivateShaders();
 
-		/* Test vertices */
-
-		b1 = this->bodyManager.addNewBody(this->shaderManager, MeshSamples::InvertedPyramid().make());
-
 		/* Miscellaneous Pre-Main-Loop Tasks */
 
 		glfwSetWindowUserPointer(this->windowForGlfw, this); // passes a pointer to this Head to OpenGL
 		this->_updateProjectionMatrix();
+
+		/* test objects */
+
+		b1 = this->bodyManager.addNewBody(this->shaderManager, MeshSamples::InvertedPyramid().make());
+
+		b2 = this->bodyManager.addNewBody(this->shaderManager, MeshSamples::InvertedPyramid().make());
+		b2->access_bodyTransform() = glm::translate(b2->access_bodyTransform(), glm::vec3(2.0f, 0.0f, 0.0f));
+
+		b3 = this->bodyManager.addNewBody(this->shaderManager, MeshSamples::InvertedPyramid().make());
+		b3->access_bodyTransform() = glm::translate(b3->access_bodyTransform(), glm::vec3(-2.0f, 0.0f, 0.0f));
 
 		/* Main Loop */
 
@@ -124,6 +131,14 @@ namespace AttemptAt3D
 
 			glfwPollEvents();
 			glfwSwapBuffers(this->windowForGlfw);
+
+			///////////////
+
+			{
+				glm::mat4 rot = glm::toMat4(glm::angleAxis(0.0006f * deltaTime, glm::vec3(0.0f, 0.0f, 1.0f)));
+				
+				b1->access_bodyTransform() *= rot;
+			}
 		}
 
 		this->endGlfw();

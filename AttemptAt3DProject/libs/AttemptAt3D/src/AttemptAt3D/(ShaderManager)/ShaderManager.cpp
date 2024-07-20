@@ -95,9 +95,9 @@ namespace AttemptAt3D
 		this->uni_sunRot = glGetUniformLocation(this->shaderProgram, "uni_sunRot");
 		glm::mat4 uni_sunRotVal;
 		{
-			glm::quat quatX = glm::angleAxis(glm::radians(0.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+			glm::quat quatX = glm::angleAxis(glm::radians(5.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 			glm::mat4 rotX = glm::toMat4(quatX);
-			glm::quat quatY = glm::angleAxis(glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+			glm::quat quatY = glm::angleAxis(glm::radians(9.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 			glm::mat4 rotY = glm::toMat4(quatY);
 			uni_sunRotVal = rotY * rotX;
 		}
