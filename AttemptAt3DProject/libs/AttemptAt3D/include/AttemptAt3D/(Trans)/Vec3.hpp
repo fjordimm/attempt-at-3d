@@ -13,19 +13,20 @@ namespace AttemptAt3D
 	{
 		/* Fields */
 
-	   private:
-		glm::mat4 mat;
+	   protected:
+		glm::mat4 _mat;
 
-		float x;
-		float y;
-		float z;
+		float _x;
+		float _y;
+		float _z;
 
 		/* Getters and Setters */
 
 	   public:
-		inline float get_x() { return this->x; }
-		inline float get_y() { return this->y; }
-		inline float get_z() { return this->z; }
+		inline const glm::mat4& matrix() const { return this->_mat; }
+		inline float get_x() { return this->_x; }
+		inline float get_y() { return this->_y; }
+		inline float get_z() { return this->_z; }
 		inline void set_x(float val);
 		inline void set_y(float val);
 		inline void set_z(float val);
@@ -36,8 +37,8 @@ namespace AttemptAt3D
 		Vec3() = delete;
 
 		Vec3(float x, float y, float z);
-		Vec3(const Vec3&);
-		Vec3& operator=(const Vec3&);
+		Vec3(const Vec3& other);
+		Vec3& operator=(const Vec3& other);
 
 		/* Methods */
 
@@ -45,15 +46,24 @@ namespace AttemptAt3D
 		std::string toString();
 
 	   protected:
-		virtual void updateMat() = 0;
-
-		/* Constants */
-
-		// static constexpr Vec3 Zero = Vec3(0.0f, 0.0f, 0.0f);
+		virtual void _updateMat();
 	};
 
-	class Vec3Pos : Vec3
+	class Vec3Scale : public Vec3
 	{
+		using Vec3::Vec3; // constructor inheritance
+		void _updateMat();
+	};
 
+	class Vec3Rot : public Vec3
+	{
+		using Vec3::Vec3; // constructor inheritance
+		void _updateMat();
+	};
+
+	class Vec3Pos : public Vec3
+	{
+		using Vec3::Vec3; // constructor inheritance
+		void _updateMat();
 	};
 }

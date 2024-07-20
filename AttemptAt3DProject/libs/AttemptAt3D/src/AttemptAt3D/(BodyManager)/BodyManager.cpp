@@ -17,10 +17,9 @@ namespace AttemptAt3D
 
 	/* Methods */
 
-	std::unique_ptr<BodyReference> BodyManager::addNewBody(ShaderManager& shaderManager, std::unique_ptr<Mesh> mesh)
+	std::unique_ptr<BodyReference> BodyManager::addNewBody(ShaderManager& shaderManager, const Trans* trans, const Mesh* mesh)
 	{
-		std::unique_ptr<Body> body = std::make_unique<Body>();
-		body->setMesh(std::move(mesh));
+		std::unique_ptr<Body> body = std::make_unique<Body>(trans, mesh);
 		body->initializeVao(shaderManager);
 		this->bodies.push_back(std::move(body));
 
@@ -40,7 +39,7 @@ namespace AttemptAt3D
 	{
 		for (std::unique_ptr<Body>& body_ : this->bodies)
 		{
-			Body* body = &*body_;
+			Body* body = body_.get();
 			
 			body->drawBody(shaderManager);
 		}
@@ -50,7 +49,7 @@ namespace AttemptAt3D
 	{
 		for (std::unique_ptr<Body>& body_ : this->bodies)
 		{
-			Body* body = &*body_;
+			Body* body = body_.get();
 
 			body->cleanupForGl();
 		}

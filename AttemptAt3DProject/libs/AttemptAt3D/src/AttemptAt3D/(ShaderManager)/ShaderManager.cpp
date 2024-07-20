@@ -22,7 +22,9 @@ namespace AttemptAt3D
 		shaderProgram(-1),
 		attrib_position(-1),
 		attrib_color(-1),
-		uni_model(-1),
+		uni_transScale(-1),
+		uni_transRot(-1),
+		uni_transPos(-1),
 		uni_view(-1),
 		uni_proj(-1),
 		uni_sunRot(-1)
@@ -30,8 +32,14 @@ namespace AttemptAt3D
 
 	/* Getters and Setters */
 
-	void ShaderManager::set_uni_modelVal(const glm::mat4& val)
-	{ glUniformMatrix4fv(this->uni_model, 1, GL_FALSE, glm::value_ptr(val)); }
+	void ShaderManager::set_uni_transScaleVal(const glm::mat4& val)
+	{ glUniformMatrix4fv(this->uni_transScale, 1, GL_FALSE, glm::value_ptr(val)); }
+	
+	void ShaderManager::set_uni_transRotVal(const glm::mat4& val)
+	{ glUniformMatrix4fv(this->uni_transRot, 1, GL_FALSE, glm::value_ptr(val)); }
+	
+	void ShaderManager::set_uni_transPosVal(const glm::mat4& val)
+	{ glUniformMatrix4fv(this->uni_transPos, 1, GL_FALSE, glm::value_ptr(val)); }
 
 	void ShaderManager::set_uni_viewVal(const glm::mat4& val)
 	{ glUniformMatrix4fv(this->uni_view, 1, GL_FALSE, glm::value_ptr(val)); }
@@ -75,10 +83,17 @@ namespace AttemptAt3D
 		glLinkProgram(this->shaderProgram);
 		glUseProgram(this->shaderProgram);
 
-		this->uni_model = glGetUniformLocation(this->shaderProgram, "uni_model");
-		// glm::mat4 model = glm::rotate(glm::mat4(1.0f), glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-		glm::mat4 uni_modelVal = glm::mat4(1.0f);
-		glUniformMatrix4fv(this->uni_model, 1, GL_FALSE, glm::value_ptr(uni_modelVal));
+		this->uni_transScale = glGetUniformLocation(this->shaderProgram, "uni_transScale");
+		glm::mat4 uni_transScaleVal = glm::mat4(1.0f);
+		glUniformMatrix4fv(this->uni_transScale, 1, GL_FALSE, glm::value_ptr(uni_transScaleVal));
+
+		this->uni_transRot = glGetUniformLocation(this->shaderProgram, "uni_transRot");
+		glm::mat4 uni_transRotVal = glm::mat4(1.0f);
+		glUniformMatrix4fv(this->uni_transRot, 1, GL_FALSE, glm::value_ptr(uni_transRotVal));
+		
+		this->uni_transPos = glGetUniformLocation(this->shaderProgram, "uni_transPos");
+		glm::mat4 uni_transPosVal = glm::mat4(1.0f);
+		glUniformMatrix4fv(this->uni_transPos, 1, GL_FALSE, glm::value_ptr(uni_transPosVal));
 
 		this->uni_view = glGetUniformLocation(this->shaderProgram, "uni_view");
 		glm::mat4 uni_viewVal = glm::lookAt(

@@ -24,7 +24,9 @@ namespace AttemptAt3D
 		GLuint shaderProgram;
 		GLint attrib_position;
 		GLint attrib_color;
-		GLint uni_model;
+		GLint uni_transScale;
+		GLint uni_transRot;
+		GLint uni_transPos;
 		GLint uni_view;
 		GLint uni_proj;
 		GLint uni_sunRot;
@@ -32,7 +34,9 @@ namespace AttemptAt3D
 		/* Getters and Setters */
 
 	   public:
-		void set_uni_modelVal(const glm::mat4& val);
+		void set_uni_transScaleVal(const glm::mat4& val);
+		void set_uni_transRotVal(const glm::mat4& val);
+		void set_uni_transPosVal(const glm::mat4& val);
 		void set_uni_viewVal(const glm::mat4& val);
 		void set_uni_projVal(const glm::mat4& val);
 		void set_uni_sunRotVal(const glm::mat4& val);

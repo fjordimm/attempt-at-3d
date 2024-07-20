@@ -6,6 +6,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/quaternion.hpp>
 #include <string>
+#include "AttemptAt3D/(Trans)/Vec3.hpp"
 
 namespace AttemptAt3D
 {
@@ -13,31 +14,22 @@ namespace AttemptAt3D
 	{
 		/* Fields */
 
-	   private:
-		// glm::mat4 scaleMat;
-		// glm::mat4 rotMat;
-		// glm::mat4 posMat;
-		glm::mat4 mat;
-
-		Vec3 scale;
-
-		Vec3 rot;
-
-		Vec3 pos;
+	   public:
+		Vec3Scale scale;
+		Vec3Rot rot;
+		Vec3Pos pos;
 
 		/* Constructors */
 
 	   public:
 		Trans();
-		Trans(const Trans&);
-		Trans& operator=(const Trans&);
+		Trans(const Vec3Scale& scale, const Vec3Rot& rot, const Vec3Pos& pos);
+		Trans(const Trans& other);
+		Trans& operator=(const Trans& other);
 
 		/* Methods */
 
 	   public:
 		std::string toString();
-		std::string toStringScale();
-		std::string toStringRot();
-		std::string toStringPos();
 	};
 }

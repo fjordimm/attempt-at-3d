@@ -28,9 +28,5 @@ namespace AttemptAt3D
 		BodyReference& operator=(const BodyReference&) = delete;
 		
 		BodyReference(_BodyManager::Body* bodyPtr);
-
-		/* Getters and Setters */
-
-		inline glm::mat4& access_bodyTransform() { return this->bodyPtr->transform; }
 	};
 }

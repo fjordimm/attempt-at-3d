@@ -7,20 +7,15 @@ namespace AttemptAt3D::_BodyManager
 {
 	/* Constructors */
 
-	Body::Body() :
-		transform(glm::mat4(1.0f)),
+	Body::Body(const Trans* trans, const Mesh* mesh) :
+		trans(trans),
+		mesh(mesh),
 		vao(-1),
 		vbo(-1),
-		ebo(-1),
-		mesh(nullptr)
+		ebo(-1)
 	{}
 
 	/* Methods */
-
-	void Body::setMesh(std::unique_ptr<Mesh> mesh)
-	{
-		this->mesh = std::move(mesh);
-	}
 
 	void Body::initializeVao(ShaderManager& shaderManager)
 	{
@@ -45,7 +40,9 @@ namespace AttemptAt3D::_BodyManager
 	{
 		glBindVertexArray(this->vao);
 
-		shaderManager.set_uni_modelVal(this->transform);
+		shaderManager.set_uni_transScaleVal(this->trans->scale.matrix());
+		shaderManager.set_uni_transRotVal(this->trans->rot.matrix());
+		shaderManager.set_uni_transPosVal(this->trans->pos.matrix());
 		glDrawElements(GL_TRIANGLES, this->mesh->elementsLen, GL_UNSIGNED_INT, 0);
 
 		glBindVertexArray(0);

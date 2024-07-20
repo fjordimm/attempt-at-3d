@@ -10,6 +10,7 @@
 #include <glm/gtx/quaternion.hpp>
 #include <memory>
 #include <cstdlib>
+#include "AttemptAt3D/(Trans)/Trans.hpp"
 #include "AttemptAt3D/(Mesh)/Mesh.hpp"
 #include "AttemptAt3D/(ShaderManager)/ShaderManager.hpp"
 
@@ -19,27 +20,26 @@ namespace AttemptAt3D::_BodyManager
 	{
 		/* Fields */
 
-	   public:
-		glm::mat4 transform;
-
 	   private:
+		const Trans* trans;
+		const Mesh* mesh;
+
 		GLuint vao;
 		GLuint vbo;
 		GLuint ebo;
-		std::unique_ptr<Mesh> mesh;
 
 		/* Constructors */
 
 	   public:
+		Body() = delete;
 		Body(const Body&) = delete;
 		Body& operator=(const Body&) = delete;
 		
-		Body();
+		Body(const Trans* trans, const Mesh* mesh);
 
 		/* Methods */
 
 	   public:
-		void setMesh(std::unique_ptr<Mesh> mesh);
 		void initializeVao(ShaderManager& shaderManager);
 		void drawBody(ShaderManager& shaderManager);
 		void cleanupForGl();

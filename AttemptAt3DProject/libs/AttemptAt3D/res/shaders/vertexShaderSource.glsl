@@ -1,7 +1,9 @@
 
 #version 150 core
 
-uniform mat4 uni_model;
+uniform mat4 uni_transScale;
+uniform mat4 uni_transRot;
+uniform mat4 uni_transPos;
 uniform mat4 uni_view;
 uniform mat4 uni_proj;
 
@@ -13,7 +15,9 @@ out vec3 vColor;
 
 void main()
 {
-	vCoord = uni_model * vec4(attrib_position, 1.0);
+	vec4 trans = uni_transPos * uni_transRot * uni_transScale * vec4(attrib_position, 1.0);
+
+	vCoord = trans;
 	vColor = attrib_color;
-	gl_Position = uni_proj * uni_view * uni_model * vec4(attrib_position, 1.0);
+	gl_Position = uni_proj * uni_view * trans;
 }
