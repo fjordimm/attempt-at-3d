@@ -3,8 +3,8 @@
 layout(triangles) in;
 layout(triangle_strip, max_vertices = 3) out;
 
-in vec3 vColor[];
 in vec4 vCoord[];
+in vec3 vColor[];
 
 out vec3 gColor;
 out vec3 gNormal;

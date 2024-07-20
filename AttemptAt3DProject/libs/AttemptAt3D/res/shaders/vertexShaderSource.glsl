@@ -1,18 +1,18 @@
 #version 150 core
 
-in vec3 position;
-in vec3 color;
+uniform mat4 uni_model;
+uniform mat4 uni_view;
+uniform mat4 uni_proj;
 
-out vec3 vColor;
+in vec3 attrib_position;
+in vec3 attrib_color;
+
 out vec4 vCoord;
-
-uniform mat4 model;
-uniform mat4 view;
-uniform mat4 proj;
+out vec3 vColor;
 
 void main()
 {
-	vColor = color;
-	vCoord = model * vec4(position, 1.0);
-	gl_Position = proj * view * model * vec4(position, 1.0);
+	vCoord = uni_model * vec4(attrib_position, 1.0);
+	vColor = attrib_color;
+	gl_Position = uni_proj * uni_view * uni_model * vec4(attrib_position, 1.0);
 }

@@ -65,16 +65,12 @@ namespace AttemptAt3D
 		glLinkProgram(this->shaderProgram);
 		glUseProgram(this->shaderProgram);
 
-		this->attrib_position = glGetAttribLocation(this->shaderProgram, "position");
-
-		this->attrib_color = glGetAttribLocation(this->shaderProgram, "color");
-
-		this->uni_model = glGetUniformLocation(this->shaderProgram, "model");
+		this->uni_model = glGetUniformLocation(this->shaderProgram, "uni_model");
 		// glm::mat4 model = glm::rotate(glm::mat4(1.0f), glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		glm::mat4 uni_model_val = glm::mat4(1.0f);
 		glUniformMatrix4fv(this->uni_model, 1, GL_FALSE, glm::value_ptr(uni_model_val));
 
-		this->uni_view = glGetUniformLocation(this->shaderProgram, "view");
+		this->uni_view = glGetUniformLocation(this->shaderProgram, "uni_view");
 		glm::mat4 uni_view_val = glm::lookAt(
 			glm::vec3(0.0f, -5.0f, 5.0f),
 			glm::vec3(0.0f, 0.0f, 0.0f),
@@ -82,11 +78,11 @@ namespace AttemptAt3D
 		);
 		glUniformMatrix4fv(this->uni_view, 1, GL_FALSE, glm::value_ptr(uni_view_val));
 
-		this->uni_proj = glGetUniformLocation(this->shaderProgram, "proj");
+		this->uni_proj = glGetUniformLocation(this->shaderProgram, "uni_proj");
 		glm::mat4 uni_proj_val = glm::perspective(glm::radians(45.0f), 1.0f /*aspect ratio*/, 1.0f, 10.0f);
 		glUniformMatrix4fv(this->uni_proj, 1, GL_FALSE, glm::value_ptr(uni_proj_val));
 
-		this->uni_sunRot = glGetUniformLocation(this->shaderProgram, "sunRot");
+		this->uni_sunRot = glGetUniformLocation(this->shaderProgram, "uni_sunRot");
 		glm::mat4 uni_sunRot_val;
 		{
 			glm::quat quatX = glm::angleAxis(glm::radians(0.0f), glm::vec3(1.0f, 0.0f, 0.0f));
@@ -96,13 +92,16 @@ namespace AttemptAt3D
 			uni_sunRot_val = rotY * rotX;
 		}
 		glUniformMatrix4fv(this->uni_sunRot, 1, GL_FALSE, glm::value_ptr(uni_sunRot_val));
+
+		this->attrib_position = glGetAttribLocation(this->shaderProgram, "attrib_position");
+		this->attrib_color = glGetAttribLocation(this->shaderProgram, "attrib_color");
 	}
 
 	void ShaderManager::doAttribs()
 	{
 		glEnableVertexAttribArray(this->attrib_position);
 		glVertexAttribPointer(this->attrib_position, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), 0);
-		
+
 		glEnableVertexAttribArray(this->attrib_color);
 		glVertexAttribPointer(this->attrib_color, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
 	}
