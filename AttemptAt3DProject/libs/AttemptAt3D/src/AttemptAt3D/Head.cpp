@@ -11,10 +11,37 @@ namespace AttemptAt3D
 
 	Head::Head() :
 		windowForGlfw(nullptr),
-		windowAspectRatio(1.0f),
+		_fov(glm::radians(45.0f)),
+		_aspectRatio(1.0f),
+		_nearClippingPlane(0.1f),
+		_farClippingPlane(100000.0f),
 		shaderManager(),
 		bodyManager()
 	{}
+
+	void Head::change_fov(float val)
+	{
+		this->_fov = val;
+		this->updateProjectionMatrix();
+	}
+
+	void Head::change_aspectRatio(float val)
+	{
+		this->_aspectRatio = val;
+		this->updateProjectionMatrix();
+	}
+
+	void Head::change_nearClippingPlane(float val)
+	{
+		this->_nearClippingPlane = val;
+		this->updateProjectionMatrix();
+	}
+
+	void Head::change_farClippingPlane(float val)
+	{
+		this->_farClippingPlane = val;
+		this->updateProjectionMatrix();
+	}
 	
 	/* Methods */
 
@@ -42,10 +69,6 @@ namespace AttemptAt3D
 			glewExperimental = GL_TRUE;
 			glewInit();
 		}
-
-		/* Associate `this` with the GLFW window */
-
-		glfwSetWindowUserPointer(this->windowForGlfw, this);
 
 		/* OpenGL Settings */
 
@@ -134,6 +157,11 @@ namespace AttemptAt3D
 			auto b2 = this->bodyManager.addNewBody(this->shaderManager, verts2_s, std::move(verts2), elems2_s, std::move(elems2));
 		}
 
+		/* Miscellaneous Pre-Main-Loop Tasks */
+
+		glfwSetWindowUserPointer(this->windowForGlfw, this);
+		this->updateProjectionMatrix();
+
 		/* Main Loop */
 
 		this->mainLoop();
@@ -172,15 +200,19 @@ namespace AttemptAt3D
 		glfwTerminate();
 	}
 
+	void Head::updateProjectionMatrix()
+	{
+		this->shaderManager.change_uni_projVal(
+			glm::perspective(this->_fov, this->_aspectRatio, this->_nearClippingPlane, this->_farClippingPlane)
+		);
+	}
+
 	void Head::onWindowResize(GLFWwindow* windowForGlfw, int width, int height)
 	{
 		Head* self = (Head*)glfwGetWindowUserPointer(windowForGlfw);
 
 		glViewport(0, 0, width, height);
 
-		self->windowAspectRatio = (float)width / (float)height;
-		self->shaderManager.change_uni_projVal(
-			glm::perspective(glm::radians(45.0f), self->windowAspectRatio, 1.0f, 100000.0f)
-		);
+		self->change_aspectRatio((float)width / (float)height);
 	}
 }

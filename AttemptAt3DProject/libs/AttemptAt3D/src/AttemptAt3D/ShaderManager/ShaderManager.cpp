@@ -28,6 +28,20 @@ namespace AttemptAt3D
 		uni_sunRot(-1)
 	{}
 
+	/* Getters and Setters */
+
+	void ShaderManager::change_uni_modelVal(glm::mat4&& val)
+	{ glUniformMatrix4fv(this->uni_model, 1, GL_FALSE, glm::value_ptr(val)); }
+
+	void ShaderManager::change_uni_viewVal(glm::mat4&& val)
+	{ glUniformMatrix4fv(this->uni_view, 1, GL_FALSE, glm::value_ptr(val)); }
+
+	void ShaderManager::change_uni_projVal(glm::mat4&& val)
+	{ glUniformMatrix4fv(this->uni_proj, 1, GL_FALSE, glm::value_ptr(val)); }
+
+	void ShaderManager::change_uni_sunRotVal(glm::mat4&& val)
+	{ glUniformMatrix4fv(this->uni_sunRot, 1, GL_FALSE, glm::value_ptr(val)); }
+
 	/* Methods */
 
 	void ShaderManager::compileAndActivateShaders()

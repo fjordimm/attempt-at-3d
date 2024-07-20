@@ -4,6 +4,10 @@
 #define GLEW_STATIC
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include <glm/gtx/quaternion.hpp>
 #include <string>
 #include "AttemptAt3D/BodyManager/BodyManager.hpp"
 #include "AttemptAt3D/ShaderManager/ShaderManager.hpp"
@@ -16,7 +20,10 @@ namespace AttemptAt3D
 
 	   private:
 		GLFWwindow* windowForGlfw;
-		float windowAspectRatio;
+		float _fov;
+		float _aspectRatio;
+		float _nearClippingPlane;
+		float _farClippingPlane;
 
 		ShaderManager shaderManager;
 		BodyManager bodyManager;
@@ -26,6 +33,12 @@ namespace AttemptAt3D
 	   public:
 		inline ShaderManager& get_shaderManager() { return this->shaderManager; }
 		inline BodyManager& get_bodyManager() { return this->bodyManager; }
+
+	   private:
+		void change_fov(float val);
+		void change_aspectRatio(float val);
+		void change_nearClippingPlane(float val);
+		void change_farClippingPlane(float val);
 
 		/* Constructors */
 
@@ -43,6 +56,7 @@ namespace AttemptAt3D
 	   private:
 		void mainLoop();
 		void endGlfw();
+		void updateProjectionMatrix();
 
 		/* Methods for External Use */
 
