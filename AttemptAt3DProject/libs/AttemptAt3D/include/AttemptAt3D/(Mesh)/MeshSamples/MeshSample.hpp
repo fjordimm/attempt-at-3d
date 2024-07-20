@@ -18,20 +18,17 @@ namespace AttemptAt3D::MeshSamples
 		MeshSample(const MeshSample&) = delete;
 		MeshSample& operator=(const MeshSample&) = delete;
 
-	   protected:
 		MeshSample();
 
 		/* Methods */
 
-	   protected:
-		virtual std::size_t verticesSize() { return 0; } // In bytes, not length
-		virtual const float* vertices() { return nullptr; }
-		virtual std::size_t elementsSize() { return 0; } // In bytes, not length
-		virtual const GLuint* elements() { return nullptr; }
-
-		/* Functions */
-
 	   public:
-		static std::unique_ptr<Mesh> Make();
+		std::unique_ptr<Mesh> make();
+
+	   protected:
+		virtual std::size_t verticesSize() = 0; // In bytes, not length
+		virtual const float* vertices() = 0;
+		virtual std::size_t elementsSize() = 0; // In bytes, not length
+		virtual const GLuint* elements() = 0;
 	};
 }

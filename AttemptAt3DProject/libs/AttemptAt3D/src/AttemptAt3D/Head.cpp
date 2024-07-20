@@ -91,7 +91,7 @@ namespace AttemptAt3D
 
 		/* Test vertices */
 
-		b1 = this->bodyManager.addNewBody(this->shaderManager, MeshSamples::InvertedPyramid::Make());
+		b1 = this->bodyManager.addNewBody(this->shaderManager, MeshSamples::InvertedPyramid().make());
 
 		/* Miscellaneous Pre-Main-Loop Tasks */
 
