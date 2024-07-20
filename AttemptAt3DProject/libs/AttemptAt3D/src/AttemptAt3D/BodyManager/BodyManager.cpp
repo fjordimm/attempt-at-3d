@@ -36,13 +36,13 @@ namespace AttemptAt3D
 		this->bodies.erase(bodyReference->iter);
 	}
 
-	void BodyManager::drawAllBodies()
+	void BodyManager::drawAllBodies(ShaderManager& shaderManager)
 	{
 		for (std::unique_ptr<Body>& body_ : this->bodies)
 		{
 			Body* body = &*body_;
 			
-			body->drawBody();
+			body->drawBody(shaderManager);
 		}
 	}
 

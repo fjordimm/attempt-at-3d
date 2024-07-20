@@ -180,7 +180,7 @@ namespace AttemptAt3D
 			glClearColor(0.1f, 0.0f, 0.25f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-			this->bodyManager.drawAllBodies();
+			this->bodyManager.drawAllBodies(this->shaderManager);
 
 			/* Stuff required by GLFW */
 
@@ -194,10 +194,10 @@ namespace AttemptAt3D
 				cumlTime += deltaTime;
 
 				{
-					glm::quat quatZ = glm::angleAxis(0.1f * cumlTime, glm::vec3(0.0f, 0.0f, 1.0f));
-					glm::mat4 rotZ = glm::toMat4(quatZ);
+					// glm::quat quatZ = glm::angleAxis(0.1f * cumlTime, glm::vec3(0.0f, 0.0f, 1.0f));
+					// glm::mat4 rotZ = glm::toMat4(quatZ);
 
-					this->shaderManager.change_uni_modelVal(rotZ);
+					// this->shaderManager.change_uni_modelVal(rotZ);
 				}
 
 				{

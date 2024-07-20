@@ -4,6 +4,10 @@
 #define GLEW_STATIC
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include <glm/gtx/quaternion.hpp>
 #include <memory>
 #include <vector>
 #include "AttemptAt3D/ShaderManager/ShaderManager.hpp"
@@ -13,6 +17,9 @@ namespace AttemptAt3D::_BodyManager
 	class Body
 	{
 		/* Fields */
+
+	   public:
+		glm::mat4 transform;
 
 	   private:
 		GLuint vao;
@@ -45,7 +52,7 @@ namespace AttemptAt3D::_BodyManager
 	   public:
 		void setData(std::size_t verticesLen, std::unique_ptr<float[]> vertices, std::size_t elementsLen, std::unique_ptr<GLuint[]> elements);
 		void initializeVao(ShaderManager& shaderManager);
-		void drawBody();
+		void drawBody(ShaderManager& shaderManager);
 		void cleanupForGl();
 	};
 }
