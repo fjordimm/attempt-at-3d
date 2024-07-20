@@ -7,7 +7,7 @@ namespace AttemptAt3D::Debug
 {
 	namespace _Globals
 	{
-		static std::mutex _globalMutex_Debug;
+		static std::mutex _GlobalMutex_debug;
 	}
 }
 
