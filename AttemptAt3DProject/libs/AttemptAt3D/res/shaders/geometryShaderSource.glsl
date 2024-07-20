@@ -11,7 +11,7 @@ out vec3 gNormal;
 
 void main()
 {
-	vec3 normalVector = normalize(cross((vCoord[2] - vCoord[0]).xyz, (vCoord[1] - vCoord[0]).xyz));
+	vec3 normalVector = normalize(cross((vCoord[1] - vCoord[0]).xyz, (vCoord[2] - vCoord[0]).xyz));
 
 	for (int i = 0; i < gl_in.length(); i++)
 	{

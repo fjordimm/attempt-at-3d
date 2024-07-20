@@ -193,10 +193,19 @@ namespace AttemptAt3D
 				static float cumlTime = 0.0f;
 				cumlTime += deltaTime;
 
-				glm::quat quatZ = glm::angleAxis(2.0f * cumlTime, glm::vec3(0.0f, 0.0f, 1.0f));
-				glm::mat4 rotZ = glm::toMat4(quatZ);
+				{
+					glm::quat quatZ = glm::angleAxis(0.1f * cumlTime, glm::vec3(0.0f, 0.0f, 1.0f));
+					glm::mat4 rotZ = glm::toMat4(quatZ);
 
-				this->shaderManager.change_uni_modelVal(rotZ);
+					this->shaderManager.change_uni_modelVal(rotZ);
+				}
+
+				{
+					// glm::quat quatX = glm::angleAxis(3.0f * cumlTime, glm::vec3(1.0f, 0.0f, 0.0f));
+					// glm::mat4 rotX = glm::toMat4(quatX);
+
+					// this->shaderManager.change_uni_sunRotVal(rotX);
+				}
 			}
 		}
 
