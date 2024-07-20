@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <cstring>
+#include <chrono>
 #include "AttemptAt3D/Debug/Debug.hpp"
 
 namespace AttemptAt3D
@@ -22,25 +23,25 @@ namespace AttemptAt3D
 	void Head::change_fov(float val)
 	{
 		this->_fov = val;
-		this->updateProjectionMatrix();
+		this->_updateProjectionMatrix();
 	}
 
 	void Head::change_aspectRatio(float val)
 	{
 		this->_aspectRatio = val;
-		this->updateProjectionMatrix();
+		this->_updateProjectionMatrix();
 	}
 
 	void Head::change_nearClippingPlane(float val)
 	{
 		this->_nearClippingPlane = val;
-		this->updateProjectionMatrix();
+		this->_updateProjectionMatrix();
 	}
 
 	void Head::change_farClippingPlane(float val)
 	{
 		this->_farClippingPlane = val;
-		this->updateProjectionMatrix();
+		this->_updateProjectionMatrix();
 	}
 	
 	/* Methods */
@@ -75,7 +76,7 @@ namespace AttemptAt3D
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_BACK);
-		glfwSetWindowSizeCallback(this->windowForGlfw, onWindowResize);
+		glfwSetWindowSizeCallback(this->windowForGlfw, Head::onWindowResize);
 
 		/* Activate Shaders */
 
@@ -117,9 +118,6 @@ namespace AttemptAt3D
 			std::unique_ptr<GLuint[]> elems1(new GLuint[elems1_s]);
 			std::memcpy(elems1.get(), elems1_, sizeof(elems1_));
 
-
-			///////////////////
-
 			const float verts2_[] =
 			{
 				// X      Y      Z         R    G    B
@@ -159,8 +157,8 @@ namespace AttemptAt3D
 
 		/* Miscellaneous Pre-Main-Loop Tasks */
 
-		glfwSetWindowUserPointer(this->windowForGlfw, this);
-		this->updateProjectionMatrix();
+		glfwSetWindowUserPointer(this->windowForGlfw, this); // passes a pointer to this Head to OpenGL
+		this->_updateProjectionMatrix();
 
 		/* Main Loop */
 
@@ -171,6 +169,10 @@ namespace AttemptAt3D
 	{
 		while (!glfwWindowShouldClose(this->windowForGlfw))
 		{
+			/* Calculate Delta Time */
+
+			float deltaTime = Head::calculateDeltaTime();
+
 			/* Process inputs */
 
 			/* Render everything */
@@ -185,9 +187,17 @@ namespace AttemptAt3D
 			glfwPollEvents();
 			glfwSwapBuffers(this->windowForGlfw);
 
+			///////////////////
 
+			{
+				static float cumlTime = 0.0f;
+				cumlTime += deltaTime;
 
-			// this->shaderManager.change_uni_viewVal(glm::lookAt(glm::vec3(0.0f, -9.0f, 9.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f)));
+				glm::quat quatZ = glm::angleAxis(2.0f * cumlTime, glm::vec3(0.0f, 0.0f, 1.0f));
+				glm::mat4 rotZ = glm::toMat4(quatZ);
+
+				this->shaderManager.change_uni_modelVal(rotZ);
+			}
 		}
 
 		this->endGlfw();
@@ -200,7 +210,7 @@ namespace AttemptAt3D
 		glfwTerminate();
 	}
 
-	void Head::updateProjectionMatrix()
+	void Head::_updateProjectionMatrix()
 	{
 		this->shaderManager.change_uni_projVal(
 			glm::perspective(this->_fov, this->_aspectRatio, this->_nearClippingPlane, this->_farClippingPlane)
@@ -214,5 +224,18 @@ namespace AttemptAt3D
 		glViewport(0, 0, width, height);
 
 		self->change_aspectRatio((float)width / (float)height);
+	}
+
+	float Head::calculateDeltaTime()
+	{
+		using std::chrono::steady_clock;
+		using std::chrono::duration;
+
+		static steady_clock::time_point timePoint = steady_clock::now();
+		steady_clock::time_point oldTimePoint = timePoint;
+		timePoint = steady_clock::now();
+
+		duration<float> timeElapsed = std::chrono::duration_cast<duration<float>>(timePoint - oldTimePoint);
+		return timeElapsed.count();
 	}
 }

@@ -56,11 +56,12 @@ namespace AttemptAt3D
 	   private:
 		void mainLoop();
 		void endGlfw();
-		void updateProjectionMatrix();
+		void _updateProjectionMatrix();
 
 		/* Methods for External Use */
 
 	   public:
 		static void onWindowResize(GLFWwindow* windowForGlfw, int width, int height);
+		static float calculateDeltaTime(); // In nanoseconds
 	};
 }

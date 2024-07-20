@@ -32,10 +32,10 @@ namespace AttemptAt3D
 		/* Getters and Setters */
 
 	   public:
-		void change_uni_modelVal(glm::mat4&& val);
-		void change_uni_viewVal(glm::mat4&& val);
-		void change_uni_projVal(glm::mat4&& val);
-		void change_uni_sunRotVal(glm::mat4&& val);
+		void change_uni_modelVal(const glm::mat4& val);
+		void change_uni_viewVal(const glm::mat4& val);
+		void change_uni_projVal(const glm::mat4& val);
+		void change_uni_sunRotVal(const glm::mat4& val);
 
 		/* Constructors */
 
