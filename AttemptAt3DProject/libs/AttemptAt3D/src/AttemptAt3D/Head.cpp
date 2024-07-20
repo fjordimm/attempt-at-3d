@@ -204,8 +204,11 @@ namespace AttemptAt3D
 					b1->access_bodyTransform() *= rotZ;
 				}
 
-				if (cumlTime > 1000.0f)
+				static bool alreadyDone = false;
+				if (!alreadyDone && cumlTime > 1000.0f)
 				{
+					alreadyDone = true;
+
 					const float verts2_[] =
 					{
 						// X      Y      Z         R    G    B
