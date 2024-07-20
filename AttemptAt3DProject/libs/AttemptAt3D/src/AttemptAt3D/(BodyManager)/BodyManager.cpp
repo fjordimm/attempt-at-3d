@@ -1,9 +1,9 @@
 
-#include "AttemptAt3D/BodyManager/BodyManager.hpp"
+#include "AttemptAt3D/(BodyManager)/BodyManager.hpp"
 
 #include <cstdio>
 #include <iostream>
-#include "AttemptAt3D/Debug/Debug.hpp"
+#include "AttemptAt3D/(Debug)/Debug.hpp"
 
 namespace AttemptAt3D
 {
@@ -17,10 +17,10 @@ namespace AttemptAt3D
 
 	/* Methods */
 
-	std::unique_ptr<BodyReference> BodyManager::addNewBody(ShaderManager& shaderManager, std::size_t verticesLen, std::unique_ptr<float[]> vertices, std::size_t elementsLen, std::unique_ptr<GLuint[]> elements)
+	std::unique_ptr<BodyReference> BodyManager::addNewBody(ShaderManager& shaderManager, std::unique_ptr<Mesh> mesh)
 	{
 		std::unique_ptr<Body> body = std::make_unique<Body>();
-		body->setData(verticesLen, std::move(vertices), elementsLen, std::move(elements));
+		body->setMesh(std::move(mesh));
 		body->initializeVao(shaderManager);
 		this->bodies.push_back(std::move(body));
 

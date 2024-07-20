@@ -6,9 +6,11 @@
 #include <GLFW/glfw3.h>
 #include <list>
 #include <memory>
-#include "AttemptAt3D/BodyManager/_BodyManager/Body.hpp"
-#include "AttemptAt3D/BodyManager/BodyReference.hpp"
-#include "AttemptAt3D/ShaderManager/ShaderManager.hpp"
+#include <cstdlib>
+#include "AttemptAt3D/(BodyManager)/_BodyManager/Body.hpp"
+#include "AttemptAt3D/(BodyManager)/BodyReference.hpp"
+#include "AttemptAt3D/(ShaderManager)/ShaderManager.hpp"
+#include "AttemptAt3D/(Mesh)/Mesh.hpp"
 
 namespace AttemptAt3D
 {
@@ -30,7 +32,7 @@ namespace AttemptAt3D
 		/* Methods */
 
 	   public:
-		std::unique_ptr<BodyReference> addNewBody(ShaderManager& shaderManager, std::size_t verticesLen, std::unique_ptr<float[]> vertices, std::size_t elementsLen, std::unique_ptr<GLuint[]> elements);
+		std::unique_ptr<BodyReference> addNewBody(ShaderManager& shaderManager, std::unique_ptr<Mesh> mesh);
 		void removeBody(std::unique_ptr<BodyReference> bodyReference); // since the parameter is a unique_ptr to the BodyReference, it doesn't move it anywhere else so it implicitly deletes it
 		void drawAllBodies(ShaderManager& shaderManager);
 		void cleanupForGl();

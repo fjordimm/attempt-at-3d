@@ -9,8 +9,8 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/quaternion.hpp>
 #include <string>
-#include "AttemptAt3D/BodyManager/BodyManager.hpp"
-#include "AttemptAt3D/ShaderManager/ShaderManager.hpp"
+#include "AttemptAt3D/(BodyManager)/BodyManager.hpp"
+#include "AttemptAt3D/(ShaderManager)/ShaderManager.hpp"
 
 namespace AttemptAt3D
 {

@@ -1,9 +1,9 @@
 
-#include "AttemptAt3D/ShaderManager/ShaderManager.hpp"
+#include "AttemptAt3D/(ShaderManager)/ShaderManager.hpp"
 
 #include <cstdio>
-#include "AttemptAt3D/FileLoading/FileLoading.hpp"
-#include "AttemptAt3D/Debug/Debug.hpp"
+#include "AttemptAt3D/(FileLoading)/FileLoading.hpp"
+#include "AttemptAt3D/(Debug)/Debug.hpp"
 
 namespace AttemptAt3D
 {

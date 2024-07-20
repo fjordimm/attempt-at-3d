@@ -1,6 +1,6 @@
 
 #include "AttemptAt3D/Head.hpp"
-#include "AttemptAt3D/Debug/Debug.hpp"
+#include "AttemptAt3D/(Debug)/Debug.hpp"
 
 int main(void)
 {

@@ -1,7 +1,7 @@
 
-#include "AttemptAt3D/BodyManager/_BodyManager/Body.hpp"
+#include "AttemptAt3D/(BodyManager)/_BodyManager/Body.hpp"
 
-#include "AttemptAt3D/Debug/Debug.hpp"
+#include "AttemptAt3D/(Debug)/Debug.hpp"
 
 namespace AttemptAt3D::_BodyManager
 {
@@ -12,20 +12,14 @@ namespace AttemptAt3D::_BodyManager
 		vao(-1),
 		vbo(-1),
 		ebo(-1),
-		verticesLen(0),
-		vertices(nullptr),
-		elementsLen(0),
-		elements(nullptr)
+		mesh(nullptr)
 	{}
 
 	/* Methods */
 
-	void Body::setData(std::size_t verticesLen, std::unique_ptr<float[]> vertices, std::size_t elementsLen, std::unique_ptr<GLuint[]> elements)
+	void Body::setMesh(std::unique_ptr<Mesh> mesh)
 	{
-		this->verticesLen = verticesLen;
-		this->vertices = std::move(vertices);
-		this->elementsLen = elementsLen;
-		this->elements = std::move(elements);
+		this->mesh = std::move(mesh);
 	}
 
 	void Body::initializeVao(ShaderManager& shaderManager)
@@ -39,8 +33,8 @@ namespace AttemptAt3D::_BodyManager
 		glGenBuffers(1, &this->ebo);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->ebo);
 
-		glBufferData(GL_ARRAY_BUFFER, this->verticesLen * sizeof(this->vertices[0]), this->vertices.get(), GL_DYNAMIC_DRAW);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->elementsLen * sizeof(this->elements[0]), this->elements.get(), GL_DYNAMIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, this->mesh->verticesLen * sizeof(this->mesh->vertices[0]), this->mesh->vertices.get(), GL_DYNAMIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->mesh->elementsLen * sizeof(this->mesh->elements[0]), this->mesh->elements.get(), GL_DYNAMIC_DRAW);
 
 		shaderManager.doAttribs();
 
@@ -52,7 +46,7 @@ namespace AttemptAt3D::_BodyManager
 		glBindVertexArray(this->vao);
 
 		shaderManager.change_uni_modelVal(this->transform);
-		glDrawElements(GL_TRIANGLES, this->elementsLen, GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, this->mesh->elementsLen, GL_UNSIGNED_INT, 0);
 
 		glBindVertexArray(0);
 	}

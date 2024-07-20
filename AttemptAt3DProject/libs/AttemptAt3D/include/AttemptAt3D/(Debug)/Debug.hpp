@@ -11,4 +11,4 @@ namespace AttemptAt3D::Debug
 	}
 }
 
-#include "AttemptAt3D/Debug/Debug_logging.hpp"
+#include "AttemptAt3D/(Debug)/Debug_logging.hpp"

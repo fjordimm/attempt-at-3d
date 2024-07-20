@@ -1,6 +1,6 @@
 
-#include "AttemptAt3D/Debug/Debug.hpp"
-#include "AttemptAt3D/Debug/Debug_logging.hpp"
+#include "AttemptAt3D/(Debug)/Debug.hpp"
+#include "AttemptAt3D/(Debug)/Debug_logging.hpp"
 
 #include <cstdio>
 #include <cstdarg>

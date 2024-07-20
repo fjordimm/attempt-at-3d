@@ -2,14 +2,15 @@
 configure_file(CMakeConfig.h.in CMakeConfig.h)
 
 add_executable(AttemptAt3DExec
-	src/AttemptAt3D/Program.cpp
-	src/AttemptAt3D/Head.cpp
-	src/AttemptAt3D/Debug/Debug_logging.cpp
-	src/AttemptAt3D/FileLoading/FileLoading.cpp
-	src/AttemptAt3D/ShaderManager/ShaderManager.cpp
-	src/AttemptAt3D/BodyManager/BodyManager.cpp
-	src/AttemptAt3D/BodyManager/_BodyManager/Body.cpp
-	src/AttemptAt3D/BodyManager/BodyReference.cpp
+	"src/AttemptAt3D/Program.cpp"
+	"src/AttemptAt3D/Head.cpp"
+	"src/AttemptAt3D/(Debug)/Debug_logging.cpp"
+	"src/AttemptAt3D/(FileLoading)/FileLoading.cpp"
+	"src/AttemptAt3D/(ShaderManager)/ShaderManager.cpp"
+	"src/AttemptAt3D/(BodyManager)/BodyManager.cpp"
+	"src/AttemptAt3D/(BodyManager)/_BodyManager/Body.cpp"
+	"src/AttemptAt3D/(BodyManager)/BodyReference.cpp"
+	"src/AttemptAt3D/(Mesh)/Mesh.cpp"
 )
 
 target_include_directories(AttemptAt3DExec PUBLIC include)

@@ -7,7 +7,7 @@
 #include <glm/gtx/quaternion.hpp>
 #include <list>
 #include <memory>
-#include "AttemptAt3D/BodyManager/_BodyManager/Body.hpp"
+#include "AttemptAt3D/(BodyManager)/_BodyManager/Body.hpp"
 
 namespace AttemptAt3D
 {

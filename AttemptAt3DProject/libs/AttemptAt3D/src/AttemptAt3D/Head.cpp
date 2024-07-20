@@ -4,7 +4,9 @@
 #include <memory>
 #include <cstring>
 #include <chrono>
-#include "AttemptAt3D/Debug/Debug.hpp"
+#include <cstdlib>
+#include "AttemptAt3D/(Debug)/Debug.hpp"
+#include "AttemptAt3D/(Mesh)/Mesh.hpp"
 
 namespace AttemptAt3D
 {
@@ -122,40 +124,42 @@ namespace AttemptAt3D
 			std::unique_ptr<GLuint[]> elems1(new GLuint[elems1_s]);
 			std::memcpy(elems1.get(), elems1_, sizeof(elems1_));
 
-			const float verts2_[] =
-			{
-				// X      Y      Z         R    G    B
-				-0.3f, +0.3f, +1.8f,     0.0f,1.0f,0.0f,
-				-0.3f, -0.3f, +1.8f,     0.0f,1.0f,0.0f,
-				+0.3f, +0.3f, +1.8f,     0.0f,1.0f,0.0f,
-				+0.3f, -0.3f, +1.8f,     0.0f,1.0f,0.0f,
+			std::unique_ptr<Mesh> mesh1 = std::make_unique<Mesh>(verts1_s, std::move(verts1), elems1_s, std::move(elems1));
+
+			// const float verts2_[] =
+			// {
+			// 	// X      Y      Z         R    G    B
+			// 	-0.3f, +0.3f, +1.8f,     0.0f,1.0f,0.0f,
+			// 	-0.3f, -0.3f, +1.8f,     0.0f,1.0f,0.0f,
+			// 	+0.3f, +0.3f, +1.8f,     0.0f,1.0f,0.0f,
+			// 	+0.3f, -0.3f, +1.8f,     0.0f,1.0f,0.0f,
 				
-				-0.3f, -0.3f, +1.8f,     0.0f,1.0f,0.0f,
-				+0.0f, +0.0f, +1.0f,     0.0f,1.0f,0.0f,
-				+0.3f, -0.3f, +1.8f,     0.0f,1.0f,0.0f,
+			// 	-0.3f, -0.3f, +1.8f,     0.0f,1.0f,0.0f,
+			// 	+0.0f, +0.0f, +1.0f,     0.0f,1.0f,0.0f,
+			// 	+0.3f, -0.3f, +1.8f,     0.0f,1.0f,0.0f,
 				
-				+0.3f, -0.3f, +1.8f,     0.0f,1.0f,0.0f,
-				+0.0f, +0.0f, +1.0f,     0.0f,1.0f,0.0f,
-				+0.3f, +0.3f, +1.8f,     0.0f,1.0f,0.0f,
-			};
-			const std::size_t verts2_s = sizeof(verts2_) / sizeof(verts2_[0]);
-			std::unique_ptr<float[]> verts2(new float[verts2_s]);
-			std::memcpy(verts2.get(), verts2_, sizeof(verts2_));
+			// 	+0.3f, -0.3f, +1.8f,     0.0f,1.0f,0.0f,
+			// 	+0.0f, +0.0f, +1.0f,     0.0f,1.0f,0.0f,
+			// 	+0.3f, +0.3f, +1.8f,     0.0f,1.0f,0.0f,
+			// };
+			// const std::size_t verts2_s = sizeof(verts2_) / sizeof(verts2_[0]);
+			// std::unique_ptr<float[]> verts2(new float[verts2_s]);
+			// std::memcpy(verts2.get(), verts2_, sizeof(verts2_));
 
-			const GLuint _elems2[] =
-			{
-				0, 1, 2,
-				3, 2, 1,
+			// const GLuint _elems2[] =
+			// {
+			// 	0, 1, 2,
+			// 	3, 2, 1,
 
-				4, 5, 6,
+			// 	4, 5, 6,
 
-				7, 8, 9
-			};
-			const std::size_t elems2_s = sizeof(_elems2) / sizeof(_elems2[0]);
-			std::unique_ptr<GLuint[]> elems2(new GLuint[elems2_s]);
-			std::memcpy(elems2.get(), _elems2, sizeof(_elems2));
+			// 	7, 8, 9
+			// };
+			// const std::size_t elems2_s = sizeof(_elems2) / sizeof(_elems2[0]);
+			// std::unique_ptr<GLuint[]> elems2(new GLuint[elems2_s]);
+			// std::memcpy(elems2.get(), _elems2, sizeof(_elems2));
 
-			b1 = this->bodyManager.addNewBody(this->shaderManager, verts1_s, std::move(verts1), elems1_s, std::move(elems1));
+			b1 = this->bodyManager.addNewBody(this->shaderManager, std::move(mesh1));
 			// b2 = this->bodyManager.addNewBody(this->shaderManager, verts2_s, std::move(verts2), elems2_s, std::move(elems2));
 		}
 
@@ -194,64 +198,64 @@ namespace AttemptAt3D
 			///////////////////
 
 			{
-				static float cumlTime = 0.0f;
-				cumlTime += deltaTime;
+				// static float cumlTime = 0.0f;
+				// cumlTime += deltaTime;
 
-				{
-					glm::quat quatZ = glm::angleAxis(0.0006f * deltaTime, glm::vec3(0.0f, 0.0f, 1.0f));
-					glm::mat4 rotZ = glm::toMat4(quatZ);
+				// {
+				// 	glm::quat quatZ = glm::angleAxis(0.0006f * deltaTime, glm::vec3(0.0f, 0.0f, 1.0f));
+				// 	glm::mat4 rotZ = glm::toMat4(quatZ);
 
-					b1->access_bodyTransform() *= rotZ;
-				}
+				// 	b1->access_bodyTransform() *= rotZ;
+				// }
 
-				static bool alreadyDone = false;
-				if (!alreadyDone && cumlTime > 1000.0f)
-				{
-					alreadyDone = true;
+				// static bool alreadyDone = false;
+				// if (!alreadyDone && cumlTime > 1000.0f)
+				// {
+				// 	alreadyDone = true;
 
-					const float verts2_[] =
-					{
-						// X      Y      Z         R    G    B
-						-0.3f, +0.3f, +1.8f,     0.0f,1.0f,0.0f,
-						-0.3f, -0.3f, +1.8f,     0.0f,1.0f,0.0f,
-						+0.3f, +0.3f, +1.8f,     0.0f,1.0f,0.0f,
-						+0.3f, -0.3f, +1.8f,     0.0f,1.0f,0.0f,
+				// 	const float verts2_[] =
+				// 	{
+				// 		// X      Y      Z         R    G    B
+				// 		-0.3f, +0.3f, +1.8f,     0.0f,1.0f,0.0f,
+				// 		-0.3f, -0.3f, +1.8f,     0.0f,1.0f,0.0f,
+				// 		+0.3f, +0.3f, +1.8f,     0.0f,1.0f,0.0f,
+				// 		+0.3f, -0.3f, +1.8f,     0.0f,1.0f,0.0f,
 						
-						-0.3f, -0.3f, +1.8f,     0.0f,1.0f,0.0f,
-						+0.0f, +0.0f, +1.0f,     0.0f,1.0f,0.0f,
-						+0.3f, -0.3f, +1.8f,     0.0f,1.0f,0.0f,
+				// 		-0.3f, -0.3f, +1.8f,     0.0f,1.0f,0.0f,
+				// 		+0.0f, +0.0f, +1.0f,     0.0f,1.0f,0.0f,
+				// 		+0.3f, -0.3f, +1.8f,     0.0f,1.0f,0.0f,
 						
-						+0.3f, -0.3f, +1.8f,     0.0f,1.0f,0.0f,
-						+0.0f, +0.0f, +1.0f,     0.0f,1.0f,0.0f,
-						+0.3f, +0.3f, +1.8f,     0.0f,1.0f,0.0f,
-					};
-					const std::size_t verts2_s = sizeof(verts2_) / sizeof(verts2_[0]);
-					std::unique_ptr<float[]> verts2(new float[verts2_s]);
-					std::memcpy(verts2.get(), verts2_, sizeof(verts2_));
+				// 		+0.3f, -0.3f, +1.8f,     0.0f,1.0f,0.0f,
+				// 		+0.0f, +0.0f, +1.0f,     0.0f,1.0f,0.0f,
+				// 		+0.3f, +0.3f, +1.8f,     0.0f,1.0f,0.0f,
+				// 	};
+				// 	const std::size_t verts2_s = sizeof(verts2_) / sizeof(verts2_[0]);
+				// 	std::unique_ptr<float[]> verts2(new float[verts2_s]);
+				// 	std::memcpy(verts2.get(), verts2_, sizeof(verts2_));
 
-					const GLuint _elems2[] =
-					{
-						0, 1, 2,
-						3, 2, 1,
+				// 	const GLuint _elems2[] =
+				// 	{
+				// 		0, 1, 2,
+				// 		3, 2, 1,
 
-						4, 5, 6,
+				// 		4, 5, 6,
 
-						7, 8, 9
-					};
-					const std::size_t elems2_s = sizeof(_elems2) / sizeof(_elems2[0]);
-					std::unique_ptr<GLuint[]> elems2(new GLuint[elems2_s]);
-					std::memcpy(elems2.get(), _elems2, sizeof(_elems2));
+				// 		7, 8, 9
+				// 	};
+				// 	const std::size_t elems2_s = sizeof(_elems2) / sizeof(_elems2[0]);
+				// 	std::unique_ptr<GLuint[]> elems2(new GLuint[elems2_s]);
+				// 	std::memcpy(elems2.get(), _elems2, sizeof(_elems2));
 
-					b2 = this->bodyManager.addNewBody(this->shaderManager, verts2_s, std::move(verts2), elems2_s, std::move(elems2));
-				}
+				// 	b2 = this->bodyManager.addNewBody(this->shaderManager, verts2_s, std::move(verts2), elems2_s, std::move(elems2));
+				// }
 
-				if (b2)
-				{
-					glm::quat quatZ = glm::angleAxis(-0.0006f * deltaTime, glm::vec3(0.0f, 0.0f, 1.0f));
-					glm::mat4 rotZ = glm::toMat4(quatZ);
+				// if (b2)
+				// {
+				// 	glm::quat quatZ = glm::angleAxis(-0.0006f * deltaTime, glm::vec3(0.0f, 0.0f, 1.0f));
+				// 	glm::mat4 rotZ = glm::toMat4(quatZ);
 
-					b2->access_bodyTransform() *= rotZ;
-				}
+				// 	b2->access_bodyTransform() *= rotZ;
+				// }
 
 				{
 					// glm::quat quatX = glm::angleAxis(3.0f * cumlTime, glm::vec3(1.0f, 0.0f, 0.0f));
