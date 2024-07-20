@@ -3,11 +3,12 @@
 
 namespace AttemptAt3D
 {
+	using Body = _BodyManager::Body;
+
 	/* Constructors */
 
-	BodyReference::BodyReference() :
+	BodyReference::BodyReference(Body* bodyPtr) :
+		bodyPtr(bodyPtr),
 		iter{}
 	{}
-
-	/* Methods */
 }

@@ -47,44 +47,9 @@ namespace AttemptAt3D::_BodyManager
 		glBindVertexArray(0);
 	}
 
-	float TEMP_calculateDeltaTime()
-	{
-		using std::chrono::steady_clock;
-		using std::chrono::duration;
-
-		static steady_clock::time_point timePoint = steady_clock::now();
-		steady_clock::time_point oldTimePoint = timePoint;
-		timePoint = steady_clock::now();
-
-		duration<float> timeElapsed = std::chrono::duration_cast<duration<float>>(timePoint - oldTimePoint);
-		return timeElapsed.count();
-	}
-
 	void Body::drawBody(ShaderManager& shaderManager)
 	{
 		glBindVertexArray(this->vao);
-
-		{
-			// static float cumlTime = 0.0f;
-			// cumlTime += TEMP_calculateDeltaTime();
-
-			float deltaTime = TEMP_calculateDeltaTime();
-
-			if (this->vao == 1)
-			{
-				glm::quat quatZ = glm::angleAxis(-0.9f * deltaTime, glm::vec3(0.0f, 0.0f, 1.0f));
-				glm::mat4 rotZ = glm::toMat4(quatZ);
-
-				this->transform = rotZ * this->transform;
-			}
-			else
-			{
-				glm::quat quatZ = glm::angleAxis(0.9f * deltaTime, glm::vec3(0.0f, 0.0f, 1.0f));
-				glm::mat4 rotZ = glm::toMat4(quatZ);
-
-				this->transform = rotZ * this->transform;
-			}
-		}
 
 		shaderManager.change_uni_modelVal(this->transform);
 		glDrawElements(GL_TRIANGLES, this->elementsLen, GL_UNSIGNED_INT, 0);

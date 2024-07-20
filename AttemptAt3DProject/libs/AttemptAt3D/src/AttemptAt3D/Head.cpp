@@ -8,6 +8,10 @@
 
 namespace AttemptAt3D
 {
+	// TODO: delete
+	static std::unique_ptr<AttemptAt3D::BodyReference> b1;
+	static std::unique_ptr<AttemptAt3D::BodyReference> b2;
+
 	/* Constructors */
 
 	Head::Head() :
@@ -151,8 +155,8 @@ namespace AttemptAt3D
 			std::unique_ptr<GLuint[]> elems2(new GLuint[elems2_s]);
 			std::memcpy(elems2.get(), _elems2, sizeof(_elems2));
 
-			auto b1 = this->bodyManager.addNewBody(this->shaderManager, verts1_s, std::move(verts1), elems1_s, std::move(elems1));
-			auto b2 = this->bodyManager.addNewBody(this->shaderManager, verts2_s, std::move(verts2), elems2_s, std::move(elems2));
+			b1 = this->bodyManager.addNewBody(this->shaderManager, verts1_s, std::move(verts1), elems1_s, std::move(elems1));
+			b2 = this->bodyManager.addNewBody(this->shaderManager, verts2_s, std::move(verts2), elems2_s, std::move(elems2));
 		}
 
 		/* Miscellaneous Pre-Main-Loop Tasks */
@@ -190,14 +194,21 @@ namespace AttemptAt3D
 			///////////////////
 
 			{
-				static float cumlTime = 0.0f;
-				cumlTime += deltaTime;
+				// static float cumlTime = 0.0f;
+				// cumlTime += deltaTime;
 
 				{
-					// glm::quat quatZ = glm::angleAxis(0.1f * cumlTime, glm::vec3(0.0f, 0.0f, 1.0f));
-					// glm::mat4 rotZ = glm::toMat4(quatZ);
+					glm::quat quatZ = glm::angleAxis(0.6f * deltaTime, glm::vec3(0.0f, 0.0f, 1.0f));
+					glm::mat4 rotZ = glm::toMat4(quatZ);
 
-					// this->shaderManager.change_uni_modelVal(rotZ);
+					b1->access_bodyTransform() = rotZ * b1->access_bodyTransform();
+				}
+
+				{
+					glm::quat quatZ = glm::angleAxis(-0.6f * deltaTime, glm::vec3(0.0f, 0.0f, 1.0f));
+					glm::mat4 rotZ = glm::toMat4(quatZ);
+
+					b2->access_bodyTransform() = rotZ * b2->access_bodyTransform();
 				}
 
 				{

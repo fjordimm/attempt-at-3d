@@ -24,7 +24,7 @@ namespace AttemptAt3D
 		body->initializeVao(shaderManager);
 		this->bodies.push_back(std::move(body));
 
-		std::unique_ptr<BodyReference> ret = std::make_unique<BodyReference>();
+		std::unique_ptr<BodyReference> ret = std::make_unique<BodyReference>(&*(this->bodies.back()));
 		ret->iter = this->bodies.cend();
 		ret->iter--; // sets it to the actual end
 
