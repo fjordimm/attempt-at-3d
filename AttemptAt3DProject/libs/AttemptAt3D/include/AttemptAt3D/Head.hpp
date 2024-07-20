@@ -16,6 +16,7 @@ namespace AttemptAt3D
 
 	   private:
 		GLFWwindow* windowForGlfw;
+		float windowAspectRatio;
 
 		ShaderManager shaderManager;
 		BodyManager bodyManager;

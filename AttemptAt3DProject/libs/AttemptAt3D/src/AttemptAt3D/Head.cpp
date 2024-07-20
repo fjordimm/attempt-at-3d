@@ -11,6 +11,7 @@ namespace AttemptAt3D
 
 	Head::Head() :
 		windowForGlfw(nullptr),
+		windowAspectRatio(1.0f),
 		shaderManager(),
 		bodyManager()
 	{}
@@ -158,7 +159,7 @@ namespace AttemptAt3D
 
 
 
-			this->shaderManager.change_uni_viewVal(glm::lookAt(glm::vec3(0.0f, -9.0f, 9.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f)));
+			// this->shaderManager.change_uni_viewVal(glm::lookAt(glm::vec3(0.0f, -9.0f, 9.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f)));
 		}
 
 		this->endGlfw();
@@ -176,5 +177,10 @@ namespace AttemptAt3D
 		Head* self = (Head*)glfwGetWindowUserPointer(windowForGlfw);
 
 		glViewport(0, 0, width, height);
+
+		self->windowAspectRatio = (float)width / (float)height;
+		self->shaderManager.change_uni_projVal(
+			glm::perspective(glm::radians(45.0f), self->windowAspectRatio, 1.0f, 100000.0f)
+		);
 	}
 }
