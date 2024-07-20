@@ -84,7 +84,7 @@ namespace AttemptAt3D
 		/* Test vertices */
 
 		{
-			const float _verts1[] =
+			const float verts1_[] =
 			{
 				// X      Y      Z         R    G    B
 				-0.3f, +0.3f, +0.8f,     1.0f,0.0f,0.0f,
@@ -100,11 +100,11 @@ namespace AttemptAt3D
 				+0.0f, +0.0f, +0.0f,     1.0f,0.0f,0.0f,
 				+0.3f, +0.3f, +0.8f,     1.0f,0.0f,0.0f,
 			};
-			const std::size_t verts1_s = sizeof(_verts1) / sizeof(_verts1[0]);
+			const std::size_t verts1_s = sizeof(verts1_) / sizeof(verts1_[0]);
 			std::unique_ptr<float[]> verts1(new float[verts1_s]);
-			std::memcpy(verts1.get(), _verts1, sizeof(_verts1));
+			std::memcpy(verts1.get(), verts1_, sizeof(verts1_));
 
-			const GLuint _elems1[] =
+			const GLuint elems1_[] =
 			{
 				0, 1, 2,
 				3, 2, 1,
@@ -113,14 +113,14 @@ namespace AttemptAt3D
 
 				7, 8, 9
 			};
-			const std::size_t elems1_s = sizeof(_elems1) / sizeof(_elems1[0]);
+			const std::size_t elems1_s = sizeof(elems1_) / sizeof(elems1_[0]);
 			std::unique_ptr<GLuint[]> elems1(new GLuint[elems1_s]);
-			std::memcpy(elems1.get(), _elems1, sizeof(_elems1));
+			std::memcpy(elems1.get(), elems1_, sizeof(elems1_));
 
 
 			///////////////////
 
-			const float _verts2[] =
+			const float verts2_[] =
 			{
 				// X      Y      Z         R    G    B
 				-0.3f, +0.3f, +1.8f,     0.0f,1.0f,0.0f,
@@ -136,9 +136,9 @@ namespace AttemptAt3D
 				+0.0f, +0.0f, +1.0f,     0.0f,1.0f,0.0f,
 				+0.3f, +0.3f, +1.8f,     0.0f,1.0f,0.0f,
 			};
-			const std::size_t verts2_s = sizeof(_verts2) / sizeof(_verts2[0]);
+			const std::size_t verts2_s = sizeof(verts2_) / sizeof(verts2_[0]);
 			std::unique_ptr<float[]> verts2(new float[verts2_s]);
-			std::memcpy(verts2.get(), _verts2, sizeof(_verts2));
+			std::memcpy(verts2.get(), verts2_, sizeof(verts2_));
 
 			const GLuint _elems2[] =
 			{

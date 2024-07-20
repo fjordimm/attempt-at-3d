@@ -38,9 +38,9 @@ namespace AttemptAt3D
 
 	void BodyManager::drawAllBodies()
 	{
-		for (std::unique_ptr<Body>& body_r : this->bodies)
+		for (std::unique_ptr<Body>& body_ : this->bodies)
 		{
-			Body* body = body_r.get();
+			Body* body = &*body_;
 			
 			body->drawBody();
 		}
@@ -48,9 +48,9 @@ namespace AttemptAt3D
 
 	void BodyManager::cleanupForGl()
 	{
-		for (std::unique_ptr<Body>& body_r : this->bodies)
+		for (std::unique_ptr<Body>& body_ : this->bodies)
 		{
-			Body* body = body_r.get();
+			Body* body = &*body_;
 
 			body->cleanupForGl();
 		}
