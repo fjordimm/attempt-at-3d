@@ -2,10 +2,6 @@
 #include "AttemptAt3D/ShaderManager/ShaderManager.hpp"
 
 #include <cstdio>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include <glm/gtx/quaternion.hpp>
 #include "AttemptAt3D/FileLoading/FileLoading.hpp"
 #include "AttemptAt3D/Debug/Debug.hpp"
 
@@ -67,31 +63,31 @@ namespace AttemptAt3D
 
 		this->uni_model = glGetUniformLocation(this->shaderProgram, "uni_model");
 		// glm::mat4 model = glm::rotate(glm::mat4(1.0f), glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-		glm::mat4 uni_model_val = glm::mat4(1.0f);
-		glUniformMatrix4fv(this->uni_model, 1, GL_FALSE, glm::value_ptr(uni_model_val));
+		glm::mat4 uni_modelVal = glm::mat4(1.0f);
+		glUniformMatrix4fv(this->uni_model, 1, GL_FALSE, glm::value_ptr(uni_modelVal));
 
 		this->uni_view = glGetUniformLocation(this->shaderProgram, "uni_view");
-		glm::mat4 uni_view_val = glm::lookAt(
+		glm::mat4 uni_viewVal = glm::lookAt(
 			glm::vec3(0.0f, -5.0f, 5.0f),
 			glm::vec3(0.0f, 0.0f, 0.0f),
 			glm::vec3(0.0f, 0.0f, 1.0f)
 		);
-		glUniformMatrix4fv(this->uni_view, 1, GL_FALSE, glm::value_ptr(uni_view_val));
+		glUniformMatrix4fv(this->uni_view, 1, GL_FALSE, glm::value_ptr(uni_viewVal));
 
 		this->uni_proj = glGetUniformLocation(this->shaderProgram, "uni_proj");
-		glm::mat4 uni_proj_val = glm::perspective(glm::radians(45.0f), 1.0f /*aspect ratio*/, 1.0f, 10.0f);
-		glUniformMatrix4fv(this->uni_proj, 1, GL_FALSE, glm::value_ptr(uni_proj_val));
+		glm::mat4 uni_projVal = glm::perspective(glm::radians(45.0f), 1.0f /*aspect ratio*/, 1.0f, 100000.0f);
+		glUniformMatrix4fv(this->uni_proj, 1, GL_FALSE, glm::value_ptr(uni_projVal));
 
 		this->uni_sunRot = glGetUniformLocation(this->shaderProgram, "uni_sunRot");
-		glm::mat4 uni_sunRot_val;
+		glm::mat4 uni_sunRotVal;
 		{
 			glm::quat quatX = glm::angleAxis(glm::radians(0.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 			glm::mat4 rotX = glm::toMat4(quatX);
 			glm::quat quatY = glm::angleAxis(glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 			glm::mat4 rotY = glm::toMat4(quatY);
-			uni_sunRot_val = rotY * rotX;
+			uni_sunRotVal = rotY * rotX;
 		}
-		glUniformMatrix4fv(this->uni_sunRot, 1, GL_FALSE, glm::value_ptr(uni_sunRot_val));
+		glUniformMatrix4fv(this->uni_sunRot, 1, GL_FALSE, glm::value_ptr(uni_sunRotVal));
 
 		this->attrib_position = glGetAttribLocation(this->shaderProgram, "attrib_position");
 		this->attrib_color = glGetAttribLocation(this->shaderProgram, "attrib_color");

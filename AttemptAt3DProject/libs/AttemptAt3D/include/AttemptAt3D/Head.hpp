@@ -42,5 +42,10 @@ namespace AttemptAt3D
 	   private:
 		void mainLoop();
 		void endGlfw();
+
+		/* Methods for External Use */
+
+	   public:
+		static void onWindowResize(GLFWwindow* windowForGlfw, int width, int height);
 	};
 }

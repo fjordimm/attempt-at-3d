@@ -42,11 +42,16 @@ namespace AttemptAt3D
 			glewInit();
 		}
 
+		/* Associate `this` with the GLFW window */
+
+		glfwSetWindowUserPointer(this->windowForGlfw, this);
+
 		/* OpenGL Settings */
 
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_BACK);
+		glfwSetWindowSizeCallback(this->windowForGlfw, onWindowResize);
 
 		/* Activate Shaders */
 
@@ -146,15 +151,14 @@ namespace AttemptAt3D
 
 			this->bodyManager.drawAllBodies();
 
-			/* Adjust the canvas when the window is resized */
-
-			glfwSetWindowSizeCallback(this->windowForGlfw, [](GLFWwindow* _window, int _width, int _height)
-			{ glViewport(0, 0, _width, _height); });
-
 			/* Stuff required by GLFW */
 
 			glfwPollEvents();
 			glfwSwapBuffers(this->windowForGlfw);
+
+
+
+			this->shaderManager.change_uni_viewVal(glm::lookAt(glm::vec3(0.0f, -9.0f, 9.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f)));
 		}
 
 		this->endGlfw();
@@ -165,5 +169,12 @@ namespace AttemptAt3D
 		this->shaderManager.cleanupForGl();
 		this->bodyManager.cleanupForGl();
 		glfwTerminate();
+	}
+
+	void Head::onWindowResize(GLFWwindow* windowForGlfw, int width, int height)
+	{
+		Head* self = (Head*)glfwGetWindowUserPointer(windowForGlfw);
+
+		glViewport(0, 0, width, height);
 	}
 }
