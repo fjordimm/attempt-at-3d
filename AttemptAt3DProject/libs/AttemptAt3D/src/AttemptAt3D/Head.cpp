@@ -47,6 +47,10 @@ namespace AttemptAt3D
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_BACK);
 
+		/* Activate Shaders */
+
+		this->shaderManager.compileAndActivateShaders();
+
 		/* Test vertices */
 
 		{
@@ -119,13 +123,9 @@ namespace AttemptAt3D
 			std::unique_ptr<GLuint[]> elems2(new GLuint[elems2_s]);
 			std::memcpy(elems2.get(), _elems2, sizeof(_elems2));
 
-			auto b1 = this->bodyManager.addNewBody(verts1_s, std::move(verts1), elems1_s, std::move(elems1));
-			auto b2 = this->bodyManager.addNewBody(verts2_s, std::move(verts2), elems2_s, std::move(elems2));
+			auto b1 = this->bodyManager.addNewBody(this->shaderManager, verts1_s, std::move(verts1), elems1_s, std::move(elems1));
+			auto b2 = this->bodyManager.addNewBody(this->shaderManager, verts2_s, std::move(verts2), elems2_s, std::move(elems2));
 		}
-
-		/* Activate Shaders */
-
-		this->shaderManager.compileAndActivateShaders();
 
 		/* Main Loop */
 

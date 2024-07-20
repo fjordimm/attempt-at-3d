@@ -66,10 +66,8 @@ namespace AttemptAt3D
 		glUseProgram(this->shaderProgram);
 
 		this->attrib_position = glGetAttribLocation(this->shaderProgram, "position");
-		glEnableVertexAttribArray(this->attrib_position);
 
 		this->attrib_color = glGetAttribLocation(this->shaderProgram, "color");
-		glEnableVertexAttribArray(this->attrib_color);
 
 		this->uni_model = glGetUniformLocation(this->shaderProgram, "model");
 		// glm::mat4 model = glm::rotate(glm::mat4(1.0f), glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
@@ -102,7 +100,9 @@ namespace AttemptAt3D
 
 	void ShaderManager::doVertexAttribPointers()
 	{
+		glEnableVertexAttribArray(this->attrib_position);
 		glVertexAttribPointer(this->attrib_position, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), 0);
+		glEnableVertexAttribArray(this->attrib_color);
 		glVertexAttribPointer(this->attrib_color, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
 	}
 

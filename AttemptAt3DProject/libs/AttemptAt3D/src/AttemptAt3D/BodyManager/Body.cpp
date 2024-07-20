@@ -27,31 +27,16 @@ namespace AttemptAt3D::_BodyManager
 		this->elements = std::move(elements);
 	}
 
-	void Body::doGlGens()
+	void Body::doGlGens(ShaderManager& shaderManager)
 	{
 		glGenVertexArrays(1, &this->vao);
+		glBindVertexArray(this->vao);
+		
 		glGenBuffers(1, &this->vbo);
 		glGenBuffers(1, &this->ebo);
 
 		Debug::Printf("Names: {%u, %u, %u}\n", this->vao, this->vbo, this->ebo);
-	}
 
-	void Body::attachDataToGlBuffers()
-	{
-		glBindVertexArray(this->vao);
-		glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->ebo);
-
-		glBufferData(GL_ARRAY_BUFFER, this->verticesLen * sizeof(this->vertices[0]), this->vertices.get(), GL_DYNAMIC_DRAW);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->elementsLen * sizeof(this->elements[0]), this->elements.get(), GL_DYNAMIC_DRAW);
-
-		// glNamedBufferData(this->vbo, this->verticesLen * sizeof(this->vertices[0]), this->vertices.get(), GL_STATIC_DRAW);
-		// glNamedBufferData(this->ebo, this->elementsLen * sizeof(this->elements[0]), this->elements.get(), GL_STATIC_DRAW);
-	}
-
-	void Body::drawBody(ShaderManager& shaderManager)
-	{
-		// glBindVertexArray(this->vao);
 		glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->ebo);
 
@@ -60,7 +45,37 @@ namespace AttemptAt3D::_BodyManager
 
 		shaderManager.doVertexAttribPointers();
 
+		glBindVertexArray(0);
+	}
+
+	void Body::attachDataToGlBuffers()
+	{
+		// glBindVertexArray(this->vao);
+		// glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
+		// glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->ebo);
+
+		// glBufferData(GL_ARRAY_BUFFER, this->verticesLen * sizeof(this->vertices[0]), this->vertices.get(), GL_DYNAMIC_DRAW);
+		// glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->elementsLen * sizeof(this->elements[0]), this->elements.get(), GL_DYNAMIC_DRAW);
+
+		// glNamedBufferData(this->vbo, this->verticesLen * sizeof(this->vertices[0]), this->vertices.get(), GL_STATIC_DRAW);
+		// glNamedBufferData(this->ebo, this->elementsLen * sizeof(this->elements[0]), this->elements.get(), GL_STATIC_DRAW);
+	}
+
+	void Body::drawBody(ShaderManager& shaderManager)
+	{
+		glBindVertexArray(this->vao);
+		// glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
+		// glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->ebo);
+
+		// glBufferData(GL_ARRAY_BUFFER, this->verticesLen * sizeof(this->vertices[0]), this->vertices.get(), GL_DYNAMIC_DRAW);
+		// glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->elementsLen * sizeof(this->elements[0]), this->elements.get(), GL_DYNAMIC_DRAW);
+
+		// shaderManager.doVertexAttribPointers();
+
 		glDrawElements(GL_TRIANGLES, this->elementsLen, GL_UNSIGNED_INT, 0);
+		// glDrawArrays(GL_TRIANGLES, 0, this->verticesLen);
+
+		glBindVertexArray(0);
 	}
 
 	void Body::cleanupForGl()
