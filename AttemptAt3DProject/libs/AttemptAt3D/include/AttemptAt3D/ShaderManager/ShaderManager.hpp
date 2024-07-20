@@ -37,7 +37,7 @@ namespace AttemptAt3D
 
 	   public:
 		void compileAndActivateShaders();
-		void doVertexAttribPointers();
+		void doAttribs();
 		void cleanupForGl();
 
 	   private:

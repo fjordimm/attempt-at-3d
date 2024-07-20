@@ -22,8 +22,7 @@ namespace AttemptAt3D
 	{
 		std::unique_ptr<Body> body = std::make_unique<Body>();
 		body->setData(verticesLen, std::move(vertices), elementsLen, std::move(elements));
-		body->doGlGens(shaderManager);
-		body->attachDataToGlBuffers();
+		body->initializeVao(shaderManager);
 		this->bodies.push_back(std::move(body));
 
 		std::unique_ptr<BodyReference> ret = std::make_unique<BodyReference>();
@@ -38,16 +37,13 @@ namespace AttemptAt3D
 		this->bodies.erase(bodyReference->iter);
 	}
 
-	void BodyManager::drawAllBodies(ShaderManager& shaderManager)
+	void BodyManager::drawAllBodies()
 	{
-		// Debug::Log("drawing all bodies");
 		for (std::unique_ptr<Body>& body_r : this->bodies)
 		{
 			Body* body = body_r.get();
 			
-			// Debug::Log("drawing body");
-			// Debug::Printf("body = %p\n", body);
-			body->drawBody(shaderManager);
+			body->drawBody();
 		}
 	}
 

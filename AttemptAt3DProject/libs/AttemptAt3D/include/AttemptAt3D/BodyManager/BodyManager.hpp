@@ -36,7 +36,7 @@ namespace AttemptAt3D
 	   public:
 		std::unique_ptr<BodyReference> addNewBody(ShaderManager& shaderManager, std::size_t verticesLen, std::unique_ptr<float[]> vertices, std::size_t elementsLen, std::unique_ptr<GLuint[]> elements);
 		void removeBody(std::unique_ptr<BodyReference> bodyReference); // since the parameter is a unique_ptr to the BodyReference, it doesn't move it anywhere else so it implicitly deletes it
-		void drawAllBodies(ShaderManager& shaderManager);
+		void drawAllBodies();
 		void cleanupForGl();
 
 		/* Subclasses */
