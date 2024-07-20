@@ -45,7 +45,7 @@ namespace AttemptAt3D::_BodyManager
 	{
 		glBindVertexArray(this->vao);
 
-		shaderManager.change_uni_modelVal(this->transform);
+		shaderManager.set_uni_modelVal(this->transform);
 		glDrawElements(GL_TRIANGLES, this->mesh->elementsLen, GL_UNSIGNED_INT, 0);
 
 		glBindVertexArray(0);

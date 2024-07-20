@@ -30,25 +30,25 @@ namespace AttemptAt3D
 		bodyManager()
 	{}
 
-	void Head::change_fov(float val)
+	void Head::set_fov(float val)
 	{
 		this->_fov = val;
 		this->_updateProjectionMatrix();
 	}
 
-	void Head::change_aspectRatio(float val)
+	void Head::set_aspectRatio(float val)
 	{
 		this->_aspectRatio = val;
 		this->_updateProjectionMatrix();
 	}
 
-	void Head::change_nearClippingPlane(float val)
+	void Head::set_nearClippingPlane(float val)
 	{
 		this->_nearClippingPlane = val;
 		this->_updateProjectionMatrix();
 	}
 
-	void Head::change_farClippingPlane(float val)
+	void Head::set_farClippingPlane(float val)
 	{
 		this->_farClippingPlane = val;
 		this->_updateProjectionMatrix();
@@ -174,7 +174,7 @@ namespace AttemptAt3D
 
 	void Head::_updateProjectionMatrix()
 	{
-		this->shaderManager.change_uni_projVal(
+		this->shaderManager.set_uni_projVal(
 			glm::perspective(this->_fov, this->_aspectRatio, this->_nearClippingPlane, this->_farClippingPlane)
 		);
 	}
@@ -203,6 +203,6 @@ namespace AttemptAt3D
 
 		glViewport(0, 0, width, height);
 
-		self->change_aspectRatio((float)width / (float)height);
+		self->set_aspectRatio((float)width / (float)height);
 	}
 }

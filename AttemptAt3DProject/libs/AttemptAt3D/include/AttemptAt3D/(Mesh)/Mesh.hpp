@@ -30,6 +30,7 @@ namespace AttemptAt3D
 		/* Constructors */
 
 	   public:
+		Mesh() = delete;
 		Mesh(const Mesh&) = delete;
 		Mesh& operator=(const Mesh&) = delete;
 		

@@ -35,10 +35,10 @@ namespace AttemptAt3D
 		inline BodyManager& get_bodyManager() { return this->bodyManager; }
 
 	   private:
-		void change_fov(float val);
-		void change_aspectRatio(float val);
-		void change_nearClippingPlane(float val);
-		void change_farClippingPlane(float val);
+		void set_fov(float val);
+		void set_aspectRatio(float val);
+		void set_nearClippingPlane(float val);
+		void set_farClippingPlane(float val);
 
 		/* Constructors */
 
