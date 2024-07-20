@@ -1,6 +1,8 @@
 
 #include "AttemptAt3D/(Form)/Form.hpp"
 
+#include "AttemptAt3D/(Debug)/Debug.hpp"
+
 namespace AttemptAt3D
 {
 	/* Constructors */
@@ -9,7 +11,7 @@ namespace AttemptAt3D
 		trans(trans),
 		mesh(std::move(mesh))
 	{
-		bodyReference = bodyManager.addNewBody(shaderManager, &trans, mesh.get());
+		bodyReference = bodyManager.addNewBody(shaderManager, &trans, this->mesh.get());
 	}
 
 	/* Methods */

@@ -6,6 +6,7 @@
 #include <GLFW/glfw3.h>
 #include <memory>
 #include <cstdlib>
+#include <string>
 
 namespace AttemptAt3D
 {
@@ -21,12 +22,6 @@ namespace AttemptAt3D
 
 		/* Getters and Setters */
 
-	//    public:
-	// 	inline std::size_t get_verticesLen() { return this->verticesLen; }
-	// 	inline float* get_vertices() { return this->vertices.get(); }
-	// 	inline std::size_t get_elementsLen() { return this->elementsLen; }
-	// 	inline GLuint* get_elements() { return this->elements.get(); }
-
 		/* Constructors */
 
 	   public:
@@ -37,5 +32,7 @@ namespace AttemptAt3D
 		Mesh(std::size_t verticesLen, std::unique_ptr<float[]> vertices, std::size_t elementsLen, std::unique_ptr<GLuint[]> elements);
 
 		/* Methods */
+
+		std::string toString() const;
 	};
 }

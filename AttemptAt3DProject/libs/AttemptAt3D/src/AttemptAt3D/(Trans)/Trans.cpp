@@ -39,7 +39,7 @@ namespace AttemptAt3D
 
 	/* Methods */
 
-	std::string Trans::toString()
+	std::string Trans::toString() const
 	{
 		std::ostringstream ret;
 		ret << "{pos" << this->pos.toString() << " rot" << this->rot.toString() << " scale" << this->scale.toString() << "}";

@@ -59,7 +59,7 @@ namespace AttemptAt3D
 
 	/* Methods */
 
-	std::string Vec3::toString()
+	std::string Vec3::toString() const
 	{
 		std::ostringstream ret;
 		ret << "(" << this->_x << ", " << this->_y << ", " << this->_z << ")";

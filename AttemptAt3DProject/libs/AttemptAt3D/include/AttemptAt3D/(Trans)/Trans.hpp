@@ -30,6 +30,6 @@ namespace AttemptAt3D
 		/* Methods */
 
 	   public:
-		std::string toString();
+		std::string toString() const;
 	};
 }
