@@ -57,7 +57,11 @@ namespace AttemptAt3D
 		void mainLoop();
 		void endGlfw();
 		void _updateProjectionMatrix();
-		static float calculateDeltaTime(); // In milliseconds
+
+		/* Functions */
+
+	   private:
+		static float CalculateDeltaTime(); // In milliseconds
 
 		/* Methods for External Use */
 

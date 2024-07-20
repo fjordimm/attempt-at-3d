@@ -11,6 +11,8 @@ add_executable(AttemptAt3DExec
 	"src/AttemptAt3D/(BodyManager)/_BodyManager/Body.cpp"
 	"src/AttemptAt3D/(BodyManager)/BodyReference.cpp"
 	"src/AttemptAt3D/(Mesh)/Mesh.cpp"
+	"src/AttemptAt3D/(Mesh)/MeshSamples/MeshSample.cpp"
+	"src/AttemptAt3D/(Mesh)/MeshSamples/InvertedPyramid.cpp"
 )
 
 target_include_directories(AttemptAt3DExec PUBLIC include)

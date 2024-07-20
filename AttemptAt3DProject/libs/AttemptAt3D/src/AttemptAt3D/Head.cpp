@@ -7,6 +7,7 @@
 #include <cstdlib>
 #include "AttemptAt3D/(Debug)/Debug.hpp"
 #include "AttemptAt3D/(Mesh)/Mesh.hpp"
+#include "AttemptAt3D/(Mesh)/MeshSamples/InvertedPyramid.hpp"
 
 namespace AttemptAt3D
 {
@@ -62,7 +63,7 @@ namespace AttemptAt3D
 			{ Debug::LogFatalError("glfwInit failed."); }
 
 			// Window hints
-			glfwWindowHint(GLFW_SAMPLES, 5); // anti-aliasing
+			glfwWindowHint(GLFW_SAMPLES, 7); // anti-aliasing
 
 			this->windowForGlfw = glfwCreateWindow(windowWidth, windowHeight, windowTitle.c_str(), nullptr, nullptr);
 			if (!this->windowForGlfw)
@@ -90,78 +91,7 @@ namespace AttemptAt3D
 
 		/* Test vertices */
 
-		{
-			const float verts1_[] =
-			{
-				// X      Y      Z         R    G    B
-				-0.3f, +0.3f, +0.8f,     1.0f,0.0f,0.0f,
-				-0.3f, -0.3f, +0.8f,     1.0f,0.0f,0.0f,
-				+0.3f, +0.3f, +0.8f,     1.0f,0.0f,0.0f,
-				+0.3f, -0.3f, +0.8f,     1.0f,0.0f,0.0f,
-				
-				-0.3f, -0.3f, +0.8f,     1.0f,0.0f,0.0f,
-				+0.0f, +0.0f, +0.0f,     1.0f,0.0f,0.0f,
-				+0.3f, -0.3f, +0.8f,     1.0f,0.0f,0.0f,
-				
-				+0.3f, -0.3f, +0.8f,     1.0f,0.0f,0.0f,
-				+0.0f, +0.0f, +0.0f,     1.0f,0.0f,0.0f,
-				+0.3f, +0.3f, +0.8f,     1.0f,0.0f,0.0f,
-			};
-			const std::size_t verts1_s = sizeof(verts1_) / sizeof(verts1_[0]);
-			std::unique_ptr<float[]> verts1(new float[verts1_s]);
-			std::memcpy(verts1.get(), verts1_, sizeof(verts1_));
-
-			const GLuint elems1_[] =
-			{
-				0, 1, 2,
-				3, 2, 1,
-
-				4, 5, 6,
-
-				7, 8, 9
-			};
-			const std::size_t elems1_s = sizeof(elems1_) / sizeof(elems1_[0]);
-			std::unique_ptr<GLuint[]> elems1(new GLuint[elems1_s]);
-			std::memcpy(elems1.get(), elems1_, sizeof(elems1_));
-
-			std::unique_ptr<Mesh> mesh1 = std::make_unique<Mesh>(verts1_s, std::move(verts1), elems1_s, std::move(elems1));
-
-			// const float verts2_[] =
-			// {
-			// 	// X      Y      Z         R    G    B
-			// 	-0.3f, +0.3f, +1.8f,     0.0f,1.0f,0.0f,
-			// 	-0.3f, -0.3f, +1.8f,     0.0f,1.0f,0.0f,
-			// 	+0.3f, +0.3f, +1.8f,     0.0f,1.0f,0.0f,
-			// 	+0.3f, -0.3f, +1.8f,     0.0f,1.0f,0.0f,
-				
-			// 	-0.3f, -0.3f, +1.8f,     0.0f,1.0f,0.0f,
-			// 	+0.0f, +0.0f, +1.0f,     0.0f,1.0f,0.0f,
-			// 	+0.3f, -0.3f, +1.8f,     0.0f,1.0f,0.0f,
-				
-			// 	+0.3f, -0.3f, +1.8f,     0.0f,1.0f,0.0f,
-			// 	+0.0f, +0.0f, +1.0f,     0.0f,1.0f,0.0f,
-			// 	+0.3f, +0.3f, +1.8f,     0.0f,1.0f,0.0f,
-			// };
-			// const std::size_t verts2_s = sizeof(verts2_) / sizeof(verts2_[0]);
-			// std::unique_ptr<float[]> verts2(new float[verts2_s]);
-			// std::memcpy(verts2.get(), verts2_, sizeof(verts2_));
-
-			// const GLuint _elems2[] =
-			// {
-			// 	0, 1, 2,
-			// 	3, 2, 1,
-
-			// 	4, 5, 6,
-
-			// 	7, 8, 9
-			// };
-			// const std::size_t elems2_s = sizeof(_elems2) / sizeof(_elems2[0]);
-			// std::unique_ptr<GLuint[]> elems2(new GLuint[elems2_s]);
-			// std::memcpy(elems2.get(), _elems2, sizeof(_elems2));
-
-			b1 = this->bodyManager.addNewBody(this->shaderManager, std::move(mesh1));
-			// b2 = this->bodyManager.addNewBody(this->shaderManager, verts2_s, std::move(verts2), elems2_s, std::move(elems2));
-		}
+		b1 = this->bodyManager.addNewBody(this->shaderManager, MeshSamples::InvertedPyramid::Make());
 
 		/* Miscellaneous Pre-Main-Loop Tasks */
 
@@ -179,7 +109,7 @@ namespace AttemptAt3D
 		{
 			/* Calculate Delta Time */
 
-			float deltaTime = Head::calculateDeltaTime();
+			float deltaTime = Head::CalculateDeltaTime();
 
 			/* Process inputs */
 
@@ -194,76 +124,6 @@ namespace AttemptAt3D
 
 			glfwPollEvents();
 			glfwSwapBuffers(this->windowForGlfw);
-
-			///////////////////
-
-			{
-				// static float cumlTime = 0.0f;
-				// cumlTime += deltaTime;
-
-				// {
-				// 	glm::quat quatZ = glm::angleAxis(0.0006f * deltaTime, glm::vec3(0.0f, 0.0f, 1.0f));
-				// 	glm::mat4 rotZ = glm::toMat4(quatZ);
-
-				// 	b1->access_bodyTransform() *= rotZ;
-				// }
-
-				// static bool alreadyDone = false;
-				// if (!alreadyDone && cumlTime > 1000.0f)
-				// {
-				// 	alreadyDone = true;
-
-				// 	const float verts2_[] =
-				// 	{
-				// 		// X      Y      Z         R    G    B
-				// 		-0.3f, +0.3f, +1.8f,     0.0f,1.0f,0.0f,
-				// 		-0.3f, -0.3f, +1.8f,     0.0f,1.0f,0.0f,
-				// 		+0.3f, +0.3f, +1.8f,     0.0f,1.0f,0.0f,
-				// 		+0.3f, -0.3f, +1.8f,     0.0f,1.0f,0.0f,
-						
-				// 		-0.3f, -0.3f, +1.8f,     0.0f,1.0f,0.0f,
-				// 		+0.0f, +0.0f, +1.0f,     0.0f,1.0f,0.0f,
-				// 		+0.3f, -0.3f, +1.8f,     0.0f,1.0f,0.0f,
-						
-				// 		+0.3f, -0.3f, +1.8f,     0.0f,1.0f,0.0f,
-				// 		+0.0f, +0.0f, +1.0f,     0.0f,1.0f,0.0f,
-				// 		+0.3f, +0.3f, +1.8f,     0.0f,1.0f,0.0f,
-				// 	};
-				// 	const std::size_t verts2_s = sizeof(verts2_) / sizeof(verts2_[0]);
-				// 	std::unique_ptr<float[]> verts2(new float[verts2_s]);
-				// 	std::memcpy(verts2.get(), verts2_, sizeof(verts2_));
-
-				// 	const GLuint _elems2[] =
-				// 	{
-				// 		0, 1, 2,
-				// 		3, 2, 1,
-
-				// 		4, 5, 6,
-
-				// 		7, 8, 9
-				// 	};
-				// 	const std::size_t elems2_s = sizeof(_elems2) / sizeof(_elems2[0]);
-				// 	std::unique_ptr<GLuint[]> elems2(new GLuint[elems2_s]);
-				// 	std::memcpy(elems2.get(), _elems2, sizeof(_elems2));
-
-				// 	b2 = this->bodyManager.addNewBody(this->shaderManager, verts2_s, std::move(verts2), elems2_s, std::move(elems2));
-				// }
-
-				// if (b2)
-				// {
-				// 	glm::quat quatZ = glm::angleAxis(-0.0006f * deltaTime, glm::vec3(0.0f, 0.0f, 1.0f));
-				// 	glm::mat4 rotZ = glm::toMat4(quatZ);
-
-				// 	b2->access_bodyTransform() *= rotZ;
-				// }
-
-				{
-					// glm::quat quatX = glm::angleAxis(3.0f * cumlTime, glm::vec3(1.0f, 0.0f, 0.0f));
-					// glm::mat4 rotX = glm::toMat4(quatX);
-
-					// this->shaderManager.change_uni_sunRotVal(rotX);
-				}
-			}
 		}
 
 		this->endGlfw();
@@ -283,16 +143,9 @@ namespace AttemptAt3D
 		);
 	}
 
-	void Head::onWindowResize(GLFWwindow* windowForGlfw, int width, int height)
-	{
-		Head* self = (Head*)glfwGetWindowUserPointer(windowForGlfw);
+	/* Functions */
 
-		glViewport(0, 0, width, height);
-
-		self->change_aspectRatio((float)width / (float)height);
-	}
-
-	float Head::calculateDeltaTime()
+	float Head::CalculateDeltaTime()
 	{
 		using std::chrono::steady_clock;
 		using std::chrono::duration;
@@ -304,5 +157,16 @@ namespace AttemptAt3D
 
 		durMillisecs timeElapsed = std::chrono::duration_cast<durMillisecs>(timePoint - oldTimePoint);
 		return timeElapsed.count();
+	}
+
+	/* Methods for External Use */
+
+	void Head::onWindowResize(GLFWwindow* windowForGlfw, int width, int height)
+	{
+		Head* self = (Head*)glfwGetWindowUserPointer(windowForGlfw);
+
+		glViewport(0, 0, width, height);
+
+		self->change_aspectRatio((float)width / (float)height);
 	}
 }
