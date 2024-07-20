@@ -100,10 +100,10 @@ namespace AttemptAt3D
 		b1 = this->bodyManager.addNewBody(this->shaderManager, MeshSamples::InvertedPyramid().make());
 
 		b2 = this->bodyManager.addNewBody(this->shaderManager, MeshSamples::InvertedPyramid().make());
-		b2->access_bodyTransform() = glm::translate(b2->access_bodyTransform(), glm::vec3(2.0f, 0.0f, 0.0f));
+		b2->access_bodyTransform() = glm::translate(b2->access_bodyTransform(), glm::vec3(-1.4f, 0.0f, 0.0f));
 
 		b3 = this->bodyManager.addNewBody(this->shaderManager, MeshSamples::InvertedPyramid().make());
-		b3->access_bodyTransform() = glm::translate(b3->access_bodyTransform(), glm::vec3(-2.0f, 0.0f, 0.0f));
+		b3->access_bodyTransform() = glm::translate(b3->access_bodyTransform(), glm::vec3(1.4f, 0.0f, 0.0f));
 
 		/* Main Loop */
 
@@ -135,9 +135,18 @@ namespace AttemptAt3D
 			///////////////
 
 			{
-				glm::mat4 rot = glm::toMat4(glm::angleAxis(0.0006f * deltaTime, glm::vec3(0.0f, 0.0f, 1.0f)));
-				
+				glm::mat4 rot = glm::toMat4(glm::angleAxis(-0.0002f * deltaTime, glm::vec3(0.0f, 0.0f, 1.0f)));
+				b2->access_bodyTransform() *= rot;
+			}
+
+			{
+				glm::mat4 rot = glm::toMat4(glm::angleAxis(-0.0004f * deltaTime, glm::vec3(0.0f, 0.0f, 1.0f)));
 				b1->access_bodyTransform() *= rot;
+			}
+
+			{
+				glm::mat4 rot = glm::toMat4(glm::angleAxis(-0.0008f * deltaTime, glm::vec3(0.0f, 0.0f, 1.0f)));
+				b3->access_bodyTransform() *= rot;
 			}
 		}
 
