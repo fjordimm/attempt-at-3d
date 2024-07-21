@@ -12,26 +12,6 @@ namespace AttemptAt3D
 	{
 		/* Fields */
 
-		/*
-		bool hasChanged
-		vec3 position
-		quat rotation
-		vec3 forward
-		vec3 scale
-
-		mat4 rotationMat // only updated when you call get_rotationMat()
-		mat4 scaleMat // only updated when you call get_scaleMat()
-
-		vec3 getEulerAngles()
-		mat4 getRotationMat
-
-
-		Interface for Body:
-		 - mat4 scale
-		 - mat4 rotation
-		 - vec3 position
-		*/
-
 	   private:
 		bool _hasChangedPosition;
 		Vec3 position;
@@ -49,9 +29,9 @@ namespace AttemptAt3D
 		/* Getters and Setters */
 
 	   public:
-		inline const Vec3& get_position() { return this->position; }
-		inline const Quat& get_rotationQuat() { return this->rotationQuat; }
-		inline const Vec3& get_scale() { return this->scale; }
+		inline const Vec3& get_position() const { return this->position; }
+		inline const Quat& get_rotationQuat() const { return this->rotationQuat; }
+		inline const Vec3& get_scale() const { return this->scale; }
 		inline Vec3& acq_position() { this->_hasChangedPosition = true; return this->position; }
 		inline Quat& acq_rotationQuat() { this->_hasChangedRotation = true; return this->rotationQuat; }
 		inline Vec3& acq_scale() { this->_hasChangedScale = true; return this->scale; }
@@ -74,5 +54,6 @@ namespace AttemptAt3D
 
 	   public:
 		std::string toString() const;
+		const Vec3& getEulerAngles() const;
 	};
 }
