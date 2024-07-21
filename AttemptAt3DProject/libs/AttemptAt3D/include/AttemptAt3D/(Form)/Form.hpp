@@ -28,7 +28,5 @@ namespace AttemptAt3D
 		Form& operator=(const Form&) = delete;
 		
 		Form(ShaderManager& shaderManager, BodyManager& bodyManager, const Trans& trans, std::unique_ptr<Mesh> mesh);
-
-		/* Methods */
 	};
 }

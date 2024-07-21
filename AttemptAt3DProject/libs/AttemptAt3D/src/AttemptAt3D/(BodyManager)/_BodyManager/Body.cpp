@@ -36,7 +36,7 @@ namespace AttemptAt3D::_BodyManager
 		glBindVertexArray(0);
 	}
 
-	void Body::drawBody(ShaderManager& shaderManager)
+	void Body::drawBody(ShaderManager& shaderManager) const
 	{
 		glBindVertexArray(this->vao);
 

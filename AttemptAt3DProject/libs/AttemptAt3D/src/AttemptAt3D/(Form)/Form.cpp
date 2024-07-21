@@ -13,6 +13,4 @@ namespace AttemptAt3D
 	{
 		bodyReference = bodyManager.addNewBody(shaderManager, &this->trans, this->mesh.get());
 	}
-
-	/* Methods */
 }

@@ -17,6 +17,8 @@ namespace AttemptAt3D
 {
 	// TODO: delete
 	static std::unique_ptr<Form> form1;
+	static std::unique_ptr<Form> form2;
+	static std::unique_ptr<Form> form3;
 
 	/* Constructors */
 
@@ -99,7 +101,15 @@ namespace AttemptAt3D
 
 		/* test objects */
 
-		form1 = std::make_unique<Form>(this->shaderManager, this->bodyManager, Trans(), MeshSamples::Cube().make());
+		{
+			form1 = std::make_unique<Form>(this->shaderManager, this->bodyManager, Trans(), MeshSamples::Cube().make());
+			form1->trans.scale.set_x(0.6f);
+			form1->trans.scale.set_y(0.6f);
+			form1->trans.scale.set_z(2.0f);
+
+			form2 = std::make_unique<Form>(this->shaderManager, this->bodyManager, Trans(), MeshSamples::Cube().make());
+			form2->trans.pos.set_z(2.0f);
+		}
 
 		/* Main Loop */
 
@@ -131,10 +141,12 @@ namespace AttemptAt3D
 			///////////////
 
 			{
-				// form1->trans.pos.set_x(0.0f);
-				form1->trans.rot.set_z(0.4f);
-				form1->trans.scale.set_z(0.5f);
-				form1->trans.pos.set_x(1.5f);
+				// form1->trans.rot.set_z(0.4f);
+				// form1->trans.scale.set_z(0.5f);
+				// form1->trans.pos.set_x(1.5f);
+
+				form1->trans.rot.set_z(form1->trans.rot.get_z() + 0.0006f * deltaTime);
+				form2->trans.rot.set_z(form2->trans.rot.get_z() - 0.0015f * deltaTime);
 			}
 		}
 

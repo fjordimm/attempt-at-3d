@@ -97,7 +97,7 @@ namespace AttemptAt3D
 
 		this->uni_view = glGetUniformLocation(this->shaderProgram, "uni_view");
 		glm::mat4 uni_viewVal = glm::lookAt(
-			glm::vec3(0.0f, -5.0f, 5.0f),
+			glm::vec3(0.0f, -17.0f, 6.0f),
 			glm::vec3(0.0f, 0.0f, 0.0f),
 			glm::vec3(0.0f, 0.0f, 1.0f)
 		);
@@ -139,7 +139,7 @@ namespace AttemptAt3D
 		glDeleteShader(this->geometryShader);
 	}
 
-	void ShaderManager::checkShaderCompilation(GLuint shader)
+	void ShaderManager::checkShaderCompilation(GLuint shader) const
 	{
 		GLint status;
 		glGetShaderiv(shader, GL_COMPILE_STATUS, &status);

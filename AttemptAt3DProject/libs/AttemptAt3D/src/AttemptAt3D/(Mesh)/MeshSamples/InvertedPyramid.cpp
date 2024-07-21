@@ -39,15 +39,15 @@ namespace AttemptAt3D::MeshSamples
 		13, 14, 15
 	};
 	
-	std::size_t InvertedPyramid::verticesSize()
+	std::size_t InvertedPyramid::verticesSize() const
 	{ return sizeof(VERTICES); }
 
-	const float* InvertedPyramid::vertices()
+	const float* InvertedPyramid::vertices() const
 	{ return VERTICES; }
 
-	std::size_t InvertedPyramid::elementsSize()
+	std::size_t InvertedPyramid::elementsSize() const
 	{ return sizeof(ELEMENTS); }
 
-	const GLuint* InvertedPyramid::elements()
+	const GLuint* InvertedPyramid::elements() const
 	{ return ELEMENTS; }
 }

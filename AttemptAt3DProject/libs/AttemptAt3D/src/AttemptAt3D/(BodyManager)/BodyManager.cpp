@@ -35,9 +35,9 @@ namespace AttemptAt3D
 		this->bodies.erase(bodyReference->iter);
 	}
 
-	void BodyManager::drawAllBodies(ShaderManager& shaderManager)
+	void BodyManager::drawAllBodies(ShaderManager& shaderManager) const
 	{
-		for (std::unique_ptr<Body>& body_ : this->bodies)
+		for (const std::unique_ptr<Body>& body_ : this->bodies)
 		{
 			Body* body = body_.get();
 			

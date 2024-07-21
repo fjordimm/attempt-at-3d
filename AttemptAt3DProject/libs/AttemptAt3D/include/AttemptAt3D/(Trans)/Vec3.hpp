@@ -24,9 +24,9 @@ namespace AttemptAt3D
 
 	   public:
 		inline const glm::mat4& matrix() const { return this->_mat; }
-		inline float get_x() { return this->_x; }
-		inline float get_y() { return this->_y; }
-		inline float get_z() { return this->_z; }
+		inline float get_x() const { return this->_x; }
+		inline float get_y() const { return this->_y; }
+		inline float get_z() const { return this->_z; }
 		void set_x(float val);
 		void set_y(float val);
 		void set_z(float val);

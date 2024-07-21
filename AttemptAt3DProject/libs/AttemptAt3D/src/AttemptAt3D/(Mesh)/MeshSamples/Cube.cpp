@@ -44,15 +44,15 @@ namespace AttemptAt3D::MeshSamples
 		5, 3, 1
 	};
 	
-	std::size_t Cube::verticesSize()
+	std::size_t Cube::verticesSize() const
 	{ return sizeof(VERTICES); }
 
-	const float* Cube::vertices()
+	const float* Cube::vertices() const
 	{ return VERTICES; }
 
-	std::size_t Cube::elementsSize()
+	std::size_t Cube::elementsSize() const
 	{ return sizeof(ELEMENTS); }
 
-	const GLuint* Cube::elements()
+	const GLuint* Cube::elements() const
 	{ return ELEMENTS; }
 }

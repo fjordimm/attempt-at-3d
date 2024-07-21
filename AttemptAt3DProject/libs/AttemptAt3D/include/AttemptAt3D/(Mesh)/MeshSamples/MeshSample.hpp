@@ -23,12 +23,12 @@ namespace AttemptAt3D::MeshSamples
 		/* Methods */
 
 	   public:
-		std::unique_ptr<Mesh> make();
+		std::unique_ptr<Mesh> make() const;
 
 	   protected:
-		virtual std::size_t verticesSize() = 0; // In bytes, not length
-		virtual const float* vertices() = 0;
-		virtual std::size_t elementsSize() = 0; // In bytes, not length
-		virtual const GLuint* elements() = 0;
+		virtual std::size_t verticesSize() const = 0; // In bytes, not length
+		virtual const float* vertices() const = 0;
+		virtual std::size_t elementsSize() const = 0; // In bytes, not length
+		virtual const GLuint* elements() const = 0;
 	};
 }

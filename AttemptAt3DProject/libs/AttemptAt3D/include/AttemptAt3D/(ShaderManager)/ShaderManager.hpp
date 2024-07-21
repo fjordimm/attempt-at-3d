@@ -57,6 +57,6 @@ namespace AttemptAt3D
 		void cleanupForGl();
 
 	   private:
-		void checkShaderCompilation(GLuint shader);
+		void checkShaderCompilation(GLuint shader) const;
 	};
 }

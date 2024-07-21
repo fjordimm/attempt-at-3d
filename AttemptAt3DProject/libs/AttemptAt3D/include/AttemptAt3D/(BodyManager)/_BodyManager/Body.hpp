@@ -41,7 +41,7 @@ namespace AttemptAt3D::_BodyManager
 
 	   public:
 		void initializeVao(ShaderManager& shaderManager);
-		void drawBody(ShaderManager& shaderManager);
+		void drawBody(ShaderManager& shaderManager) const;
 		void cleanupForGl();
 	};
 }

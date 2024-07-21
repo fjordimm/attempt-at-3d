@@ -20,8 +20,6 @@ namespace AttemptAt3D
 		std::size_t elementsLen;
 		std::unique_ptr<GLuint[]> elements;
 
-		/* Getters and Setters */
-
 		/* Constructors */
 
 	   public:

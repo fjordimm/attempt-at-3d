@@ -11,7 +11,7 @@ namespace AttemptAt3D::MeshSamples
 
 	/* Methods */
 
-	std::unique_ptr<Mesh> MeshSample::make()
+	std::unique_ptr<Mesh> MeshSample::make() const
 	{
 		std::size_t vertsLen = this->verticesSize() / sizeof(float);
 
