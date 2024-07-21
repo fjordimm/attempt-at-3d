@@ -15,5 +15,7 @@ namespace AttemptAt3D
 		static const Vec3 Zero = glm::vec3(0.0f, 0.0f, 0.0f);
 		static const Vec3 One = glm::vec3(1.0f, 1.0f, 1.0f);
 		static const Vec3 Forwards = glm::vec3(0.0f, 1.0f, 0.0f);
+		static const Vec3 Right = glm::vec3(1.0f, 0.0f, 0.0f);
+		static const Vec3 Up = glm::vec3(0.0f, 0.0f, 1.0f);
 	}
 }

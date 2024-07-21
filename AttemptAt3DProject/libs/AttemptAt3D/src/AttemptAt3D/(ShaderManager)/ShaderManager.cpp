@@ -97,7 +97,7 @@ namespace AttemptAt3D
 
 		this->uni_view = glGetUniformLocation(this->shaderProgram, "uni_view");
 		glm::mat4 uni_viewVal = glm::lookAt(
-			glm::vec3(0.0f, -17.0f, 6.0f),
+			glm::vec3(0.0f, -9.0f, 6.0f),
 			glm::vec3(0.0f, 0.0f, 0.0f),
 			glm::vec3(0.0f, 0.0f, 1.0f)
 		);

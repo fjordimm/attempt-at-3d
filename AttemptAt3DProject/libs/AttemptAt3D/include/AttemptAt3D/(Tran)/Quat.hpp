@@ -9,6 +9,6 @@ namespace AttemptAt3D
 
 	namespace Quats
 	{
-		static const Quat Identity = glm::quat(glm::vec3(0.0f, 0.0f, 0.0f));
+		static const Quat Identity = glm::quat(1.0f, 0.0f, 0.0f, 0.0f);
 	}
 }

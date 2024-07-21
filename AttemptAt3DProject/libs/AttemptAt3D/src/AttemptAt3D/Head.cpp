@@ -146,7 +146,8 @@ namespace AttemptAt3D
 
 				// form1->trans.rot.set_z(form1->trans.rot.get_z() + 0.0006f * deltaTime);
 				// form2->trans.rot.set_z(form2->trans.rot.get_z() - 0.0015f * deltaTime);
-				// form1->tran.acq_rotation() ????
+				form1->tran.acq_rotation() *= glm::angleAxis(0.0006f * deltaTime, Vec3s::Up);
+				form2->tran.acq_rotation() *= glm::angleAxis(0.0035f * deltaTime, Vec3s::Up);
 			}
 		}
 
