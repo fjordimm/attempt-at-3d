@@ -15,8 +15,8 @@ namespace AttemptAt3D
 	   public:
 		Tran();
 		// Tran(const Vec3Scale& scale, const Vec3Rot& rot, const Vec3Pos& pos);
-		Tran(const Tran& that) = delete;
-		Tran& operator=(const Tran& that) = delete;
+		Tran(const Tran& that);
+		Tran& operator=(const Tran& that);
 
 		/* Fields */
 
@@ -42,7 +42,7 @@ namespace AttemptAt3D
 		inline const Quat& get_rotationQuat() const { return this->_rotation; }
 		inline const Vec3& get_scale() const { return this->_scale; }
 		inline Vec3& acq_position() { this->_hasChangedPositionMatrix = true; return this->_position; }
-		inline Quat& acq_rotationQuat() { this->_hasChangedRotationMatrix = true; this->_hasChangedForwardVec = true; return this->_rotation; }
+		inline Quat& acq_rotation() { this->_hasChangedRotationMatrix = true; this->_hasChangedForwardVec = true; return this->_rotation; }
 		inline Vec3& acq_scale() { this->_hasChangedScaleMatrix = true; return this->_scale; }
 		
 		const glm::mat4& get_positionMatrix();

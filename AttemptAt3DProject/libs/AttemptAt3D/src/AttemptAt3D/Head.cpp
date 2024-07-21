@@ -98,16 +98,16 @@ namespace AttemptAt3D
 		glfwSetWindowUserPointer(this->windowForGlfw, this); // passes a pointer to this Head to OpenGL
 		this->_updateProjectionMatrix();
 
-		/* test objects */
+		/* TEMP */
 
 		{
 			form1 = std::make_unique<Form>(this->shaderManager, this->bodyManager, Tran(), MeshSamples::Cube().make());
-			// form1->trans.scale.set_x(0.6f);
-			// form1->trans.scale.set_y(0.6f);
-			// form1->trans.scale.set_z(2.0f);
+			form1->tran.acq_scale().x = 0.6f;
+			form1->tran.acq_scale().y = 0.6f;
+			form1->tran.acq_scale().z = 2.0f;
 
 			form2 = std::make_unique<Form>(this->shaderManager, this->bodyManager, Tran(), MeshSamples::Cube().make());
-			// form2->trans.pos.set_z(2.0f);
+			form2->tran.acq_position().z += 2.0f;
 		}
 
 		/* Main Loop */
@@ -137,7 +137,7 @@ namespace AttemptAt3D
 			glfwPollEvents();
 			glfwSwapBuffers(this->windowForGlfw);
 
-			///////////////
+			/* TEMP */
 
 			{
 				// form1->trans.rot.set_z(0.4f);
@@ -146,6 +146,7 @@ namespace AttemptAt3D
 
 				// form1->trans.rot.set_z(form1->trans.rot.get_z() + 0.0006f * deltaTime);
 				// form2->trans.rot.set_z(form2->trans.rot.get_z() - 0.0015f * deltaTime);
+				// form1->tran.acq_rotation() ????
 			}
 		}
 

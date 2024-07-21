@@ -11,8 +11,6 @@ namespace AttemptAt3D
 		tran(),
 		mesh(std::move(mesh))
 	{
-		// Debug::Log("in form constructor");
-		// Debug::Printf("hehe tran = %s\n", this->tran.toString());
 		this->bodyReference = bodyManager.addNewBody(shaderManager, &this->tran, this->mesh.get());
 	}
 }
