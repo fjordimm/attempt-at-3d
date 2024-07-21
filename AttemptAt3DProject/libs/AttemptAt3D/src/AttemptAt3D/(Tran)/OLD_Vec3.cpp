@@ -94,7 +94,8 @@ namespace AttemptAt3D
 
 	void Vec3Rot::_updateMat()
 	{
-		// Note: the order I rotate is Y, X, Z
+		// Note: the order I rotate is Y, X, Z (roll, pitch, yaw) (Tait-Bryan angles)
+		// ...where forwards is facing positive-y
 
 		glm::mat4 rotY = glm::toMat4(glm::angleAxis(this->_y, glm::vec3(0.0f, 1.0f, 0.0f)));
 		glm::mat4 rotX = glm::toMat4(glm::angleAxis(this->_x, glm::vec3(1.0f, 0.0f, 0.0f)));

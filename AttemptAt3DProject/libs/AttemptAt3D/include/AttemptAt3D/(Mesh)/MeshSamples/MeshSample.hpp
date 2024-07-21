@@ -1,11 +1,11 @@
 
 #pragma once
 
+#include <memory>
+#include <cstdlib>
 #define GLEW_STATIC
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include <memory>
-#include <cstdlib>
 #include "AttemptAt3D/(Mesh)/Mesh.hpp"
 
 namespace AttemptAt3D::MeshSamples

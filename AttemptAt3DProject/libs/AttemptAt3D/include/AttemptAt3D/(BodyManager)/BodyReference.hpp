@@ -1,12 +1,9 @@
 
 #pragma once
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include <glm/gtx/quaternion.hpp>
 #include <list>
 #include <memory>
+#include "AttemptAt3D/(headerGroups)/glmGroup.hpp"
 #include "AttemptAt3D/(BodyManager)/_BodyManager/Body.hpp"
 
 namespace AttemptAt3D

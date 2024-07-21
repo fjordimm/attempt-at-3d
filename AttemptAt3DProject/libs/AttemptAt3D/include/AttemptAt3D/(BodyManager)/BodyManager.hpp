@@ -1,12 +1,12 @@
 
 #pragma once
 
-#define GLEW_STATIC
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
 #include <list>
 #include <memory>
 #include <cstdlib>
+#define GLEW_STATIC
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 #include "AttemptAt3D/(BodyManager)/_BodyManager/Body.hpp"
 #include "AttemptAt3D/(BodyManager)/BodyReference.hpp"
 #include "AttemptAt3D/(ShaderManager)/ShaderManager.hpp"

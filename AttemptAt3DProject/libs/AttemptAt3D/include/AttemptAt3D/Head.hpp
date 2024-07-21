@@ -1,14 +1,11 @@
 
 #pragma once
 
+#include <string>
 #define GLEW_STATIC
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include <glm/gtx/quaternion.hpp>
-#include <string>
+#include "AttemptAt3D/(headerGroups)/glmGroup.hpp"
 #include "AttemptAt3D/(BodyManager)/BodyManager.hpp"
 #include "AttemptAt3D/(ShaderManager)/ShaderManager.hpp"
 
