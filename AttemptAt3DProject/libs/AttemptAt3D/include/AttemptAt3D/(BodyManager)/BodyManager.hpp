@@ -10,7 +10,7 @@
 #include "AttemptAt3D/(BodyManager)/_BodyManager/Body.hpp"
 #include "AttemptAt3D/(BodyManager)/BodyReference.hpp"
 #include "AttemptAt3D/(ShaderManager)/ShaderManager.hpp"
-#include "AttemptAt3D/(Trans)/Trans.hpp"
+#include "AttemptAt3D/(Tran)/Tran.hpp"
 #include "AttemptAt3D/(Mesh)/Mesh.hpp"
 
 namespace AttemptAt3D
@@ -33,7 +33,7 @@ namespace AttemptAt3D
 		/* Methods */
 
 	   public:
-		std::unique_ptr<BodyReference> addNewBody(ShaderManager& shaderManager, const Trans* trans, const Mesh* mesh);
+		std::unique_ptr<BodyReference> addNewBody(ShaderManager& shaderManager, Tran* tran, Mesh* mesh);
 		void removeBody(std::unique_ptr<BodyReference> bodyReference); // since the parameter is a unique_ptr to the BodyReference, it doesn't move it anywhere else so it implicitly deletes it
 		void drawAllBodies(ShaderManager& shaderManager) const;
 		void cleanupForGl();

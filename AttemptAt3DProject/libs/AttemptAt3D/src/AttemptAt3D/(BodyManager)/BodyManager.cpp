@@ -17,9 +17,9 @@ namespace AttemptAt3D
 
 	/* Methods */
 
-	std::unique_ptr<BodyReference> BodyManager::addNewBody(ShaderManager& shaderManager, const Trans* trans, const Mesh* mesh)
+	std::unique_ptr<BodyReference> BodyManager::addNewBody(ShaderManager& shaderManager, Tran* tran, Mesh* mesh)
 	{
-		std::unique_ptr<Body> body = std::make_unique<Body>(trans, mesh);
+		std::unique_ptr<Body> body = std::make_unique<Body>(tran, mesh);
 		body->initializeVao(shaderManager);
 		this->bodies.push_back(std::move(body));
 

@@ -14,8 +14,8 @@ add_executable(AttemptAt3DExec
 	"src/AttemptAt3D/(Mesh)/MeshSamples/MeshSample.cpp"
 	"src/AttemptAt3D/(Mesh)/MeshSamples/InvertedPyramid.cpp"
 	"src/AttemptAt3D/(Mesh)/MeshSamples/Cube.cpp"
-	"src/AttemptAt3D/(Trans)/Trans.cpp"
-	"src/AttemptAt3D/(Trans)/Vec3.cpp"
+	"src/AttemptAt3D/(Tran)/Tran.cpp"
+	"src/AttemptAt3D/(Tran)/Vec3.cpp"
 	"src/AttemptAt3D/(Form)/Form.cpp"
 )
 

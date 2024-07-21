@@ -7,8 +7,8 @@ namespace AttemptAt3D::_BodyManager
 {
 	/* Constructors */
 
-	Body::Body(const Trans* trans, const Mesh* mesh) :
-		trans(trans),
+	Body::Body(Tran* , Mesh* mesh) :
+		tran(tran),
 		mesh(mesh),
 		vao(-1),
 		vbo(-1),
@@ -40,10 +40,10 @@ namespace AttemptAt3D::_BodyManager
 	{
 		glBindVertexArray(this->vao);
 
-		// Debug::Printf("transform = %s\n", this->trans->toString().c_str());
-		shaderManager.set_uni_transScaleVal(this->trans->scale.matrix());
-		shaderManager.set_uni_transRotVal(this->trans->rot.matrix());
-		shaderManager.set_uni_transPosVal(this->trans->pos.matrix());
+		// Debug::Printf("transform = %s\n", this->tran->toString().c_str());
+		shaderManager.set_uni_transScaleVal(this->tran->get_scaleMatrix());
+		shaderManager.set_uni_transRotVal(this->tran->get_rotationMatrix());
+		shaderManager.set_uni_transPosVal(this->tran->get_positionMatrix());
 		glDrawElements(GL_TRIANGLES, this->mesh->elementsLen, GL_UNSIGNED_INT, 0);
 
 		glBindVertexArray(0);
