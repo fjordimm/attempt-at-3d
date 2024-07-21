@@ -11,15 +11,6 @@ namespace AttemptAt3D
 {
 	class Form
 	{
-		/* Fields */
-
-	   public:
-		Trans trans;
-		std::unique_ptr<Mesh> mesh;
-
-	   private:
-		std::unique_ptr<BodyReference> bodyReference;
-
 		/* Constructors */
 
 	   public:
@@ -28,5 +19,14 @@ namespace AttemptAt3D
 		Form& operator=(const Form&) = delete;
 		
 		Form(ShaderManager& shaderManager, BodyManager& bodyManager, const Trans& trans, std::unique_ptr<Mesh> mesh);
+
+		/* Fields */
+
+	   public:
+		Trans trans;
+		std::unique_ptr<Mesh> mesh;
+
+	   private:
+		std::unique_ptr<BodyReference> bodyReference;
 	};
 }

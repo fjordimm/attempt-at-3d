@@ -12,14 +12,6 @@ namespace AttemptAt3D
 {
 	class Mesh
 	{
-		/* Fields */
-
-	   public:
-		std::size_t verticesLen;
-		std::unique_ptr<float[]> vertices;
-		std::size_t elementsLen;
-		std::unique_ptr<GLuint[]> elements;
-
 		/* Constructors */
 
 	   public:
@@ -28,6 +20,14 @@ namespace AttemptAt3D
 		Mesh& operator=(const Mesh&) = delete;
 		
 		Mesh(std::size_t verticesLen, std::unique_ptr<float[]> vertices, std::size_t elementsLen, std::unique_ptr<GLuint[]> elements);
+
+		/* Fields */
+
+	   public:
+		std::size_t verticesLen;
+		std::unique_ptr<float[]> vertices;
+		std::size_t elementsLen;
+		std::unique_ptr<GLuint[]> elements;
 
 		/* Methods */
 

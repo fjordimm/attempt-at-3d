@@ -12,6 +12,14 @@ namespace AttemptAt3D
 {
 	class ShaderManager
 	{
+		/* Constructors */
+
+	   public:
+		ShaderManager(const ShaderManager&) = delete;
+		ShaderManager& operator=(const ShaderManager&) = delete;
+		
+		ShaderManager();
+
 		/* Fields */
 
 	   private:
@@ -37,14 +45,6 @@ namespace AttemptAt3D
 		void set_uni_viewVal(const glm::mat4& val);
 		void set_uni_projVal(const glm::mat4& val);
 		void set_uni_sunRotVal(const glm::mat4& val);
-
-		/* Constructors */
-
-	   public:
-		ShaderManager(const ShaderManager&) = delete;
-		ShaderManager& operator=(const ShaderManager&) = delete;
-		
-		ShaderManager();
 
 		/* Methods */
 

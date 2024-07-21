@@ -13,6 +13,14 @@ namespace AttemptAt3D
 {
 	class Head
 	{
+		/* Constructors */
+
+	   public:
+		Head(const Head&) = delete;
+		Head& operator=(const Head&) = delete;
+
+		Head();
+
 		/* Fields */
 
 	   private:
@@ -36,14 +44,6 @@ namespace AttemptAt3D
 		void set_aspectRatio(float val);
 		void set_nearClippingPlane(float val);
 		void set_farClippingPlane(float val);
-
-		/* Constructors */
-
-	   public:
-		Head(const Head&) = delete;
-		Head& operator=(const Head&) = delete;
-
-		Head();
 
 		/* Methods */
 

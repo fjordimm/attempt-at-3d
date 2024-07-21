@@ -5,11 +5,6 @@ namespace AttemptAt3D::_______
 {
 	class ___
 	{
-		/* Fields */
-
-	   private:
-		int a;
-
 		/* Constructors */
 
 	   public:
@@ -17,6 +12,11 @@ namespace AttemptAt3D::_______
 		___& operator=(const ___&) = delete;
 		
 		___();
+		
+		/* Fields */
+
+	   private:
+		int a;
 
 		/* Methods */
 	};

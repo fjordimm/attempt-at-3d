@@ -12,12 +12,6 @@ namespace AttemptAt3D
 	{
 		friend class BodyManager;
 
-		/* Fields */
-
-	   private:
-		_BodyManager::Body* const bodyPtr;
-		std::list<std::unique_ptr<_BodyManager::Body>>::const_iterator iter; // since there is no way to get a node for std::list, I use an iterator with the cursor at the current element which has the same functionality
-
 		/* Constructors */
 
 	   public:
@@ -25,5 +19,11 @@ namespace AttemptAt3D
 		BodyReference& operator=(const BodyReference&) = delete;
 		
 		BodyReference(_BodyManager::Body* bodyPtr);
+
+		/* Fields */
+
+	   private:
+		_BodyManager::Body* const bodyPtr;
+		std::list<std::unique_ptr<_BodyManager::Body>>::const_iterator iter; // since there is no way to get a node for std::list, I use an iterator with the cursor at the current element which has the same functionality
 	};
 }

@@ -5,11 +5,6 @@
 
 namespace AttemptAt3D
 {
-	const glm::mat4& get_positionMatrix();
-	const glm::mat4& get_rotationMatrix();
-	const Vec3& get_forwardVec();
-	const glm::mat4 get_scaleMatrix();
-	
 	/* Constructors */
 
 	Trans::Trans() :
@@ -50,6 +45,11 @@ namespace AttemptAt3D
         return *this;
 	}
 
+	const glm::mat4& get_positionMatrix();
+	const glm::mat4& get_rotationMatrix();
+	const Vec3& get_forwardVec();
+	const glm::mat4 get_scaleMatrix();
+	
 	/* Methods */
 
 	std::string Trans::toString() const

@@ -17,11 +17,6 @@ namespace AttemptAt3D
 {
 	class BodyManager
 	{
-		/* Fields */
-
-	   private:
-		std::list<std::unique_ptr<_BodyManager::Body>> bodies;
-
 		/* Constructors */
 
 	   public:
@@ -29,6 +24,11 @@ namespace AttemptAt3D
 		BodyManager& operator=(const BodyManager&) = delete;
 		
 		BodyManager();
+
+		/* Fields */
+
+	   private:
+		std::list<std::unique_ptr<_BodyManager::Body>> bodies;
 
 		/* Methods */
 

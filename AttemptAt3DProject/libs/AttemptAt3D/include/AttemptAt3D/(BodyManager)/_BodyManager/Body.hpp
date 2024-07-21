@@ -15,6 +15,15 @@ namespace AttemptAt3D::_BodyManager
 {
 	class Body
 	{
+		/* Constructors */
+
+	   public:
+		Body() = delete;
+		Body(const Body&) = delete;
+		Body& operator=(const Body&) = delete;
+		
+		Body(const Trans* trans, const Mesh* mesh);
+
 		/* Fields */
 
 	   private:
@@ -24,15 +33,6 @@ namespace AttemptAt3D::_BodyManager
 		GLuint vao;
 		GLuint vbo;
 		GLuint ebo;
-
-		/* Constructors */
-
-	   public:
-		Body() = delete;
-		Body(const Body&) = delete;
-		Body& operator=(const Body&) = delete;
-		
-		Body(const Trans* trans, const Mesh* mesh);
 
 		/* Methods */
 
