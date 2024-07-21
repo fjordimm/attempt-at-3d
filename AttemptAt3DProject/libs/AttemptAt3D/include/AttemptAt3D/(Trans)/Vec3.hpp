@@ -27,9 +27,9 @@ namespace AttemptAt3D
 		inline float get_x() { return this->_x; }
 		inline float get_y() { return this->_y; }
 		inline float get_z() { return this->_z; }
-		inline void set_x(float val);
-		inline void set_y(float val);
-		inline void set_z(float val);
+		void set_x(float val);
+		void set_y(float val);
+		void set_z(float val);
 
 		/* Constructors */
 

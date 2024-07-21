@@ -2,6 +2,7 @@
 #include "AttemptAt3D/(Trans)/Vec3.hpp"
 
 #include <sstream>
+#include "AttemptAt3D/(Debug)/Debug.hpp"
 
 namespace AttemptAt3D
 {
@@ -9,19 +10,19 @@ namespace AttemptAt3D
 
 	/* Getters and Setters */
 
-	inline void Vec3::set_x(float val)
+	void Vec3::set_x(float val)
 	{
 		this->_x = val;
 		this->_updateMat();
 	}
 
-	inline void Vec3::set_y(float val)
+	void Vec3::set_y(float val)
 	{
 		this->_y = val;
 		this->_updateMat();
 	}
 
-	inline void Vec3::set_z(float val)
+	void Vec3::set_z(float val)
 	{
 		this->_z = val;
 		this->_updateMat();
@@ -86,9 +87,13 @@ namespace AttemptAt3D
 
 	void Vec3Rot::_updateMat()
 	{
-		this->_mat = glm::rotate(glm::mat4(0.0f), this->_x, glm::vec3(1.0f, 0.0f, 0.0f));
-		this->_mat = glm::rotate(this->_mat, this->_y, glm::vec3(0.0f, 1.0f, 0.0f));
-		this->_mat = glm::rotate(this->_mat, this->_z, glm::vec3(0.0f, 0.0f, 1.0f));
+		// Note: the order I rotate is Y, X, Z
+
+		glm::mat4 rotY = glm::toMat4(glm::angleAxis(this->_y, glm::vec3(0.0f, 1.0f, 0.0f)));
+		glm::mat4 rotX = glm::toMat4(glm::angleAxis(this->_x, glm::vec3(1.0f, 0.0f, 0.0f)));
+		glm::mat4 rotZ = glm::toMat4(glm::angleAxis(this->_z, glm::vec3(0.0f, 0.0f, 1.0f)));
+
+		this->_mat = rotZ * rotX * rotY;
 	}
 
 	///// Vec3Pos /////

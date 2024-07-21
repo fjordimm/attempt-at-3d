@@ -11,7 +11,7 @@ namespace AttemptAt3D
 		trans(trans),
 		mesh(std::move(mesh))
 	{
-		bodyReference = bodyManager.addNewBody(shaderManager, &trans, this->mesh.get());
+		bodyReference = bodyManager.addNewBody(shaderManager, &this->trans, this->mesh.get());
 	}
 
 	/* Methods */

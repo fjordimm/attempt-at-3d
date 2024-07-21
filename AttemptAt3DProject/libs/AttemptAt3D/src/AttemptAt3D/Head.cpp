@@ -8,6 +8,7 @@
 #include "AttemptAt3D/(Debug)/Debug.hpp"
 #include "AttemptAt3D/(Form)/Form.hpp"
 #include "AttemptAt3D/(Trans)/Trans.hpp"
+#include "AttemptAt3D/(Trans)/Vec3.hpp"
 #include "AttemptAt3D/(Mesh)/Mesh.hpp"
 #include "AttemptAt3D/(Mesh)/MeshSamples/InvertedPyramid.hpp"
 #include "AttemptAt3D/(Mesh)/MeshSamples/Cube.hpp"
@@ -130,7 +131,9 @@ namespace AttemptAt3D
 			///////////////
 
 			{
-
+				// form1->trans.pos.set_x(0.0f);
+				form1->trans.rot.set_z(0.4f);
+				// form1->trans.scale.set_z(0.5f);
 			}
 		}
 

@@ -40,9 +40,10 @@ namespace AttemptAt3D::_BodyManager
 	{
 		glBindVertexArray(this->vao);
 
-		// shaderManager.set_uni_transScaleVal(this->trans->scale.matrix());
-		// shaderManager.set_uni_transRotVal(this->trans->rot.matrix());
-		// shaderManager.set_uni_transPosVal(this->trans->pos.matrix());
+		// Debug::Printf("transform = %s\n", this->trans->toString().c_str());
+		shaderManager.set_uni_transScaleVal(this->trans->scale.matrix());
+		shaderManager.set_uni_transRotVal(this->trans->rot.matrix());
+		shaderManager.set_uni_transPosVal(this->trans->pos.matrix());
 		glDrawElements(GL_TRIANGLES, this->mesh->elementsLen, GL_UNSIGNED_INT, 0);
 
 		glBindVertexArray(0);
