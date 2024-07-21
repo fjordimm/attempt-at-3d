@@ -34,9 +34,7 @@ namespace AttemptAt3D
 		_x(x),
 		_y(y),
 		_z(z)
-	{
-		this->_updateMat();
-	}
+	{}
 
 	Vec3::Vec3(const Vec3& other) :
 		_mat(other._mat),
@@ -47,13 +45,11 @@ namespace AttemptAt3D
 
 	Vec3& Vec3::operator=(const Vec3& other)
 	{
-		if (this != &other)
-		{
-            this->_mat = other._mat;
-            this->_x = other._x;
-            this->_y = other._y;
-            this->_z = other._z;
-        }
+		this->_mat = other._mat;
+		this->_x = other._x;
+		this->_y = other._y;
+		this->_z = other._z;
+		this->_updateMat();
 		
         return *this;
 	}
@@ -67,21 +63,32 @@ namespace AttemptAt3D
 		return ret.str();
 	}
 
-	void Vec3::_updateMat()
-	{
-		this->_mat = glm::mat4(1.0f);
-	}
-
 	///// Vec3Scale /////
+
+	/* Constructors */
+
+	Vec3Scale::Vec3Scale(float x, float y, float z) : Vec3(x, y, z)
+	{ this->_updateMat(); }
+
+	Vec3Scale::Vec3Scale(const Vec3& other) : Vec3(other)
+	{ this->_updateMat(); }
 
 	/* Methods */
 
 	void Vec3Scale::_updateMat()
 	{
-		this->_mat = glm::scale(glm::mat4(0.0f), glm::vec3(this->_x, this->_y, this->_z));
+		this->_mat = glm::scale(glm::mat4(1.0f), glm::vec3(this->_x, this->_y, this->_z));
 	}
 
 	///// Vec3Rot /////
+
+	/* Constructors */
+
+	Vec3Rot::Vec3Rot(float x, float y, float z) : Vec3(x, y, z)
+	{ this->_updateMat(); }
+
+	Vec3Rot::Vec3Rot(const Vec3& other) : Vec3(other)
+	{ this->_updateMat(); }
 
 	/* Methods */
 
@@ -98,10 +105,18 @@ namespace AttemptAt3D
 
 	///// Vec3Pos /////
 
+	/* Constructors */
+
+	Vec3Pos::Vec3Pos(float x, float y, float z) : Vec3(x, y, z)
+	{ this->_updateMat(); }
+
+	Vec3Pos::Vec3Pos(const Vec3& other) : Vec3(other)
+	{ this->_updateMat(); }
+
 	/* Methods */
 
 	void Vec3Pos::_updateMat()
 	{
-		this->_mat = glm::translate(glm::mat4(0.0f), glm::vec3(this->_x, this->_y, this->_z));
+		this->_mat = glm::translate(glm::mat4(1.0f), glm::vec3(this->_x, this->_y, this->_z));
 	}
 }

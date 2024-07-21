@@ -8,9 +8,9 @@ namespace AttemptAt3D::MeshSamples
 	class InvertedPyramid : public MeshSample
 	{
 	   protected:
-		virtual std::size_t verticesSize(); // In bytes, not length
-		virtual const float* vertices();
-		virtual std::size_t elementsSize(); // In bytes, not length
-		virtual const GLuint* elements();
+		virtual std::size_t verticesSize() override; // In bytes, not length
+		virtual const float* vertices() override;
+		virtual std::size_t elementsSize() override; // In bytes, not length
+		virtual const GLuint* elements() override;
 	};
 }

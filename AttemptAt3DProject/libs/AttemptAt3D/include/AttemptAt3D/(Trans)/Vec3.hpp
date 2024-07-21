@@ -46,24 +46,48 @@ namespace AttemptAt3D
 		std::string toString() const;
 
 	   protected:
-		virtual void _updateMat();
+		virtual void _updateMat() = 0;
 	};
 
 	class Vec3Scale : public Vec3
 	{
-		using Vec3::Vec3; // constructor inheritance
-		void _updateMat();
+		/* Constructors */
+
+	   public:
+		Vec3Scale(float x, float y, float z);
+		Vec3Scale(const Vec3& other);
+
+		/* Methods */
+
+	   public:
+		void _updateMat() override;
 	};
 
 	class Vec3Rot : public Vec3
 	{
-		using Vec3::Vec3; // constructor inheritance
-		void _updateMat();
+		/* Constructors */
+	
+	   public:
+		Vec3Rot(float x, float y, float z);
+		Vec3Rot(const Vec3& other);
+
+		/* Methods */
+
+	   public:
+		void _updateMat() override;
 	};
 
 	class Vec3Pos : public Vec3
 	{
-		using Vec3::Vec3; // constructor inheritance
-		void _updateMat();
+		/* Constructors */
+
+	   public:
+		Vec3Pos(float x, float y, float z);
+		Vec3Pos(const Vec3& other);
+
+		/* Methods */
+
+	   public:
+		void _updateMat() override;
 	};
 }

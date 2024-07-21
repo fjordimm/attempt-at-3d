@@ -133,7 +133,8 @@ namespace AttemptAt3D
 			{
 				// form1->trans.pos.set_x(0.0f);
 				form1->trans.rot.set_z(0.4f);
-				// form1->trans.scale.set_z(0.5f);
+				form1->trans.scale.set_z(0.5f);
+				form1->trans.pos.set_x(1.5f);
 			}
 		}
 
