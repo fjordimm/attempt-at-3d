@@ -15,8 +15,8 @@ namespace AttemptAt3D
 	   public:
 		Tran();
 		// Tran(const Vec3Scale& scale, const Vec3Rot& rot, const Vec3Pos& pos);
-		Tran(const Tran& that);
-		Tran& operator=(const Tran& that);
+		Tran(const Tran& that) = delete;
+		Tran& operator=(const Tran& that) = delete;
 
 		/* Fields */
 
@@ -55,6 +55,6 @@ namespace AttemptAt3D
 
 	   public:
 		std::string toString() const;
-		const Vec3& getEulerAngles() const;
+		Vec3 getEulerAngles() const;
 	};
 }

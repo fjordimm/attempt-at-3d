@@ -2,6 +2,7 @@
 #include "AttemptAt3D/(Tran)/Tran.hpp"
 
 #include <sstream>
+#include "AttemptAt3D/(Debug)/Debug.hpp"
 
 namespace AttemptAt3D
 {
@@ -19,34 +20,37 @@ namespace AttemptAt3D
 		_hasChangedForwardVec(true),
 		_scale(Vec3s::One),
 		_hasChangedScaleMatrix(true)
-	{}
-
-	Tran::Tran(const Tran& that) :
-		_position(that._position),
-		_hasChangedPositionMatrix(that._hasChangedPositionMatrix),
-		_positionMatrix(that._positionMatrix),
-		_rotation(that._rotation),
-		_hasChangedRotationMatrix(that._hasChangedRotationMatrix),
-		_hasChangedForwardVec(that._hasChangedForwardVec),
-		_scale(that._scale),
-		_hasChangedScaleMatrix(that._hasChangedScaleMatrix),
-		_scaleMatrix(that._scaleMatrix)
-	{}
-
-	Tran& Tran::operator=(const Tran& that)
 	{
-		_position = that._position;
-		_hasChangedPositionMatrix = that._hasChangedPositionMatrix;
-		_positionMatrix = that._positionMatrix;
-		_rotation = that._rotation;
-		_hasChangedRotationMatrix = that._hasChangedRotationMatrix;
-		_hasChangedForwardVec = that._hasChangedForwardVec;
-		_scale = that._scale;
-		_hasChangedScaleMatrix = that._hasChangedScaleMatrix;
-		_scaleMatrix = that._scaleMatrix;
-		
-        return *this;
+		// Debug::Log("tran constructed");
+		// Debug::Printf("noice tran = %s\n", this->toString());
 	}
+
+	// Tran::Tran(const Tran& that) :
+	// 	_position(that._position),
+	// 	_hasChangedPositionMatrix(that._hasChangedPositionMatrix),
+	// 	_positionMatrix(that._positionMatrix),
+	// 	_rotation(that._rotation),
+	// 	_hasChangedRotationMatrix(that._hasChangedRotationMatrix),
+	// 	_hasChangedForwardVec(that._hasChangedForwardVec),
+	// 	_scale(that._scale),
+	// 	_hasChangedScaleMatrix(that._hasChangedScaleMatrix),
+	// 	_scaleMatrix(that._scaleMatrix)
+	// {}
+
+	// Tran& Tran::operator=(const Tran& that)
+	// {
+	// 	_position = that._position;
+	// 	_hasChangedPositionMatrix = that._hasChangedPositionMatrix;
+	// 	_positionMatrix = that._positionMatrix;
+	// 	_rotation = that._rotation;
+	// 	_hasChangedRotationMatrix = that._hasChangedRotationMatrix;
+	// 	_hasChangedForwardVec = that._hasChangedForwardVec;
+	// 	_scale = that._scale;
+	// 	_hasChangedScaleMatrix = that._hasChangedScaleMatrix;
+	// 	_scaleMatrix = that._scaleMatrix;
+		
+    //     return *this;
+	// }
 
 	/* Getters and Setters */
 
@@ -103,12 +107,16 @@ namespace AttemptAt3D
 
 	std::string Tran::toString() const
 	{
+		// Debug::Printf("prrriiinntttiiinnggg\n");
+		// Debug::Printf("position = %s\n", Vec3s::ToString(this->_position).c_str());
+		// Debug::Printf("angles = %s\n", Vec3s::ToString(this->getEulerAngles()).c_str());
+
 		std::ostringstream ret;
-		ret << "{pos" << Vec3s::ToString(this->_position) << " rot" << Vec3s::ToString(this->getEulerAngles()) << " scale" << Vec3s::ToString(this->_scale) << "}";
+		ret << "{pos" << Vec3s::ToString(this->_position).c_str() << " rot" << Vec3s::ToString(this->getEulerAngles()).c_str() << " scale" << Vec3s::ToString(this->_scale).c_str() << "}";
 		return ret.str();
 	}
 	
-	const Vec3& Tran::getEulerAngles() const
+	Vec3 Tran::getEulerAngles() const
 	{
 		return glm::eulerAngles(this->_rotation);
 	}

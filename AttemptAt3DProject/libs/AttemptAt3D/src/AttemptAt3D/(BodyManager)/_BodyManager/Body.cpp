@@ -7,7 +7,7 @@ namespace AttemptAt3D::_BodyManager
 {
 	/* Constructors */
 
-	Body::Body(Tran* , Mesh* mesh) :
+	Body::Body(Tran* tran, Mesh* mesh) :
 		tran(tran),
 		mesh(mesh),
 		vao(-1),
@@ -38,12 +38,19 @@ namespace AttemptAt3D::_BodyManager
 
 	void Body::drawBody(ShaderManager& shaderManager) const
 	{
+		// Debug::Log("A");
+		// Debug::Printf("transform = %s\n", this->tran->toString().c_str());
 		glBindVertexArray(this->vao);
+
 
 		// Debug::Printf("transform = %s\n", this->tran->toString().c_str());
 		shaderManager.set_uni_transScaleVal(this->tran->get_scaleMatrix());
+		// Debug::Log("B");
 		shaderManager.set_uni_transRotVal(this->tran->get_rotationMatrix());
+		// Debug::Log("C");
 		shaderManager.set_uni_transPosVal(this->tran->get_positionMatrix());
+		// Debug::Log("D");
+		
 		glDrawElements(GL_TRIANGLES, this->mesh->elementsLen, GL_UNSIGNED_INT, 0);
 
 		glBindVertexArray(0);
