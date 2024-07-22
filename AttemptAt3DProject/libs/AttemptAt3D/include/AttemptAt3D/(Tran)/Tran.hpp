@@ -14,26 +14,26 @@ namespace AttemptAt3D
 
 	   public:
 		Tran();
-		// Tran(const Vec3Scale& scale, const Vec3Rot& rot, const Vec3Pos& pos);
 		Tran(const Tran& that);
 		Tran& operator=(const Tran& that);
 
 		/* Fields */
 
 	   private:
+		bool _mayHaveChangedPosition;
 		Vec3 _position;
-		bool _hasChangedPositionMatrix;
-		glm::mat4 _positionMatrix;
+		glm::mat4 _cached_positionMatrix;
 
+		bool _mayHaveChangedRotation;
 		Quat _rotation;
-		bool _hasChangedRotationMatrix;
-		glm::mat4 _rotationMatrix;
-		bool _hasChangedForwardVec;
-		Vec3 _forwardVec;
+		glm::mat4 _cached_rotationMatrix;
+		Vec3 _cached_forwardVec;
+		Vec3 _cached_upVec;
+		Vec3 _cached_rightVec;
 
+		bool _mayHaveChangedScale;
 		Vec3 _scale;
-		bool _hasChangedScaleMatrix;
-		glm::mat4 _scaleMatrix;
+		glm::mat4 _cached_scaleMatrix;
 
 		/* Getters and Setters */
 
@@ -41,13 +41,15 @@ namespace AttemptAt3D
 		inline const Vec3& get_position() const { return this->_position; }
 		inline const Quat& get_rotationQuat() const { return this->_rotation; }
 		inline const Vec3& get_scale() const { return this->_scale; }
-		inline Vec3& acq_position() { this->_hasChangedPositionMatrix = true; return this->_position; }
-		inline Quat& acq_rotation() { this->_hasChangedRotationMatrix = true; this->_hasChangedForwardVec = true; return this->_rotation; }
-		inline Vec3& acq_scale() { this->_hasChangedScaleMatrix = true; return this->_scale; }
+		inline Vec3& acq_position() { this->_mayHaveChangedPosition = true; return this->_position; }
+		inline Quat& acq_rotation() { this->_mayHaveChangedRotation = true; return this->_rotation; }
+		inline Vec3& acq_scale() { this->_mayHaveChangedScale = true; return this->_scale; }
 		
 		const glm::mat4& get_positionMatrix();
 		const glm::mat4& get_rotationMatrix();
 		const Vec3& get_forwardVec();
+		const Vec3& get_upVec();
+		const Vec3& get_rightVec();
 		const glm::mat4 get_scaleMatrix();
 
 
@@ -56,5 +58,10 @@ namespace AttemptAt3D
 	   public:
 		std::string toString() const;
 		Vec3 getEulerAngles() const;
+
+	   private:
+		void _updatePositionDeps();
+		void _updateRotationDeps();
+		void _updateScaleDeps();
 	};
 }
