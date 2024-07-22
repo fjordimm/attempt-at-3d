@@ -136,9 +136,9 @@ namespace AttemptAt3D
 
 			/// Temp ///
 			////////////////////////////////////////////////////////////
-			// this->mainCamera->tran.acq_rotation() *= glm::angleAxis(0.0005f * deltaTime, Vec3s::Forwards);
+			this->mainCamera->tran.acq_rotation() *= glm::angleAxis(0.0005f * deltaTime, Vec3s::Forwards);
 			// // this->mainCamera->tran.acq_position() += Vec3(0.0f, -0.0012f * deltaTime, 0.0f);
-			// this->mainCamera->recalculateAndApplyViewMatrix(this->shaderManager);
+			this->mainCamera->recalculateAndApplyViewMatrix(this->shaderManager);
 
 			form1->tran.acq_rotation() *= glm::angleAxis(0.0006f * deltaTime, Vec3s::Up);
 			form2->tran.acq_rotation() *= glm::angleAxis(0.0035f * deltaTime, Vec3s::Up);

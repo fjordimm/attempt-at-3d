@@ -19,7 +19,7 @@ namespace AttemptAt3D::Forms
 		glm::mat4 viewMatrix = glm::lookAt(
 			this->tran.get_position(),
 			this->tran.get_position() + this->tran.get_forwardVec(),
-			Vec3s::Up
+			this->tran.get_upVec()
 		);
 
 		shaderManager.set_uni_viewVal(viewMatrix);
