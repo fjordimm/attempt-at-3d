@@ -2,7 +2,6 @@
 #include "AttemptAt3D/(Form)/Forms/Camera.hpp"
 
 #include "AttemptAt3D/(headerGroups)/glmGroup.hpp"
-#include "AttemptAt3D/(Tran)/Vec3.hpp"
 
 namespace AttemptAt3D::Forms
 {

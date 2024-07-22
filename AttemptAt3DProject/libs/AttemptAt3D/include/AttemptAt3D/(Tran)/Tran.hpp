@@ -3,7 +3,7 @@
 
 #include <string>
 #include "AttemptAt3D/(headerGroups)/glmGroup.hpp"
-#include "AttemptAt3D/(Tran)/Vec3.hpp"
+#include "AttemptAt3D/(Tran)/Vec.hpp"
 #include "AttemptAt3D/(Tran)/Quat.hpp"
 
 namespace AttemptAt3D
@@ -21,48 +21,47 @@ namespace AttemptAt3D
 
 	   private:
 		bool _mayHaveChangedPosition;
-		Vec3 _position;
+		Vec _position;
 		glm::mat4 _cached_positionMatrix;
 
 		bool _mayHaveChangedRotation;
 		Quat _rotation;
 		glm::mat4 _cached_rotationMatrix;
-		Vec3 _cached_forwardVec;
-		Vec3 _cached_upVec;
-		Vec3 _cached_rightVec;
+		Vec _cached_forwardVec;
+		Vec _cached_upVec;
+		Vec _cached_rightVec;
 
 		bool _mayHaveChangedScale;
-		Vec3 _scale;
+		Vec _scale;
 		glm::mat4 _cached_scaleMatrix;
 
 		/* Getters and Setters */
 
 	   public:
-		inline const Vec3& get_position() const { return this->_position; }
+		inline const Vec& get_position() const { return this->_position; }
 		inline const Quat& get_rotation() const { return this->_rotation; }
-		inline const Vec3& get_scale() const { return this->_scale; }
-		inline Vec3& acq_position() { this->_mayHaveChangedPosition = true; return this->_position; }
+		inline const Vec& get_scale() const { return this->_scale; }
+		inline Vec& acq_position() { this->_mayHaveChangedPosition = true; return this->_position; }
 		inline Quat& acq_rotation() { this->_mayHaveChangedRotation = true; return this->_rotation; }
-		inline Vec3& acq_scale() { this->_mayHaveChangedScale = true; return this->_scale; }
+		inline Vec& acq_scale() { this->_mayHaveChangedScale = true; return this->_scale; }
 		
 		const glm::mat4& get_positionMatrix();
 		const glm::mat4& get_rotationMatrix();
-		const Vec3& get_forwardVec();
-		const Vec3& get_upVec();
-		const Vec3& get_rightVec();
+		const Vec& get_forwardVec();
+		const Vec& get_upVec();
+		const Vec& get_rightVec();
 		const glm::mat4 get_scaleMatrix();
-
 
 		/* Methods */
 
 	   public:
 		std::string toString() const;
-		Vec3 getEulerAngles() const;
+		Vec getEulerAngles() const;
 
-		void move(const Vec3& vec);
-		void moveAlong(const Vec3& vec, float dist);
-		void locallyMove(const Vec3& vec);
-		// void locallyMoveAlong(const Vec3& vec, float dist);
+		void move(const Vec& vec);
+		void moveAlong(const Vec& vec, float dist);
+		void locallyMove(const Vec& vec);
+		// void locallyMoveAlong(const Vec& vec, float dist);
 
 	   private:
 		void _updatePositionDeps();

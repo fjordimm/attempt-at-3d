@@ -100,7 +100,7 @@ namespace AttemptAt3D
 	{
 		/// Temp ///
 		////////////////////////////////////////////////////////////
-		this->mainCamera->tran.acq_position() = Vec3(0.0f, -21.0f, 6.0f);
+		this->mainCamera->tran.acq_position() = Vec(0.0f, -21.0f, 6.0f);
 		this->mainCamera->recalculateAndApplyViewMatrix(this->shaderManager);
 
 		std::unique_ptr<Form> form1 = std::make_unique<Form>(this->shaderManager, MeshSamples::Cube().make());
@@ -138,11 +138,11 @@ namespace AttemptAt3D
 			////////////////////////////////////////////////////////////
 			// this->mainCamera->recalculateAndApplyViewMatrix(this->shaderManager);
 
-			form2->tran.acq_rotation() *= glm::angleAxis(0.0015f * deltaTime, Vec3s::Up);
+			form2->tran.acq_rotation() *= glm::angleAxis(0.0015f * deltaTime, Vecs::Up);
 
-			// form2->tran.move(Vec3(0.0f, 0.002f * deltaTime, 0.0f));
+			// form2->tran.move(Vec(0.0f, 0.002f * deltaTime, 0.0f));
 			// form2->tran.moveAlong(form2->tran.get_forwardVec(), 0.002f * deltaTime);
-			// form2->tran.locallyMove(Vec3(0.0f, 0.002f * deltaTime, 0.0f));
+			// form2->tran.locallyMove(Vec(0.0f, 0.002f * deltaTime, 0.0f));
 
 			////////////////////////////////////////////////////////////
 		}

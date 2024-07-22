@@ -8,7 +8,7 @@ add_executable(AttemptAt3DExec
 	"src/AttemptAt3D/(FileLoading)/FileLoading.cpp"
 	"src/AttemptAt3D/(ShaderManager)/ShaderManager.cpp"
 	"src/AttemptAt3D/(Tran)/Tran.cpp"
-	"src/AttemptAt3D/(Tran)/Vec3.cpp"
+	"src/AttemptAt3D/(Tran)/Vec.cpp"
 	"src/AttemptAt3D/(Mesh)/Mesh.cpp"
 	"src/AttemptAt3D/(Mesh)/MeshSamples/MeshSample.cpp"
 	"src/AttemptAt3D/(Mesh)/MeshSamples/InvertedPyramid.cpp"

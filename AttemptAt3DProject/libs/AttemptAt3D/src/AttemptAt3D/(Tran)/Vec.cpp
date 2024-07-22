@@ -1,11 +1,11 @@
 
-#include "AttemptAt3D/(Tran)/Vec3.hpp"
+#include "AttemptAt3D/(Tran)/Vec.hpp"
 
 #include <sstream>
 
-namespace AttemptAt3D::Vec3s
+namespace AttemptAt3D::Vecs
 {
-	std::string ToString(const Vec3& subj)
+	std::string ToString(const Vec& subj)
 	{
 		std::ostringstream ret;
 		ret << "(" << subj.x << ", " << subj.y << ", " << subj.z << ")";

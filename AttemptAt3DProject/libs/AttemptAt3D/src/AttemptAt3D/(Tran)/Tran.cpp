@@ -14,11 +14,11 @@ namespace AttemptAt3D
 
 	Tran::Tran() :
 		_mayHaveChangedPosition(true),
-		_position(Vec3s::Zero),
+		_position(Vecs::Zero),
 		_mayHaveChangedRotation(true),
 		_rotation(Quats::Identity),
 		_mayHaveChangedScale(true),
-		_scale(Vec3s::One)
+		_scale(Vecs::One)
 	{}
 
 	Tran::Tran(const Tran& that) :
@@ -78,7 +78,7 @@ namespace AttemptAt3D
 		return this->_cached_rotationMatrix;
 	}
 
-	const Vec3& Tran::get_forwardVec()
+	const Vec& Tran::get_forwardVec()
 	{
 		if (this->_mayHaveChangedRotation)
 		{
@@ -89,7 +89,7 @@ namespace AttemptAt3D
 		return this->_cached_forwardVec;
 	}
 
-	const Vec3& Tran::get_upVec()
+	const Vec& Tran::get_upVec()
 	{
 		if (this->_mayHaveChangedRotation)
 		{
@@ -100,7 +100,7 @@ namespace AttemptAt3D
 		return this->_cached_upVec;
 	}
 
-	const Vec3& Tran::get_rightVec()
+	const Vec& Tran::get_rightVec()
 	{
 		if (this->_mayHaveChangedRotation)
 		{
@@ -127,26 +127,26 @@ namespace AttemptAt3D
 	std::string Tran::toString() const
 	{
 		std::ostringstream ret;
-		ret << "{pos" << Vec3s::ToString(this->_position).c_str() << " rot" << Vec3s::ToString(this->getEulerAngles()).c_str() << " scale" << Vec3s::ToString(this->_scale).c_str() << "}";
+		ret << "{pos" << Vecs::ToString(this->_position).c_str() << " rot" << Vecs::ToString(this->getEulerAngles()).c_str() << " scale" << Vecs::ToString(this->_scale).c_str() << "}";
 		return ret.str();
 	}
 	
-	Vec3 Tran::getEulerAngles() const
+	Vec Tran::getEulerAngles() const
 	{
 		return glm::eulerAngles(this->_rotation);
 	}
 
-	void Tran::move(const Vec3& vec)
+	void Tran::move(const Vec& vec)
 	{
 		this->acq_position() += vec;
 	}
 
-	void Tran::moveAlong(const Vec3& vec, float dist)
+	void Tran::moveAlong(const Vec& vec, float dist)
 	{
 		this->acq_position() += dist * vec;
 	}
 
-	void Tran::locallyMove(const Vec3& vec)
+	void Tran::locallyMove(const Vec& vec)
 	{
 		this->acq_position() += this->get_rotation() * vec;
 	}
@@ -159,9 +159,9 @@ namespace AttemptAt3D
 	void Tran::_updateRotationDeps()
 	{
 		this->_cached_rotationMatrix = glm::mat4_cast(this->_rotation);
-		this->_cached_forwardVec = glm::rotate(this->_rotation, Vec3s::Forwards);
-		this->_cached_upVec = glm::rotate(this->_rotation, Vec3s::Up);
-		this->_cached_rightVec = glm::rotate(this->_rotation, Vec3s::Right);
+		this->_cached_forwardVec = glm::rotate(this->_rotation, Vecs::Forwards);
+		this->_cached_upVec = glm::rotate(this->_rotation, Vecs::Up);
+		this->_cached_rightVec = glm::rotate(this->_rotation, Vecs::Right);
 	}
 	
 	void Tran::_updateScaleDeps()
