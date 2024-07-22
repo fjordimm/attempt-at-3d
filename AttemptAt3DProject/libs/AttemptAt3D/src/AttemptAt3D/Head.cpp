@@ -11,11 +11,6 @@
 
 namespace AttemptAt3D
 {
-	// TODO: delete
-	static std::unique_ptr<Form> form1;
-	static std::unique_ptr<Form> form2;
-	static std::unique_ptr<Form> form3;
-
 	/* Constructors */
 
 	Head::Head() :
@@ -26,7 +21,7 @@ namespace AttemptAt3D
 		_farClippingPlane(100000.0f),
 		shaderManager()
 	{
-		// this->theSun = std::make_unique<Form>();
+		this->mainCamera = std::make_unique<Forms::Camera>(this->shaderManager);
 	}
 
 	void Head::set_fov(float val)
@@ -96,18 +91,6 @@ namespace AttemptAt3D
 		glfwSetWindowUserPointer(this->windowForGlfw, this); // passes a pointer to this Head to OpenGL
 		this->_updateProjectionMatrix();
 
-		/* TEMP */
-
-		{
-			form1 = std::make_unique<Form>(this->shaderManager, MeshSamples::Cube().make());
-			form1->tran.acq_scale().x = 0.6f;
-			form1->tran.acq_scale().y = 0.6f;
-			form1->tran.acq_scale().z = 2.0f;
-
-			form2 = std::make_unique<Form>(this->shaderManager, MeshSamples::Cube().make());
-			form2->tran.acq_position().z += 2.0f;
-		}
-
 		/* Main Loop */
 
 		this->mainLoop();
@@ -115,6 +98,20 @@ namespace AttemptAt3D
 
 	void Head::mainLoop()
 	{
+		/// Temp ///
+		////////////////////////////////////////////////////////////
+		this->mainCamera->tran.acq_position() = Vec3(0.0f, -11.0f, 0.0f);
+		this->mainCamera->recalculateAndApplyViewMatrix(this->shaderManager);
+
+		std::unique_ptr<Form> form1 = std::make_unique<Form>(this->shaderManager, MeshSamples::Cube().make());
+		form1->tran.acq_scale().x = 0.6f;
+		form1->tran.acq_scale().y = 0.6f;
+		form1->tran.acq_scale().z = 2.0f;
+
+		std::unique_ptr<Form> form2 = std::make_unique<Form>(this->shaderManager, MeshSamples::Cube().make());
+		form2->tran.acq_position().z += 2.0f;
+		////////////////////////////////////////////////////////////
+
 		while (!glfwWindowShouldClose(this->windowForGlfw))
 		{
 			/* Calculate Delta Time */
@@ -137,12 +134,11 @@ namespace AttemptAt3D
 			glfwPollEvents();
 			glfwSwapBuffers(this->windowForGlfw);
 
-			/* TEMP */
-
-			{
-				form1->tran.acq_rotation() *= glm::angleAxis(0.0006f * deltaTime, Vec3s::Up);
-				form2->tran.acq_rotation() *= glm::angleAxis(0.0035f * deltaTime, Vec3s::Up);
-			}
+			/// Temp ///
+			////////////////////////////////////////////////////////////
+			form1->tran.acq_rotation() *= glm::angleAxis(0.0006f * deltaTime, Vec3s::Up);
+			form2->tran.acq_rotation() *= glm::angleAxis(0.0035f * deltaTime, Vec3s::Up);
+			////////////////////////////////////////////////////////////
 		}
 
 		this->endGlfw();

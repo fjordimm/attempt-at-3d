@@ -8,6 +8,7 @@
 #include "AttemptAt3D/(headerGroups)/glmGroup.hpp"
 #include "AttemptAt3D/(ShaderManager)/ShaderManager.hpp"
 #include "AttemptAt3D/(Form)/Form.hpp"
+#include "AttemptAt3D/(Form)/Forms/Camera.hpp"
 
 namespace AttemptAt3D
 {
@@ -32,7 +33,7 @@ namespace AttemptAt3D
 
 		ShaderManager shaderManager;
 
-		// std::unique_ptr<Form> theSun;
+		std::unique_ptr<Forms::Camera> mainCamera;
 
 		/* Getters and Setters */
 

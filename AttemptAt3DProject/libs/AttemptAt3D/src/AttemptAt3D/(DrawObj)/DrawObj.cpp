@@ -14,23 +14,26 @@ namespace AttemptAt3D
 		vbo(-1),
 		ebo(-1)
 	{
-		/* Initialize VAO */
+		if (this->mesh)
+		{
+			/* Initialize VAO */
 
-		glGenVertexArrays(1, &this->vao);
-		glBindVertexArray(this->vao);
-		
-		glGenBuffers(1, &this->vbo);
-		glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
+			glGenVertexArrays(1, &this->vao);
+			glBindVertexArray(this->vao);
+			
+			glGenBuffers(1, &this->vbo);
+			glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
 
-		glGenBuffers(1, &this->ebo);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->ebo);
+			glGenBuffers(1, &this->ebo);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->ebo);
 
-		glBufferData(GL_ARRAY_BUFFER, this->mesh->verticesLen * sizeof(this->mesh->vertices[0]), this->mesh->vertices.get(), GL_DYNAMIC_DRAW);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->mesh->elementsLen * sizeof(this->mesh->elements[0]), this->mesh->elements.get(), GL_DYNAMIC_DRAW);
+			glBufferData(GL_ARRAY_BUFFER, this->mesh->verticesLen * sizeof(this->mesh->vertices[0]), this->mesh->vertices.get(), GL_DYNAMIC_DRAW);
+			glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->mesh->elementsLen * sizeof(this->mesh->elements[0]), this->mesh->elements.get(), GL_DYNAMIC_DRAW);
 
-		shaderManager.doAttribs();
+			shaderManager.doAttribs();
 
-		glBindVertexArray(0);
+			glBindVertexArray(0);
+		}
 	}
 
 	/* Methods */
