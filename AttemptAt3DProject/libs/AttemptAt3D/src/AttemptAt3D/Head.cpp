@@ -100,16 +100,16 @@ namespace AttemptAt3D
 	{
 		/// Temp ///
 		////////////////////////////////////////////////////////////
-		this->mainCamera->tran.acq_position() = Vec3(0.0f, -27.0f, 6.0f);
+		this->mainCamera->tran.acq_position() = Vec3(0.0f, -21.0f, 6.0f);
 		this->mainCamera->recalculateAndApplyViewMatrix(this->shaderManager);
 
 		std::unique_ptr<Form> form1 = std::make_unique<Form>(this->shaderManager, MeshSamples::Cube().make());
-		form1->tran.acq_scale().x = 0.6f;
-		form1->tran.acq_scale().y = 0.6f;
-		form1->tran.acq_scale().z = 2.0f;
+		form1->tran.acq_scale().x = 3.0f;
+		form1->tran.acq_scale().y = 3.0f;
+		form1->tran.acq_scale().z = 0.1f;
 
 		std::unique_ptr<Form> form2 = std::make_unique<Form>(this->shaderManager, MeshSamples::Cube().make());
-		form2->tran.acq_position().z += 2.0f;
+		form2->tran.acq_position().z = 1.1f;
 		////////////////////////////////////////////////////////////
 
 		while (!glfwWindowShouldClose(this->windowForGlfw))
@@ -136,12 +136,14 @@ namespace AttemptAt3D
 
 			/// Temp ///
 			////////////////////////////////////////////////////////////
-			this->mainCamera->tran.acq_rotation() *= glm::angleAxis(0.0005f * deltaTime, Vec3s::Forwards);
-			// // this->mainCamera->tran.acq_position() += Vec3(0.0f, -0.0012f * deltaTime, 0.0f);
-			this->mainCamera->recalculateAndApplyViewMatrix(this->shaderManager);
+			// this->mainCamera->recalculateAndApplyViewMatrix(this->shaderManager);
 
-			form1->tran.acq_rotation() *= glm::angleAxis(0.0006f * deltaTime, Vec3s::Up);
-			form2->tran.acq_rotation() *= glm::angleAxis(0.0035f * deltaTime, Vec3s::Up);
+			form2->tran.acq_rotation() *= glm::angleAxis(0.0015f * deltaTime, Vec3s::Up);
+
+			// form2->tran.move(Vec3(0.0f, 0.002f * deltaTime, 0.0f));
+			// form2->tran.moveAlong(form2->tran.get_forwardVec(), 0.002f * deltaTime);
+			// form2->tran.locallyMove(Vec3(0.0f, 0.002f * deltaTime, 0.0f));
+
 			////////////////////////////////////////////////////////////
 		}
 

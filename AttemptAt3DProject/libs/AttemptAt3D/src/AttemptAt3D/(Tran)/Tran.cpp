@@ -136,6 +136,21 @@ namespace AttemptAt3D
 		return glm::eulerAngles(this->_rotation);
 	}
 
+	void Tran::move(const Vec3& vec)
+	{
+		this->acq_position() += vec;
+	}
+
+	void Tran::moveAlong(const Vec3& vec, float dist)
+	{
+		this->acq_position() += dist * vec;
+	}
+
+	void Tran::locallyMove(const Vec3& vec)
+	{
+		this->acq_position() += this->get_rotation() * vec;
+	}
+
 	void Tran::_updatePositionDeps()
 	{
 		this->_cached_positionMatrix = glm::translate(IdentityMat, this->_position);

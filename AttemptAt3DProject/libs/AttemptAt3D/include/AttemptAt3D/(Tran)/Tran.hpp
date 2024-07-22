@@ -39,7 +39,7 @@ namespace AttemptAt3D
 
 	   public:
 		inline const Vec3& get_position() const { return this->_position; }
-		inline const Quat& get_rotationQuat() const { return this->_rotation; }
+		inline const Quat& get_rotation() const { return this->_rotation; }
 		inline const Vec3& get_scale() const { return this->_scale; }
 		inline Vec3& acq_position() { this->_mayHaveChangedPosition = true; return this->_position; }
 		inline Quat& acq_rotation() { this->_mayHaveChangedRotation = true; return this->_rotation; }
@@ -58,6 +58,11 @@ namespace AttemptAt3D
 	   public:
 		std::string toString() const;
 		Vec3 getEulerAngles() const;
+
+		void move(const Vec3& vec);
+		void moveAlong(const Vec3& vec, float dist);
+		void locallyMove(const Vec3& vec);
+		// void locallyMoveAlong(const Vec3& vec, float dist);
 
 	   private:
 		void _updatePositionDeps();
