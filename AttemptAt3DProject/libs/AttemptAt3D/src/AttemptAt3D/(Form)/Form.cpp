@@ -7,10 +7,16 @@ namespace AttemptAt3D
 {
 	/* Constructors */
 
-	Form::Form(ShaderManager& shaderManager, BodyManager& bodyManager, const Tran& tran, std::unique_ptr<Mesh> mesh) :
+	Form::Form(ShaderManager& shaderManager, std::unique_ptr<Mesh> mesh) :
 		tran(),
-		mesh(std::move(mesh))
+		mesh(std::move(mesh)),
+		drawObj(shaderManager, &this->tran, this->mesh.get())
+	{}
+
+	/* Methods */
+
+	void Form::draw(ShaderManager& shaderManager) const
 	{
-		this->bodyReference = bodyManager.addNewBody(shaderManager, &this->tran, this->mesh.get());
+		this->drawObj.draw(shaderManager);
 	}
 }

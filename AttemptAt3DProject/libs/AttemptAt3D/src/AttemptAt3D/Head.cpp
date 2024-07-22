@@ -6,11 +6,8 @@
 #include <chrono>
 #include <cstdlib>
 #include "AttemptAt3D/(Debug)/Debug.hpp"
-#include "AttemptAt3D/(Form)/Form.hpp"
 #include "AttemptAt3D/(Tran)/Tran.hpp"
-#include "AttemptAt3D/(Mesh)/Mesh.hpp"
-#include "AttemptAt3D/(Mesh)/MeshSamples/InvertedPyramid.hpp"
-#include "AttemptAt3D/(Mesh)/MeshSamples/Cube.hpp"
+#include "AttemptAt3D/(headerGroups)/allMeshSamples.hpp"
 
 namespace AttemptAt3D
 {
@@ -27,9 +24,10 @@ namespace AttemptAt3D
 		_aspectRatio(1.0f),
 		_nearClippingPlane(0.1f),
 		_farClippingPlane(100000.0f),
-		shaderManager(),
-		bodyManager()
-	{}
+		shaderManager()
+	{
+		// this->theSun = std::make_unique<Form>();
+	}
 
 	void Head::set_fov(float val)
 	{
@@ -101,12 +99,12 @@ namespace AttemptAt3D
 		/* TEMP */
 
 		{
-			form1 = std::make_unique<Form>(this->shaderManager, this->bodyManager, Tran(), MeshSamples::Cube().make());
+			form1 = std::make_unique<Form>(this->shaderManager, MeshSamples::Cube().make());
 			form1->tran.acq_scale().x = 0.6f;
 			form1->tran.acq_scale().y = 0.6f;
 			form1->tran.acq_scale().z = 2.0f;
 
-			form2 = std::make_unique<Form>(this->shaderManager, this->bodyManager, Tran(), MeshSamples::Cube().make());
+			form2 = std::make_unique<Form>(this->shaderManager, MeshSamples::Cube().make());
 			form2->tran.acq_position().z += 2.0f;
 		}
 
@@ -130,7 +128,9 @@ namespace AttemptAt3D
 			glClearColor(0.1f, 0.0f, 0.25f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-			this->bodyManager.drawAllBodies(this->shaderManager);
+			// draw all bodies
+			form1->draw(this->shaderManager);
+			form2->draw(this->shaderManager);
 
 			/* Stuff required by GLFW */
 
@@ -140,12 +140,6 @@ namespace AttemptAt3D
 			/* TEMP */
 
 			{
-				// form1->trans.rot.set_z(0.4f);
-				// form1->trans.scale.set_z(0.5f);
-				// form1->trans.pos.set_x(1.5f);
-
-				// form1->trans.rot.set_z(form1->trans.rot.get_z() + 0.0006f * deltaTime);
-				// form2->trans.rot.set_z(form2->trans.rot.get_z() - 0.0015f * deltaTime);
 				form1->tran.acq_rotation() *= glm::angleAxis(0.0006f * deltaTime, Vec3s::Up);
 				form2->tran.acq_rotation() *= glm::angleAxis(0.0035f * deltaTime, Vec3s::Up);
 			}
@@ -157,7 +151,6 @@ namespace AttemptAt3D
 	void Head::endGlfw()
 	{
 		this->shaderManager.cleanupForGl();
-		this->bodyManager.cleanupForGl();
 		glfwTerminate();
 	}
 

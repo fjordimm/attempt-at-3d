@@ -1,24 +1,21 @@
 
-#include "AttemptAt3D/(BodyManager)/_BodyManager/Body.hpp"
+#include "AttemptAt3D/(DrawObj)/DrawObj.hpp"
 
 #include "AttemptAt3D/(Debug)/Debug.hpp"
 
-namespace AttemptAt3D::_BodyManager
+namespace AttemptAt3D
 {
 	/* Constructors */
 
-	Body::Body(Tran* tran, Mesh* mesh) :
+	DrawObj::DrawObj(ShaderManager& shaderManager, Tran* tran, Mesh* mesh) :
 		tran(tran),
 		mesh(mesh),
 		vao(-1),
 		vbo(-1),
 		ebo(-1)
-	{}
-
-	/* Methods */
-
-	void Body::initializeVao(ShaderManager& shaderManager)
 	{
+		/* Initialize VAO */
+
 		glGenVertexArrays(1, &this->vao);
 		glBindVertexArray(this->vao);
 		
@@ -36,19 +33,24 @@ namespace AttemptAt3D::_BodyManager
 		glBindVertexArray(0);
 	}
 
-	void Body::drawBody(ShaderManager& shaderManager) const
+	/* Methods */
+
+	void DrawObj::draw(ShaderManager& shaderManager) const
 	{
-		glBindVertexArray(this->vao);
+		if (this->mesh)
+		{
+			glBindVertexArray(this->vao);
 
-		shaderManager.set_uni_transScaleVal(this->tran->get_scaleMatrix());
-		shaderManager.set_uni_transRotVal(this->tran->get_rotationMatrix());
-		shaderManager.set_uni_transPosVal(this->tran->get_positionMatrix());
-		glDrawElements(GL_TRIANGLES, this->mesh->elementsLen, GL_UNSIGNED_INT, 0);
+			shaderManager.set_uni_transScaleVal(this->tran->get_scaleMatrix());
+			shaderManager.set_uni_transRotVal(this->tran->get_rotationMatrix());
+			shaderManager.set_uni_transPosVal(this->tran->get_positionMatrix());
+			glDrawElements(GL_TRIANGLES, this->mesh->elementsLen, GL_UNSIGNED_INT, 0);
 
-		glBindVertexArray(0);
+			glBindVertexArray(0);
+		}
 	}
 
-	void Body::cleanupForGl()
+	void DrawObj::cleanupForGl()
 	{
 		glDeleteBuffers(1, &this->ebo);
 		glDeleteBuffers(1, &this->vbo);

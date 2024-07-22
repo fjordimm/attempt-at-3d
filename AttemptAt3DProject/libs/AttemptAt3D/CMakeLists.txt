@@ -7,16 +7,14 @@ add_executable(AttemptAt3DExec
 	"src/AttemptAt3D/(Debug)/_logging.cpp"
 	"src/AttemptAt3D/(FileLoading)/FileLoading.cpp"
 	"src/AttemptAt3D/(ShaderManager)/ShaderManager.cpp"
-	"src/AttemptAt3D/(BodyManager)/BodyManager.cpp"
-	"src/AttemptAt3D/(BodyManager)/_BodyManager/Body.cpp"
-	"src/AttemptAt3D/(BodyManager)/BodyReference.cpp"
+	"src/AttemptAt3D/(DrawObj)/DrawObj.cpp"
+	"src/AttemptAt3D/(Form)/Form.cpp"
+	"src/AttemptAt3D/(Tran)/Tran.cpp"
+	"src/AttemptAt3D/(Tran)/Vec3.cpp"
 	"src/AttemptAt3D/(Mesh)/Mesh.cpp"
 	"src/AttemptAt3D/(Mesh)/MeshSamples/MeshSample.cpp"
 	"src/AttemptAt3D/(Mesh)/MeshSamples/InvertedPyramid.cpp"
 	"src/AttemptAt3D/(Mesh)/MeshSamples/Cube.cpp"
-	"src/AttemptAt3D/(Tran)/Tran.cpp"
-	"src/AttemptAt3D/(Tran)/Vec3.cpp"
-	"src/AttemptAt3D/(Form)/Form.cpp"
 )
 
 target_include_directories(AttemptAt3DExec PUBLIC include)

@@ -7,8 +7,7 @@
 #define GLEW_STATIC
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include "AttemptAt3D/(BodyManager)/_BodyManager/Body.hpp"
-#include "AttemptAt3D/(BodyManager)/BodyReference.hpp"
+#include "AttemptAt3D/(BodyManager)/Body.hpp"
 #include "AttemptAt3D/(ShaderManager)/ShaderManager.hpp"
 #include "AttemptAt3D/(Tran)/Tran.hpp"
 #include "AttemptAt3D/(Mesh)/Mesh.hpp"

@@ -6,8 +6,8 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "AttemptAt3D/(headerGroups)/glmGroup.hpp"
-#include "AttemptAt3D/(BodyManager)/BodyManager.hpp"
 #include "AttemptAt3D/(ShaderManager)/ShaderManager.hpp"
+#include "AttemptAt3D/(Form)/Form.hpp"
 
 namespace AttemptAt3D
 {
@@ -31,13 +31,13 @@ namespace AttemptAt3D
 		float _farClippingPlane;
 
 		ShaderManager shaderManager;
-		BodyManager bodyManager;
+
+		// std::unique_ptr<Form> theSun;
 
 		/* Getters and Setters */
 
 	   public:
 		inline ShaderManager& get_shaderManager() { return this->shaderManager; }
-		inline BodyManager& get_bodyManager() { return this->bodyManager; }
 
 	   private:
 		void set_fov(float val);

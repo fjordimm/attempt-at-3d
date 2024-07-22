@@ -11,18 +11,18 @@
 #include "AttemptAt3D/(Mesh)/Mesh.hpp"
 #include "AttemptAt3D/(ShaderManager)/ShaderManager.hpp"
 
-namespace AttemptAt3D::_BodyManager
+namespace AttemptAt3D
 {
-	class Body
+	class DrawObj
 	{
 		/* Constructors */
 
 	   public:
-		Body() = delete;
-		Body(const Body&) = delete;
-		Body& operator=(const Body&) = delete;
-		
-		Body(Tran* tran, Mesh* mesh);
+		DrawObj() = delete;
+		DrawObj(const DrawObj&) = delete;
+		DrawObj& operator=(const DrawObj&) = delete;
+
+		DrawObj(ShaderManager& shaderManager, Tran* tran, Mesh* mesh);
 
 		/* Fields */
 
@@ -37,8 +37,7 @@ namespace AttemptAt3D::_BodyManager
 		/* Methods */
 
 	   public:
-		void initializeVao(ShaderManager& shaderManager);
-		void drawBody(ShaderManager& shaderManager) const;
+		void draw(ShaderManager& shaderManager) const;
 		void cleanupForGl();
 	};
 }

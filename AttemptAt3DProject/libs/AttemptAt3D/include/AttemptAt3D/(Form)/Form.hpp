@@ -4,8 +4,7 @@
 #include <memory>
 #include "AttemptAt3D/(Tran)/Tran.hpp"
 #include "AttemptAt3D/(Mesh)/Mesh.hpp"
-#include "AttemptAt3D/(BodyManager)/BodyManager.hpp"
-#include "AttemptAt3D/(BodyManager)/BodyReference.hpp"
+#include "AttemptAt3D/(DrawObj)/DrawObj.hpp"
 
 namespace AttemptAt3D
 {
@@ -18,7 +17,7 @@ namespace AttemptAt3D
 		Form(const Form&) = delete;
 		Form& operator=(const Form&) = delete;
 		
-		Form(ShaderManager& shaderManager, BodyManager& bodyManager, const Tran& tran, std::unique_ptr<Mesh> mesh);
+		Form(ShaderManager& shaderManager, std::unique_ptr<Mesh> mesh);
 
 		/* Fields */
 
@@ -27,6 +26,13 @@ namespace AttemptAt3D
 		std::unique_ptr<Mesh> mesh;
 
 	   private:
-		std::unique_ptr<BodyReference> bodyReference;
+		DrawObj drawObj;
+
+		/* Methods */
+
+	   public:
+		void draw(ShaderManager& shaderManager) const;
+
+		// TODO: call cleanupForGl() for each DrawObj
 	};
 }
