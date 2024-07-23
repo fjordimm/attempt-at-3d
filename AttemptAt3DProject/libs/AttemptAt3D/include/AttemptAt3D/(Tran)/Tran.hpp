@@ -61,7 +61,8 @@ namespace AttemptAt3D
 		void move(const Vec& vec);
 		void moveAlong(const Vec& vec, float dist);
 		void locallyMove(const Vec& vec);
-		// void locallyMoveAlong(const Vec& vec, float dist);
+		void locallyMoveAlong(const Vec& vec, float dist);
+		void lookTowards(const Vec& target, const Vec& up = Vecs::Up);
 
 	   private:
 		void _updatePositionDeps();

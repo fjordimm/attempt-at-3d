@@ -5,6 +5,7 @@
 #include <cstring>
 #include <chrono>
 #include <cstdlib>
+#include <cmath>
 #include "AttemptAt3D/(Debug)/Debug.hpp"
 #include "AttemptAt3D/(Tran)/Tran.hpp"
 #include "AttemptAt3D/(headerGroups)/allMeshSamples.hpp"
@@ -100,6 +101,8 @@ namespace AttemptAt3D
 	{
 		/// Temp ///
 		////////////////////////////////////////////////////////////
+		float totalTime = 0.0f;
+
 		this->mainCamera->tran.acq_position() = Vec(0.0f, -21.0f, 6.0f);
 		this->mainCamera->recalculateAndApplyViewMatrix(this->shaderManager);
 
@@ -136,14 +139,26 @@ namespace AttemptAt3D
 
 			/// Temp ///
 			////////////////////////////////////////////////////////////
-			// this->mainCamera->recalculateAndApplyViewMatrix(this->shaderManager);
-
-			form2->tran.acq_rotation() *= glm::angleAxis(0.0015f * deltaTime, Vecs::Up);
+			totalTime += deltaTime;
 
 			// form2->tran.move(Vec(0.0f, 0.002f * deltaTime, 0.0f));
 			// form2->tran.moveAlong(form2->tran.get_forwardVec(), 0.002f * deltaTime);
 			// form2->tran.locallyMove(Vec(0.0f, 0.002f * deltaTime, 0.0f));
+			// form2->tran.locallyMoveAlong(form2->tran.get_forwardVec(), 0.002f * deltaTime);
 
+			if (true || totalTime < 1100.0f)
+			{
+				form2->tran.acq_position().x = 6.0f * std::sin(totalTime * 0.001f * (2.0f * 3.1415926f));
+			}
+			else
+			{
+				// form2->tran.acq_position() += (0.0021f * deltaTime) * glm::normalize(Vec(0.0f, 5.0f, 1.5f) - form2->tran.get_position());
+			}
+			form2->tran.lookTowards(Vec(0.0f, -5.0f, 5.0f));
+			// form2->tran.lookTowards(this->mainCamera->tran.get_position());
+			
+			// this->mainCamera->tran.lookTowards(form2->tran.get_position());
+			// this->mainCamera->recalculateAndApplyViewMatrix(this->shaderManager);
 			////////////////////////////////////////////////////////////
 		}
 
