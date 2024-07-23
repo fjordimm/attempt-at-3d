@@ -11,6 +11,7 @@ namespace AttemptAt3D
 	namespace Vecs
 	{
 		std::string ToString(const Vec& subj);
+		bool RoughlyEqual(const Vec& a, const Vec& b, float epsilon = 0.00000000000000000000000001f);
 
 		static const Vec Zero = glm::vec3(0.0f, 0.0f, 0.0f);
 		static const Vec One = glm::vec3(1.0f, 1.0f, 1.0f);

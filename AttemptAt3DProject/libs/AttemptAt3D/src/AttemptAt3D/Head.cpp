@@ -176,37 +176,46 @@ namespace AttemptAt3D
 		bool hasMadeMovements = false;
 
 		const float moveSpeed = 0.01f;
-		const float rotSpeed = 0.001f;
+		Vec movement = Vecs::Zero;
 		if (this->inputManager[GLFW_KEY_W])
 		{
-			this->mainCamera->tran.locallyMove((moveSpeed * deltaTime) * Vecs::Forwards);
-			hasMadeMovements = true;
+			Vec temp = glm::normalize(Vec(this->mainCamera->tran.get_forwardVec().x, this->mainCamera->tran.get_forwardVec().y, 0.0f));
+			movement.x += temp.x;
+			movement.y += temp.y;
 		}
 		if (this->inputManager[GLFW_KEY_S])
 		{
-			this->mainCamera->tran.locallyMove((-moveSpeed * deltaTime) * Vecs::Forwards);
-			hasMadeMovements = true;
+			Vec temp = glm::normalize(Vec(this->mainCamera->tran.get_forwardVec().x, this->mainCamera->tran.get_forwardVec().y, 0.0f));
+			movement.x -= temp.x;
+			movement.y -= temp.y;
 		}
 		if (this->inputManager[GLFW_KEY_D])
 		{
-			this->mainCamera->tran.locallyMove((moveSpeed * deltaTime) * Vecs::Right);
-			hasMadeMovements = true;
+			Vec temp = glm::normalize(Vec(this->mainCamera->tran.get_rightVec().x, this->mainCamera->tran.get_rightVec().y, 0.0f));
+			movement.x += temp.x;
+			movement.y += temp.y;
 		}
 		if (this->inputManager[GLFW_KEY_A])
 		{
-			this->mainCamera->tran.locallyMove((-moveSpeed * deltaTime) * Vecs::Right);
-			hasMadeMovements = true;
+			Vec temp = glm::normalize(Vec(this->mainCamera->tran.get_rightVec().x, this->mainCamera->tran.get_rightVec().y, 0.0f));
+			movement.x -= temp.x;
+			movement.y -= temp.y;
 		}
 		if (this->inputManager[GLFW_KEY_SPACE])
 		{
-			this->mainCamera->tran.locallyMove((moveSpeed * deltaTime) * Vecs::Up);
-			hasMadeMovements = true;
+			movement.z += 1.0f;
 		}
 		if (this->inputManager[GLFW_KEY_LEFT_SHIFT])
 		{
-			this->mainCamera->tran.locallyMove((-moveSpeed * deltaTime) * Vecs::Up);
+			movement.z -= 1.0f;
+		}
+		if (!Vecs::RoughlyEqual(movement, Vecs::Zero))
+		{
+			this->mainCamera->tran.move((moveSpeed * deltaTime) * glm::normalize(movement));
 			hasMadeMovements = true;
 		}
+
+		const float rotSpeed = 0.001f;
 		if (this->inputManager[GLFW_KEY_UP])
 		{
 			this->mainCamera->tran.locallyRotate(Vecs::Right, rotSpeed * deltaTime);
