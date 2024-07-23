@@ -97,6 +97,8 @@ namespace AttemptAt3D
 		this->set_nearClippingPlane(0.01f);
 		this->set_farClippingPlane(100000.0f);
 
+		this->inputManager.setKeyCallbackForGlfw(this->windowForGlfw);
+
 		/* Main loop */
 
 		this->mainLoop();
@@ -130,11 +132,18 @@ namespace AttemptAt3D
 			glfwSwapBuffers(this->windowForGlfw);
 			glfwPollEvents();
 
-			/* Calculate Delta Time */
+			/* Do movements, physics, inputs, etc. */
 
 			float deltaTime = Head::CalculateDeltaTime();
 
-			/* Process inputs */
+			this->doCameraMovements(deltaTime);
+
+			/// Temp ///
+			////////////////////////////////////////////////////////////
+			totalTime += deltaTime;
+
+			form2->tran.rotate(Vecs::Forwards, 0.001f * deltaTime);
+			////////////////////////////////////////////////////////////
 
 			/* Render everything */
 
@@ -144,19 +153,6 @@ namespace AttemptAt3D
 			// draw all bodies
 			form1->draw(this->shaderManager);
 			form2->draw(this->shaderManager);
-
-			/// Temp ///
-			////////////////////////////////////////////////////////////
-			totalTime += deltaTime;
-
-			// form2->tran.acq_position().x = 6.0f * std::sin(totalTime * 0.00009f * (2.0f * 3.1415926f));
-			// form2->tran.lookTowards(Vec(0.0f, -5.0f, 5.0f), form2->tran.get_upVec());
-			form2->tran.rotate(Vecs::Forwards, 0.001f * deltaTime);
-			// form2->tran.locallyRotate(Vecs::Forwards, 0.001f * deltaTime);
-			
-			// this->mainCamera->tran.lookTowards(form2->tran.get_position());
-			// this->mainCamera->recalculateAndApplyViewMatrix(this->shaderManager);
-			////////////////////////////////////////////////////////////
 		}
 
 		this->endGlfw();
@@ -173,6 +169,27 @@ namespace AttemptAt3D
 		this->shaderManager.set_uni_projVal(
 			glm::perspective(this->_fov, this->_aspectRatio, this->_nearClippingPlane, this->_farClippingPlane)
 		);
+	}
+	
+	void Head::doCameraMovements(float deltaTime)
+	{
+		bool hasMadeMovements = false;
+
+		if (this->inputManager[GLFW_KEY_W])
+		{
+			this->mainCamera->tran.locallyMove((0.01f * deltaTime) * Vecs::Forwards);
+			hasMadeMovements = true;
+		}
+		else if (this->inputManager[GLFW_KEY_S])
+		{
+			this->mainCamera->tran.locallyMove((-0.01f * deltaTime) * Vecs::Forwards);
+			hasMadeMovements = true;
+		}
+
+		if (hasMadeMovements)
+		{
+			this->mainCamera->recalculateAndApplyViewMatrix(this->shaderManager);
+		}
 	}
 
 	/* Functions */

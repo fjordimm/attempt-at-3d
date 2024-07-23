@@ -28,6 +28,11 @@ namespace AttemptAt3D
 	   public:
 		void setKeyCallbackForGlfw(GLFWwindow* windowForGlfw);
 
+		/* Operator Overloads */
+
+	   public:
+		bool operator[](int key);
+
 		/* Methods for External Use */
 
 	   private:

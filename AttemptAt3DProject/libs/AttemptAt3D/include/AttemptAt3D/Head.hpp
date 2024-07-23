@@ -60,6 +60,8 @@ namespace AttemptAt3D
 		void endGlfw();
 		void _updateProjectionMatrix();
 
+		void doCameraMovements(float deltaTime);
+
 		/* Functions */
 
 	   private:
