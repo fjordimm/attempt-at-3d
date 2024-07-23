@@ -58,11 +58,14 @@ namespace AttemptAt3D
 		std::string toString() const;
 		Vec getEulerAngles() const;
 
-		void move(const Vec& vec);
-		void moveAlong(const Vec& vec, float dist);
-		void locallyMove(const Vec& vec);
-		void locallyMoveAlong(const Vec& vec, float dist);
+		void move(const Vec& translation);
+		void moveAlong(const Vec& axis, float distance);
+		void rotate(const Vec& axis, float radians);
 		void lookTowards(const Vec& target, const Vec& up = Vecs::Up);
+
+		void locallyMove(const Vec& translation);
+		void locallyMoveAlong(const Vec& axis, float distance);
+		void locallyRotate(const Vec& axis, float radians);
 
 	   private:
 		void _updatePositionDeps();

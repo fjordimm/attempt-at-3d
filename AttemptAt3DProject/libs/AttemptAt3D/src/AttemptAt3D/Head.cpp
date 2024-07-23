@@ -113,6 +113,9 @@ namespace AttemptAt3D
 
 		std::unique_ptr<Form> form2 = std::make_unique<Form>(this->shaderManager, MeshSamples::Cube().make());
 		form2->tran.acq_position().z = 1.1f;
+		form2->tran.locallyRotate(Vecs::Up, -0.25f * 3.1415926f);
+		// form2->tran.locallyRotate(Vecs::Right, -0.0f * 3.1415926f);
+		// form2->tran.locallyRotate(Vecs::Forwards, 0.0f * 3.1415926f);
 		////////////////////////////////////////////////////////////
 
 		while (!glfwWindowShouldClose(this->windowForGlfw))
@@ -141,21 +144,10 @@ namespace AttemptAt3D
 			////////////////////////////////////////////////////////////
 			totalTime += deltaTime;
 
-			// form2->tran.move(Vec(0.0f, 0.002f * deltaTime, 0.0f));
-			// form2->tran.moveAlong(form2->tran.get_forwardVec(), 0.002f * deltaTime);
-			// form2->tran.locallyMove(Vec(0.0f, 0.002f * deltaTime, 0.0f));
-			// form2->tran.locallyMoveAlong(form2->tran.get_forwardVec(), 0.002f * deltaTime);
-
-			if (true || totalTime < 1100.0f)
-			{
-				form2->tran.acq_position().x = 6.0f * std::sin(totalTime * 0.001f * (2.0f * 3.1415926f));
-			}
-			else
-			{
-				// form2->tran.acq_position() += (0.0021f * deltaTime) * glm::normalize(Vec(0.0f, 5.0f, 1.5f) - form2->tran.get_position());
-			}
-			form2->tran.lookTowards(Vec(0.0f, -5.0f, 5.0f));
-			// form2->tran.lookTowards(this->mainCamera->tran.get_position());
+			// form2->tran.acq_position().x = 6.0f * std::sin(totalTime * 0.00009f * (2.0f * 3.1415926f));
+			// form2->tran.lookTowards(Vec(0.0f, -5.0f, 5.0f), form2->tran.get_upVec());
+			form2->tran.rotate(Vecs::Forwards, 0.001f * deltaTime);
+			// form2->tran.locallyRotate(Vecs::Forwards, 0.001f * deltaTime);
 			
 			// this->mainCamera->tran.lookTowards(form2->tran.get_position());
 			// this->mainCamera->recalculateAndApplyViewMatrix(this->shaderManager);

@@ -136,24 +136,34 @@ namespace AttemptAt3D
 		return glm::eulerAngles(this->_rotation);
 	}
 
-	void Tran::move(const Vec& vec)
+	void Tran::move(const Vec& translation)
 	{
-		this->acq_position() += vec;
+		this->acq_position() += translation;
+	}
+	
+	void Tran::locallyMove(const Vec& translation)
+	{
+		this->acq_position() += this->get_rotation() * translation;
 	}
 
-	void Tran::moveAlong(const Vec& vec, float dist)
+	void Tran::moveAlong(const Vec& axis, float distance)
 	{
-		this->acq_position() += dist * vec;
+		this->acq_position() += distance * axis;
 	}
 
-	void Tran::locallyMove(const Vec& vec)
+	void Tran::locallyMoveAlong(const Vec& axis, float distance)
 	{
-		this->acq_position() += this->get_rotation() * vec;
+		this->acq_position() += distance * (this->get_rotation() * axis);
 	}
 
-	void Tran::locallyMoveAlong(const Vec& vec, float dist)
+	void Tran::rotate(const Vec& axis, float radians)
 	{
-		this->acq_position() += dist * (this->get_rotation() * vec);
+		this->acq_rotation() = glm::angleAxis(radians, axis) * this->get_rotation();
+	}
+
+	void Tran::locallyRotate(const Vec& axis, float radians)
+	{
+		this->acq_rotation() = this->get_rotation() * glm::angleAxis(radians, axis);
 	}
 
 	void Tran::lookTowards(const Vec& target, const Vec& up)
