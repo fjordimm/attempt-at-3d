@@ -9,6 +9,7 @@
 #include "AttemptAt3D/(Debug)/Debug.hpp"
 #include "AttemptAt3D/(Tran)/Tran.hpp"
 #include "AttemptAt3D/(headerGroups)/allMeshSamples.hpp"
+#include "AttemptAt3D/(Math)/Math.hpp"
 
 namespace AttemptAt3D
 {
@@ -235,6 +236,22 @@ namespace AttemptAt3D
 		{
 			this->mainCamera->tran.rotate(Vecs::Up, rotSpeed * deltaTime);
 			hasMadeMovements = true;
+		}
+		{
+			Vec eulers = this->mainCamera->tran.getEulerAngles();
+			static constexpr float maxAngle = Math::PiOver2 - 0.01f;
+			if (eulers.x > maxAngle)
+			{
+				this->mainCamera->tran.locallyRotate(Vecs::Right, -(eulers.x - maxAngle));
+
+				hasMadeMovements = true;
+			}
+			else if (eulers.x < -maxAngle)
+			{
+				this->mainCamera->tran.locallyRotate(Vecs::Right, (-maxAngle - eulers.x));
+
+				hasMadeMovements = true;
+			}
 		}
 
 		if (hasMadeMovements)
