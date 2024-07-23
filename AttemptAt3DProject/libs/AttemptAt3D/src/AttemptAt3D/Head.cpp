@@ -175,14 +175,56 @@ namespace AttemptAt3D
 	{
 		bool hasMadeMovements = false;
 
+		const float moveSpeed = 0.01f;
+		const float rotSpeed = 0.001f;
 		if (this->inputManager[GLFW_KEY_W])
 		{
-			this->mainCamera->tran.locallyMove((0.01f * deltaTime) * Vecs::Forwards);
+			this->mainCamera->tran.locallyMove((moveSpeed * deltaTime) * Vecs::Forwards);
 			hasMadeMovements = true;
 		}
-		else if (this->inputManager[GLFW_KEY_S])
+		if (this->inputManager[GLFW_KEY_S])
 		{
-			this->mainCamera->tran.locallyMove((-0.01f * deltaTime) * Vecs::Forwards);
+			this->mainCamera->tran.locallyMove((-moveSpeed * deltaTime) * Vecs::Forwards);
+			hasMadeMovements = true;
+		}
+		if (this->inputManager[GLFW_KEY_D])
+		{
+			this->mainCamera->tran.locallyMove((moveSpeed * deltaTime) * Vecs::Right);
+			hasMadeMovements = true;
+		}
+		if (this->inputManager[GLFW_KEY_A])
+		{
+			this->mainCamera->tran.locallyMove((-moveSpeed * deltaTime) * Vecs::Right);
+			hasMadeMovements = true;
+		}
+		if (this->inputManager[GLFW_KEY_SPACE])
+		{
+			this->mainCamera->tran.locallyMove((moveSpeed * deltaTime) * Vecs::Up);
+			hasMadeMovements = true;
+		}
+		if (this->inputManager[GLFW_KEY_LEFT_SHIFT])
+		{
+			this->mainCamera->tran.locallyMove((-moveSpeed * deltaTime) * Vecs::Up);
+			hasMadeMovements = true;
+		}
+		if (this->inputManager[GLFW_KEY_UP])
+		{
+			this->mainCamera->tran.locallyRotate(Vecs::Right, rotSpeed * deltaTime);
+			hasMadeMovements = true;
+		}
+		if (this->inputManager[GLFW_KEY_DOWN])
+		{
+			this->mainCamera->tran.locallyRotate(Vecs::Right, -rotSpeed * deltaTime);
+			hasMadeMovements = true;
+		}
+		if (this->inputManager[GLFW_KEY_RIGHT])
+		{
+			this->mainCamera->tran.rotate(Vecs::Up, -rotSpeed * deltaTime);
+			hasMadeMovements = true;
+		}
+		if (this->inputManager[GLFW_KEY_LEFT])
+		{
+			this->mainCamera->tran.rotate(Vecs::Up, rotSpeed * deltaTime);
 			hasMadeMovements = true;
 		}
 
