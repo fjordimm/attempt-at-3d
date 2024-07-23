@@ -6,7 +6,9 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "AttemptAt3D/(headerGroups)/glmGroup.hpp"
+#include "AttemptAt3D/(PtrForGlfw)/PtrForGlfw.hpp"
 #include "AttemptAt3D/(ShaderManager)/ShaderManager.hpp"
+#include "AttemptAt3D/(InputManager)/InputManager.hpp"
 #include "AttemptAt3D/(Form)/Form.hpp"
 #include "AttemptAt3D/(Form)/Forms/Camera.hpp"
 
@@ -26,12 +28,14 @@ namespace AttemptAt3D
 
 	   private:
 		GLFWwindow* windowForGlfw;
+		PtrForGlfw ptrForGlfw;
 		float _fov;
 		float _aspectRatio;
 		float _nearClippingPlane;
 		float _farClippingPlane;
 
 		ShaderManager shaderManager;
+		InputManager inputManager;
 
 		std::unique_ptr<Forms::Camera> mainCamera;
 
@@ -63,7 +67,7 @@ namespace AttemptAt3D
 
 		/* Methods for External Use */
 
-	   public:
+	   private:
 		static void onWindowResize(GLFWwindow* windowForGlfw, int width, int height);
 	};
 }

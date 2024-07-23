@@ -16,11 +16,9 @@ namespace AttemptAt3D
 
 	Head::Head() :
 		windowForGlfw(nullptr),
-		_fov(glm::radians(45.0f)),
-		_aspectRatio(1.0f),
-		_nearClippingPlane(0.1f),
-		_farClippingPlane(100000.0f),
-		shaderManager()
+		ptrForGlfw(),
+		shaderManager(),
+		inputManager()
 	{
 		this->mainCamera = std::make_unique<Forms::Camera>(this->shaderManager);
 	}
@@ -55,7 +53,6 @@ namespace AttemptAt3D
 	{
 		/* Create the window, initializing GLFW and GLEW */
 
-		// Initializes this->windowForGlfw
 		{
 			if (!glfwInit())
 			{ Debug::LogFatalError("glfwInit failed."); }
@@ -76,23 +73,31 @@ namespace AttemptAt3D
 			glewInit();
 		}
 
-		/* OpenGL Settings */
+		/* Bind class instances to the GLFW user pointer */
+
+		this->ptrForGlfw.bindToGlfwWindow(this->windowForGlfw);
+		this->ptrForGlfw.add<Head>(this);
+		this->ptrForGlfw.add<InputManager>(&this->inputManager);
+
+		/* OpenGL settings */
 
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_BACK);
-		glfwSetWindowSizeCallback(this->windowForGlfw, Head::onWindowResize);
 
-		/* Activate Shaders */
+		/* Activate shaders */
 
 		this->shaderManager.compileAndActivateShaders();
 
-		/* Miscellaneous Pre-Main-Loop Tasks */
+		/* Miscellaneous pre-main-loop tasks */
 
-		glfwSetWindowUserPointer(this->windowForGlfw, this); // passes a pointer to this Head to OpenGL
-		this->_updateProjectionMatrix();
+		glfwSetWindowSizeCallback(this->windowForGlfw, Head::onWindowResize);
+		this->set_fov(glm::radians(45.0f));
+		this->set_aspectRatio((float)windowWidth / (float)windowHeight);
+		this->set_nearClippingPlane(0.01f);
+		this->set_farClippingPlane(100000.0f);
 
-		/* Main Loop */
+		/* Main loop */
 
 		this->mainLoop();
 	}
@@ -120,6 +125,11 @@ namespace AttemptAt3D
 
 		while (!glfwWindowShouldClose(this->windowForGlfw))
 		{
+			/* Stuff required by GLFW */
+
+			glfwSwapBuffers(this->windowForGlfw);
+			glfwPollEvents();
+
 			/* Calculate Delta Time */
 
 			float deltaTime = Head::CalculateDeltaTime();
@@ -134,11 +144,6 @@ namespace AttemptAt3D
 			// draw all bodies
 			form1->draw(this->shaderManager);
 			form2->draw(this->shaderManager);
-
-			/* Stuff required by GLFW */
-
-			glfwPollEvents();
-			glfwSwapBuffers(this->windowForGlfw);
 
 			/// Temp ///
 			////////////////////////////////////////////////////////////
@@ -190,10 +195,9 @@ namespace AttemptAt3D
 
 	void Head::onWindowResize(GLFWwindow* windowForGlfw, int width, int height)
 	{
-		Head* self = (Head*)glfwGetWindowUserPointer(windowForGlfw);
+		Head* self = PtrForGlfw::Retrieve(windowForGlfw)->get<Head>();
 
 		glViewport(0, 0, width, height);
-
 		self->set_aspectRatio((float)width / (float)height);
 	}
 }

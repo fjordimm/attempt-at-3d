@@ -16,6 +16,8 @@ add_executable(AttemptAt3DExec
 	"src/AttemptAt3D/(DrawObj)/DrawObj.cpp"
 	"src/AttemptAt3D/(Form)/Form.cpp"
 	"src/AttemptAt3D/(Form)/Forms/Camera.cpp"
+	"src/AttemptAt3D/(PtrForGlfw)/PtrForGlfw.cpp"
+	"src/AttemptAt3D/(InputManager)/InputManager.cpp"
 )
 
 target_include_directories(AttemptAt3DExec PUBLIC include)
