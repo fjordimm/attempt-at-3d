@@ -7,6 +7,8 @@
 
 namespace AttemptAt3D
 {
+	using InputVal = InputManager::InputVal;
+
 	/* Constants */
 
 	static const std::vector<int> KEYS
@@ -20,8 +22,11 @@ namespace AttemptAt3D
 		GLFW_KEY_UP,
 		GLFW_KEY_DOWN,
 		GLFW_KEY_RIGHT,
-		GLFW_KEY_LEFT
+		GLFW_KEY_LEFT,
+		GLFW_KEY_ESCAPE
 	};
+
+	static const InputVal FALSE_FALSE_INPUT = InputVal(false, false);
 
 	/* Constructors */
 
@@ -30,7 +35,7 @@ namespace AttemptAt3D
 	{
 		for (const int& key : KEYS)
 		{
-			this->keyMap[key] = false;
+			this->keyMap[key] = FALSE_FALSE_INPUT;
 		}
 	}
 
@@ -41,9 +46,17 @@ namespace AttemptAt3D
 		glfwSetKeyCallback(windowForGlfw, InputManager::keyCallback);
 	}
 
+	void InputManager::resetSinglePresses()
+	{
+		for (const int& key : KEYS)
+		{
+			this->keyMap[key].pressedOnce = false;
+		}
+	}
+
 	/* Operator Overloads */
 
-	bool InputManager::operator[](int key)
+	const InputVal& InputManager::operator[](int key) const
 	{
 		auto tryGet = this->keyMap.find(key);
 		if (tryGet != this->keyMap.end())
@@ -53,7 +66,7 @@ namespace AttemptAt3D
 		else
 		{
 			Debug::LogWarning("Checking for a key that is not registered.");
-			return false;
+			return FALSE_FALSE_INPUT;
 		}
 	}
 
@@ -68,11 +81,14 @@ namespace AttemptAt3D
 		{
 			if (action == GLFW_PRESS)
 			{
-				tryGet->second = true;
+				if (!tryGet->second.isDown)
+				{ tryGet->second.pressedOnce = true; }
+
+				tryGet->second.isDown = true;
 			}
 			else if (action == GLFW_RELEASE)
 			{
-				tryGet->second = false;
+				tryGet->second.isDown = false;
 			}
 		}
 	}

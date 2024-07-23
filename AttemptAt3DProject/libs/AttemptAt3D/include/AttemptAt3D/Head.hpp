@@ -37,6 +37,8 @@ namespace AttemptAt3D
 		ShaderManager shaderManager;
 		InputManager inputManager;
 
+		bool capturedMouseForCamera;
+
 		std::unique_ptr<Forms::Camera> mainCamera;
 
 		/* Getters and Setters */

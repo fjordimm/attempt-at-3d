@@ -10,6 +10,35 @@ namespace AttemptAt3D
 {
 	class InputManager
 	{
+		/* Structs */
+
+	   public:
+		struct InputVal
+		{
+		   public:
+			bool isDown;
+			bool pressedOnce;
+
+			InputVal() :
+				isDown(false),
+				pressedOnce(false)
+			{}
+
+			InputVal(bool isDown, bool pressedOnce) :
+				isDown(isDown),
+				pressedOnce(pressedOnce)
+			{}
+
+			InputVal(const InputVal& that) : InputVal(that.isDown, that.pressedOnce) {}
+
+			InputVal& operator=(const InputVal& that)
+			{
+				this->isDown = that.isDown;
+				this->pressedOnce = that.pressedOnce;
+				return *this;
+			}
+		};
+
 		/* Constructors */
 
 	   public:
@@ -21,17 +50,18 @@ namespace AttemptAt3D
 		/* Fields */
 
 	   private:
-		std::map<int, bool> keyMap;
+		std::map<int, InputVal> keyMap;
 
 		/* Methods */
 
 	   public:
 		void setKeyCallbackForGlfw(GLFWwindow* windowForGlfw);
+		void resetSinglePresses();
 
 		/* Operator Overloads */
 
 	   public:
-		bool operator[](int key);
+		const InputVal& operator[](int key) const;
 
 		/* Methods for External Use */
 

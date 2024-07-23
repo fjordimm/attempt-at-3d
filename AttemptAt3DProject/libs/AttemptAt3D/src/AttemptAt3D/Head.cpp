@@ -90,7 +90,7 @@ namespace AttemptAt3D
 
 		this->shaderManager.compileAndActivateShaders();
 
-		/* Miscellaneous pre-main-loop tasks */
+		/* Head settings */
 
 		glfwSetWindowSizeCallback(this->windowForGlfw, Head::onWindowResize);
 		this->set_fov(glm::radians(45.0f));
@@ -99,6 +99,11 @@ namespace AttemptAt3D
 		this->set_farClippingPlane(100000.0f);
 
 		this->inputManager.setKeyCallbackForGlfw(this->windowForGlfw);
+
+		/* Miscellaneous pre-main-loop tasks */
+
+		capturedMouseForCamera = false;
+		glfwSetInputMode(this->windowForGlfw, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
 		/* Main loop */
 
@@ -154,6 +159,10 @@ namespace AttemptAt3D
 			// draw all bodies
 			form1->draw(this->shaderManager);
 			form2->draw(this->shaderManager);
+
+			/* Required by InputManager at the end of each iteration of the main loop */
+
+			this->inputManager.resetSinglePresses();
 		}
 
 		this->endGlfw();
@@ -178,61 +187,61 @@ namespace AttemptAt3D
 
 		const float moveSpeed = 0.01f;
 		Vec movement = Vecs::Zero;
-		if (this->inputManager[GLFW_KEY_W])
+		if (this->inputManager[GLFW_KEY_W].isDown)
 		{
 			Vec temp = glm::normalize(Vec(this->mainCamera->tran.get_forwardVec().x, this->mainCamera->tran.get_forwardVec().y, 0.0f));
 			movement.x += temp.x;
 			movement.y += temp.y;
 		}
-		if (this->inputManager[GLFW_KEY_S])
+		if (this->inputManager[GLFW_KEY_S].isDown)
 		{
 			Vec temp = glm::normalize(Vec(this->mainCamera->tran.get_forwardVec().x, this->mainCamera->tran.get_forwardVec().y, 0.0f));
 			movement.x -= temp.x;
 			movement.y -= temp.y;
 		}
-		if (this->inputManager[GLFW_KEY_D])
+		if (this->inputManager[GLFW_KEY_D].isDown)
 		{
 			Vec temp = glm::normalize(Vec(this->mainCamera->tran.get_rightVec().x, this->mainCamera->tran.get_rightVec().y, 0.0f));
 			movement.x += temp.x;
 			movement.y += temp.y;
 		}
-		if (this->inputManager[GLFW_KEY_A])
+		if (this->inputManager[GLFW_KEY_A].isDown)
 		{
 			Vec temp = glm::normalize(Vec(this->mainCamera->tran.get_rightVec().x, this->mainCamera->tran.get_rightVec().y, 0.0f));
 			movement.x -= temp.x;
 			movement.y -= temp.y;
 		}
-		if (this->inputManager[GLFW_KEY_SPACE])
+		if (this->inputManager[GLFW_KEY_SPACE].isDown)
 		{
 			movement.z += 1.0f;
 		}
-		if (this->inputManager[GLFW_KEY_LEFT_SHIFT])
+		if (this->inputManager[GLFW_KEY_LEFT_SHIFT].isDown)
 		{
 			movement.z -= 1.0f;
 		}
 		if (!Vecs::RoughlyEqual(movement, Vecs::Zero))
 		{
-			this->mainCamera->tran.move((moveSpeed * deltaTime) * glm::normalize(movement));
+			this->mainCamera->tran.move((100.0f * moveSpeed * deltaTime) * glm::normalize(movement));
 			hasMadeMovements = true;
 		}
 
 		const float rotSpeed = 0.001f;
-		if (this->inputManager[GLFW_KEY_UP])
+		if (this->inputManager[GLFW_KEY_UP].isDown)
 		{
 			this->mainCamera->tran.locallyRotate(Vecs::Right, rotSpeed * deltaTime);
 			hasMadeMovements = true;
 		}
-		if (this->inputManager[GLFW_KEY_DOWN])
+		if (this->inputManager[GLFW_KEY_DOWN].isDown)
 		{
 			this->mainCamera->tran.locallyRotate(Vecs::Right, -rotSpeed * deltaTime);
 			hasMadeMovements = true;
 		}
-		if (this->inputManager[GLFW_KEY_RIGHT])
+		if (this->inputManager[GLFW_KEY_RIGHT].isDown)
 		{
 			this->mainCamera->tran.rotate(Vecs::Up, -rotSpeed * deltaTime);
 			hasMadeMovements = true;
 		}
-		if (this->inputManager[GLFW_KEY_LEFT])
+		if (this->inputManager[GLFW_KEY_LEFT].isDown)
 		{
 			this->mainCamera->tran.rotate(Vecs::Up, rotSpeed * deltaTime);
 			hasMadeMovements = true;
