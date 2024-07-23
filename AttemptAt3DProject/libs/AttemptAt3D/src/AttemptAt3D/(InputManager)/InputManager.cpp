@@ -31,7 +31,11 @@ namespace AttemptAt3D
 	/* Constructors */
 
 	InputManager::InputManager() :
-		keyMap()
+		keyMap(),
+		cursorX(0.0f),
+		cursorY(0.0f),
+		deltaCursorX(0.0f),
+		deltaCursorY(0.0f)
 	{
 		for (const int& key : KEYS)
 		{
@@ -41,17 +45,21 @@ namespace AttemptAt3D
 
 	/* Methods */
 
-	void InputManager::setKeyCallbackForGlfw(GLFWwindow* windowForGlfw)
+	void InputManager::giveWindowForGlfw(GLFWwindow* windowForGlfw)
 	{
 		glfwSetKeyCallback(windowForGlfw, InputManager::keyCallback);
+		glfwSetCursorPosCallback(windowForGlfw, InputManager::cursorPosCallback);
 	}
 
-	void InputManager::resetSinglePresses()
+	void InputManager::nextLoopIteration()
 	{
 		for (const int& key : KEYS)
 		{
 			this->keyMap[key].pressedOnce = false;
 		}
+
+		this->deltaCursorX = 0.0f;
+		this->deltaCursorY = 0.0f;
 	}
 
 	/* Operator Overloads */
@@ -91,5 +99,16 @@ namespace AttemptAt3D
 				tryGet->second.isDown = false;
 			}
 		}
+	}
+
+	void InputManager::cursorPosCallback(GLFWwindow* windowForGlfw, double xPos, double yPos)
+	{
+		InputManager* self = PtrForGlfw::Retrieve(windowForGlfw)->get<InputManager>();
+
+		self->deltaCursorX = xPos - self->cursorX;
+		self->deltaCursorY = yPos - self->cursorY;
+
+		self->cursorX = xPos;
+		self->cursorY = yPos;
 	}
 }

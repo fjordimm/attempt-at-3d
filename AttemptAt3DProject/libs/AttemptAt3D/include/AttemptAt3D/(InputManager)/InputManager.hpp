@@ -51,12 +51,24 @@ namespace AttemptAt3D
 
 	   private:
 		std::map<int, InputVal> keyMap;
+		float cursorX;
+		float cursorY;
+		float deltaCursorX;
+		float deltaCursorY;
+
+		/* Getters and Setters */
+
+	   public:
+		inline float get_cursorX() { return this->cursorX; }
+		inline float get_cursorY() { return this->cursorY; }
+		inline float get_deltaCursorX() { return this->deltaCursorX; }
+		inline float get_deltaCursorY() { return this->deltaCursorY; }
 
 		/* Methods */
 
 	   public:
-		void setKeyCallbackForGlfw(GLFWwindow* windowForGlfw);
-		void resetSinglePresses();
+		void giveWindowForGlfw(GLFWwindow* windowForGlfw);
+		void nextLoopIteration();
 
 		/* Operator Overloads */
 
@@ -67,5 +79,6 @@ namespace AttemptAt3D
 
 	   private:
 		static void keyCallback(GLFWwindow* windowForGlfw, int key, int scancode, int action, int mods);
+		static void cursorPosCallback(GLFWwindow* windowForGlfw, double xPos, double yPos);
 	};
 }

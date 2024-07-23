@@ -98,12 +98,17 @@ namespace AttemptAt3D
 		this->set_nearClippingPlane(0.01f);
 		this->set_farClippingPlane(100000.0f);
 
-		this->inputManager.setKeyCallbackForGlfw(this->windowForGlfw);
+		this->inputManager.giveWindowForGlfw(this->windowForGlfw);
 
 		/* Miscellaneous pre-main-loop tasks */
 
 		capturedMouseForCamera = false;
 		glfwSetInputMode(this->windowForGlfw, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		
+		if (glfwRawMouseMotionSupported())
+		{ glfwSetInputMode(this->windowForGlfw, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE); }
+		else
+		{ Debug::LogFatalError("Machine does not support raw mouse motion."); }
 
 		/* Main loop */
 
@@ -162,7 +167,7 @@ namespace AttemptAt3D
 
 			/* Required by InputManager at the end of each iteration of the main loop */
 
-			this->inputManager.resetSinglePresses();
+			this->inputManager.nextLoopIteration();
 		}
 
 		this->endGlfw();
@@ -183,7 +188,23 @@ namespace AttemptAt3D
 	
 	void Head::doCameraMovements(float deltaTime)
 	{
+		if (this->inputManager[GLFW_KEY_ESCAPE].pressedOnce)
+		{
+			if (capturedMouseForCamera)
+			{
+				capturedMouseForCamera = false;
+				glfwSetInputMode(this->windowForGlfw, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+			}
+			else
+			{
+				capturedMouseForCamera = true;
+				glfwSetInputMode(this->windowForGlfw, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+			}
+		}
+
 		bool hasMadeMovements = false;
+
+		/* Camera translation */
 
 		const float moveSpeed = 0.01f;
 		Vec movement = Vecs::Zero;
@@ -221,47 +242,45 @@ namespace AttemptAt3D
 		}
 		if (!Vecs::RoughlyEqual(movement, Vecs::Zero))
 		{
-			this->mainCamera->tran.move((100.0f * moveSpeed * deltaTime) * glm::normalize(movement));
+			this->mainCamera->tran.move((moveSpeed * deltaTime) * glm::normalize(movement));
 			hasMadeMovements = true;
 		}
 
-		const float rotSpeed = 0.001f;
-		if (this->inputManager[GLFW_KEY_UP].isDown)
+		/* Camera rotation */
+
+		const float rotSpeed = 0.002f;
+		if (this->capturedMouseForCamera)
 		{
-			this->mainCamera->tran.locallyRotate(Vecs::Right, rotSpeed * deltaTime);
-			hasMadeMovements = true;
-		}
-		if (this->inputManager[GLFW_KEY_DOWN].isDown)
-		{
-			this->mainCamera->tran.locallyRotate(Vecs::Right, -rotSpeed * deltaTime);
-			hasMadeMovements = true;
-		}
-		if (this->inputManager[GLFW_KEY_RIGHT].isDown)
-		{
-			this->mainCamera->tran.rotate(Vecs::Up, -rotSpeed * deltaTime);
-			hasMadeMovements = true;
-		}
-		if (this->inputManager[GLFW_KEY_LEFT].isDown)
-		{
-			this->mainCamera->tran.rotate(Vecs::Up, rotSpeed * deltaTime);
-			hasMadeMovements = true;
+			float deltaCursorX = this->inputManager.get_deltaCursorX();
+			float deltaCursorY = this->inputManager.get_deltaCursorY();
+
+			if (!Math::RoughlyEqual(deltaCursorX, 0.0f) || !Math::RoughlyEqual(deltaCursorY, 0.0f))
+			{
+				glm::vec2 temp = glm::vec2(deltaCursorX, deltaCursorY);
+				this->mainCamera->tran.locallyRotate(Vecs::Right, -temp.y * rotSpeed * deltaTime);
+				this->mainCamera->tran.rotate(Vecs::Up, -temp.x * rotSpeed * deltaTime);
+
+				hasMadeMovements = true;
+			}
 		}
 		{
+			/* Bound camera rotation from looking beyond straight up or straight down */
+
 			Vec eulers = this->mainCamera->tran.getEulerAngles();
 			static constexpr float maxAngle = Math::PiOver2 - 0.01f;
 			if (eulers.x > maxAngle)
 			{
 				this->mainCamera->tran.locallyRotate(Vecs::Right, -(eulers.x - maxAngle));
-
 				hasMadeMovements = true;
 			}
 			else if (eulers.x < -maxAngle)
 			{
 				this->mainCamera->tran.locallyRotate(Vecs::Right, (-maxAngle - eulers.x));
-
 				hasMadeMovements = true;
 			}
 		}
+
+		/* Update view matrix if necessary */
 
 		if (hasMadeMovements)
 		{
