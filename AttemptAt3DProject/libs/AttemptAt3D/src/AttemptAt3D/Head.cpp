@@ -18,38 +18,8 @@ namespace AttemptAt3D
 	Head::Head() :
 		windowForGlfw(nullptr),
 		ptrForGlfw(),
-		shaderManager(),
-		inputManager(),
-		forms(),
-		mainCameraMovementSpeed(0.15f),
-		mainCameraRotationSpeed(0.0025f)
-	{
-		this->mainCamera = std::make_unique<Forms::Camera>(this->shaderManager);
-	}
-
-	void Head::setFov(float val)
-	{
-		this->_fov = val;
-		this->_updateProjectionMatrix();
-	}
-
-	void Head::setAspectRatio(float val)
-	{
-		this->_aspectRatio = val;
-		this->_updateProjectionMatrix();
-	}
-
-	void Head::setNearClippingPlane(float val)
-	{
-		this->_nearClippingPlane = val;
-		this->_updateProjectionMatrix();
-	}
-
-	void Head::setFarClippingPlane(float val)
-	{
-		this->_farClippingPlane = val;
-		this->_updateProjectionMatrix();
-	}
+		worldState()
+	{}
 	
 	/* Methods */
 
@@ -81,7 +51,7 @@ namespace AttemptAt3D
 
 		this->ptrForGlfw.bindToGlfwWindow(this->windowForGlfw);
 		this->ptrForGlfw.add<Head>(this);
-		this->ptrForGlfw.add<InputManager>(&this->inputManager);
+		this->ptrForGlfw.add<InputManager>(&this->worldState.inputManager);
 
 		/* OpenGL settings */
 
@@ -91,24 +61,25 @@ namespace AttemptAt3D
 
 		/* Activate shaders */
 
-		this->shaderManager.compileAndActivateShaders();
+		this->worldState.shaderManager.compileAndActivateShaders();
 
 		/* Head settings */
 
 		glfwSetWindowSizeCallback(this->windowForGlfw, Head::onWindowResize);
-		this->setFov(glm::radians(45.0f));
-		this->setAspectRatio((float)windowWidth / (float)windowHeight);
-		this->setNearClippingPlane(0.01f);
-		this->setFarClippingPlane(100000.0f);
+		this->worldState.setFov(glm::radians(45.0f));
+		this->worldState.setAspectRatio((float)windowWidth / (float)windowHeight);
+		this->worldState.setNearClippingPlane(0.01f);
+		this->worldState.setFarClippingPlane(100000.0f);
 
-		this->inputManager.giveWindowForGlfw(this->windowForGlfw);
+		this->worldState.inputManager.giveWindowForGlfw(this->windowForGlfw);
 
-		this->mainCamera->tran.acqPosition() = Vec(0.0f, -21.0f, 6.0f);
-		this->mainCamera->recalculateAndApplyViewMatrix(this->shaderManager);
+		this->worldState.mainCamera = std::make_unique<Forms::Camera>(this->worldState.shaderManager);
+		this->worldState.mainCamera->tran.acqPosition() = Vec(0.0f, -21.0f, 6.0f);
+		this->worldState.mainCamera->recalculateAndApplyViewMatrix(this->worldState.shaderManager);
 
 		/* Miscellaneous pre-main-loop tasks */
 
-		capturedMouseForCamera = false;
+		worldState.hasCapturedCursorForCamera = false;
 		glfwSetInputMode(this->windowForGlfw, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		
 		if (glfwRawMouseMotionSupported())
@@ -136,9 +107,9 @@ namespace AttemptAt3D
 				float yPos = randDist(randGen);
 				float zPos = randDist(randGen);
 
-				std::unique_ptr<Form> form = std::make_unique<Form>(this->shaderManager, MeshSamples::Cube().make());
+				std::unique_ptr<Form> form = std::make_unique<Form>(this->worldState.shaderManager, MeshSamples::Cube().make());
 				form->tran.acqPosition() = Vec(xPos, yPos, zPos);
-				this->forms.push_back(std::move(form));
+				this->worldState.forms.push_back(std::move(form));
 			}
 		}
 		////////////////////////////////////////////////////////////
@@ -166,15 +137,15 @@ namespace AttemptAt3D
 			glClearColor(0.1f, 0.0f, 0.25f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-			for (std::unique_ptr<Form>& _form : this->forms)
+			for (std::unique_ptr<Form>& _form : this->worldState.forms)
 			{
 				Form* form = _form.get();
-				form->draw(this->shaderManager);
+				form->draw(this->worldState.shaderManager);
 			}
 
 			/* Required by InputManager at the end of each iteration of the main loop */
 
-			this->inputManager.nextLoopIteration();
+			this->worldState.inputManager.nextLoopIteration();
 		}
 
 		this->endGlfw();
@@ -182,94 +153,87 @@ namespace AttemptAt3D
 
 	void Head::endGlfw()
 	{
-		this->shaderManager.cleanupForGl();
+		this->worldState.shaderManager.cleanupForGl();
 		glfwTerminate();
-	}
-
-	void Head::_updateProjectionMatrix()
-	{
-		this->shaderManager.setUni_projVal(
-			glm::perspective(this->_fov, this->_aspectRatio, this->_nearClippingPlane, this->_farClippingPlane)
-		);
 	}
 	
 	void Head::doCameraMovements(float deltaTime)
 	{
 		bool hasMadeMovements = false;
 
-		if (this->inputManager.getAnyMouseButton().pressedOnce)
+		if (this->worldState.inputManager.getAnyMouseButton().pressedOnce)
 		{
-			capturedMouseForCamera = true;
+			this->worldState.hasCapturedCursorForCamera = true;
 			glfwSetInputMode(this->windowForGlfw, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 		}
-		if (this->inputManager.findKey(GLFW_KEY_ESCAPE).pressedOnce)
+		if (this->worldState.inputManager.findKey(GLFW_KEY_ESCAPE).pressedOnce)
 		{
-			capturedMouseForCamera = false;
+			this->worldState.hasCapturedCursorForCamera = true;
 			glfwSetInputMode(this->windowForGlfw, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		}
 
-		this->mainCameraMovementSpeed += 0.3f * this->mainCameraMovementSpeed * this->inputManager.getDeltaScrollY();
-		if (this->mainCameraMovementSpeed < 0.002f)
-		{ this->mainCameraMovementSpeed = 0.002f; }
+		this->worldState.mainCameraMovementSpeed += 0.3f * this->worldState.mainCameraMovementSpeed * this->worldState.inputManager.getDeltaScrollY();
+		if (this->worldState.mainCameraMovementSpeed < 0.002f)
+		{ this->worldState.mainCameraMovementSpeed = 0.002f; }
 
-		float cameraMovementSpeed = this->mainCameraMovementSpeed;
-		float cameraRotationSpeed = this->mainCameraRotationSpeed;
+		float cameraMovementSpeed = this->worldState.mainCameraMovementSpeed;
+		float cameraRotationSpeed = this->worldState.mainCameraRotationSpeed;
 
 		/* Camera translation */
 
 		Vec movement = Vecs::Zero;
-		if (this->inputManager.findKey(GLFW_KEY_W).isDown)
+		if (this->worldState.inputManager.findKey(GLFW_KEY_W).isDown)
 		{
-			Vec temp = glm::normalize(Vec(this->mainCamera->tran.getForwardVec().x, this->mainCamera->tran.getForwardVec().y, 0.0f));
+			Vec temp = glm::normalize(Vec(this->worldState.mainCamera->tran.getForwardVec().x, this->worldState.mainCamera->tran.getForwardVec().y, 0.0f));
 			movement.x += temp.x;
 			movement.y += temp.y;
 		}
-		if (this->inputManager.findKey(GLFW_KEY_S).isDown)
+		if (this->worldState.inputManager.findKey(GLFW_KEY_S).isDown)
 		{
-			Vec temp = glm::normalize(Vec(this->mainCamera->tran.getForwardVec().x, this->mainCamera->tran.getForwardVec().y, 0.0f));
+			Vec temp = glm::normalize(Vec(this->worldState.mainCamera->tran.getForwardVec().x, this->worldState.mainCamera->tran.getForwardVec().y, 0.0f));
 			movement.x -= temp.x;
 			movement.y -= temp.y;
 		}
-		if (this->inputManager.findKey(GLFW_KEY_D).isDown)
+		if (this->worldState.inputManager.findKey(GLFW_KEY_D).isDown)
 		{
-			Vec temp = glm::normalize(Vec(this->mainCamera->tran.getRightVec().x, this->mainCamera->tran.getRightVec().y, 0.0f));
+			Vec temp = glm::normalize(Vec(this->worldState.mainCamera->tran.getRightVec().x, this->worldState.mainCamera->tran.getRightVec().y, 0.0f));
 			movement.x += temp.x;
 			movement.y += temp.y;
 		}
-		if (this->inputManager.findKey(GLFW_KEY_A).isDown)
+		if (this->worldState.inputManager.findKey(GLFW_KEY_A).isDown)
 		{
-			Vec temp = glm::normalize(Vec(this->mainCamera->tran.getRightVec().x, this->mainCamera->tran.getRightVec().y, 0.0f));
+			Vec temp = glm::normalize(Vec(this->worldState.mainCamera->tran.getRightVec().x, this->worldState.mainCamera->tran.getRightVec().y, 0.0f));
 			movement.x -= temp.x;
 			movement.y -= temp.y;
 		}
-		if (this->inputManager.findKey(GLFW_KEY_SPACE).isDown)
+		if (this->worldState.inputManager.findKey(GLFW_KEY_SPACE).isDown)
 		{
 			movement.z += 1.0f;
 		}
-		if (this->inputManager.findKey(GLFW_KEY_LEFT_SHIFT).isDown)
+		if (this->worldState.inputManager.findKey(GLFW_KEY_LEFT_SHIFT).isDown)
 		{
 			movement.z -= 1.0f;
 		}
 		if (!Vecs::RoughlyEqual(movement, Vecs::Zero))
 		{
-			this->mainCamera->tran.move((cameraMovementSpeed * deltaTime) * glm::normalize(movement));
+			this->worldState.mainCamera->tran.move((cameraMovementSpeed * deltaTime) * glm::normalize(movement));
 			hasMadeMovements = true;
 		}
 
 		/* Camera rotation */
 
-		if (this->capturedMouseForCamera)
+		if (this->worldState.hasCapturedCursorForCamera)
 		{
-			float deltaCursorX = this->inputManager.getDeltaCursorX();
-			float deltaCursorY = this->inputManager.getDeltaCursorY();
+			float deltaCursorX = this->worldState.inputManager.getDeltaCursorX();
+			float deltaCursorY = this->worldState.inputManager.getDeltaCursorY();
 
 			if (!Math::RoughlyEqual(deltaCursorX, 0.0f) || !Math::RoughlyEqual(deltaCursorY, 0.0f))
 			{
 				// Debug::Logf("(%f, %f)", deltaCursorX, deltaCursorY);
 
 				glm::vec2 temp = glm::vec2(deltaCursorX, deltaCursorY);
-				this->mainCamera->tran.locallyRotate(Vecs::Right, -temp.y * cameraRotationSpeed);
-				this->mainCamera->tran.rotate(Vecs::Up, -temp.x * cameraRotationSpeed);
+				this->worldState.mainCamera->tran.locallyRotate(Vecs::Right, -temp.y * cameraRotationSpeed);
+				this->worldState.mainCamera->tran.rotate(Vecs::Up, -temp.x * cameraRotationSpeed);
 
 				hasMadeMovements = true;
 			}
@@ -277,16 +241,16 @@ namespace AttemptAt3D
 		{
 			/* Bound camera rotation from looking beyond straight up or straight down */
 
-			Vec eulers = this->mainCamera->tran.eulerAngles();
+			Vec eulers = this->worldState.mainCamera->tran.eulerAngles();
 			static constexpr float maxAngle = Math::PiOver2 - 0.01f;
 			if (eulers.x > maxAngle)
 			{
-				this->mainCamera->tran.locallyRotate(Vecs::Right, -(eulers.x - maxAngle));
+				this->worldState.mainCamera->tran.locallyRotate(Vecs::Right, -(eulers.x - maxAngle));
 				hasMadeMovements = true;
 			}
 			else if (eulers.x < -maxAngle)
 			{
-				this->mainCamera->tran.locallyRotate(Vecs::Right, (-maxAngle - eulers.x));
+				this->worldState.mainCamera->tran.locallyRotate(Vecs::Right, (-maxAngle - eulers.x));
 				hasMadeMovements = true;
 			}
 		}
@@ -295,7 +259,7 @@ namespace AttemptAt3D
 
 		if (hasMadeMovements)
 		{
-			this->mainCamera->recalculateAndApplyViewMatrix(this->shaderManager);
+			this->worldState.mainCamera->recalculateAndApplyViewMatrix(this->worldState.shaderManager);
 		}
 	}
 
@@ -322,6 +286,6 @@ namespace AttemptAt3D
 		Head* self = PtrForGlfw::Retrieve(windowForGlfw)->get<Head>();
 
 		glViewport(0, 0, width, height);
-		self->setAspectRatio((float)width / (float)height);
+		self->worldState.setAspectRatio((float)width / (float)height);
 	}
 }

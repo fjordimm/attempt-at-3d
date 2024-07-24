@@ -19,6 +19,9 @@ namespace AttemptAt3D
 		
 		Form(ShaderManager& shaderManager, std::unique_ptr<Mesh> mesh);
 
+	//    public:
+	// 	static std::unique_ptr<Form> New(ShaderManager& shaderManager, std::unique_ptr<Mesh> mesh);
+
 		/* Fields */
 
 	   public:
@@ -32,6 +35,15 @@ namespace AttemptAt3D
 
 	   public:
 		void draw(ShaderManager& shaderManager) const;
+
+	//    private:
+	// 	void onCreate();
+	//    public:
+	// 	void onUpdate();
+
+	//    private:
+	// 	virtual void onCreate_child() {}
+	// 	virtual void onUpdate_child() {}
 
 		// TODO: call cleanupForGl() for each DrawObj
 	};

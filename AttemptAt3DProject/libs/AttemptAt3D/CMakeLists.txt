@@ -4,6 +4,7 @@ configure_file(CMakeConfig.h.in CMakeConfig.h)
 add_executable(AttemptAt3DExec
 	"src/AttemptAt3D/Program.cpp"
 	"src/AttemptAt3D/Head.cpp"
+	"src/AttemptAt3D/WorldState.cpp"
 	"src/AttemptAt3D/(Debug)/_logging.cpp"
 	"src/AttemptAt3D/(FileLoading)/FileLoading.cpp"
 	"src/AttemptAt3D/(ShaderManager)/ShaderManager.cpp"

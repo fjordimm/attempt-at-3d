@@ -9,6 +9,7 @@
 #include <GLFW/glfw3.h>
 #include "AttemptAt3D/(headerGroups)/glmGroup.hpp"
 #include "AttemptAt3D/(PtrForGlfw)/PtrForGlfw.hpp"
+#include "AttemptAt3D/WorldState.hpp"
 #include "AttemptAt3D/(ShaderManager)/ShaderManager.hpp"
 #include "AttemptAt3D/(InputManager)/InputManager.hpp"
 #include "AttemptAt3D/(Form)/Form.hpp"
@@ -31,30 +32,7 @@ namespace AttemptAt3D
 	   private:
 		GLFWwindow* windowForGlfw;
 		PtrForGlfw ptrForGlfw;
-		float _fov;
-		float _aspectRatio;
-		float _nearClippingPlane;
-		float _farClippingPlane;
-
-		ShaderManager shaderManager;
-		InputManager inputManager;
-		std::list<std::unique_ptr<Form>> forms;
-
-		bool capturedMouseForCamera;
-		std::unique_ptr<Forms::Camera> mainCamera;
-		float mainCameraMovementSpeed;
-		float mainCameraRotationSpeed;
-
-		/* Getters and Setters */
-
-	   public:
-		inline ShaderManager& getShaderManager() { return this->shaderManager; }
-
-	   private:
-		void setFov(float val);
-		void setAspectRatio(float val);
-		void setNearClippingPlane(float val);
-		void setFarClippingPlane(float val);
+		WorldState worldState;
 
 		/* Methods */
 
@@ -64,7 +42,6 @@ namespace AttemptAt3D
 	   private:
 		void mainLoop();
 		void endGlfw();
-		void _updateProjectionMatrix();
 
 		void doCameraMovements(float deltaTime);
 
