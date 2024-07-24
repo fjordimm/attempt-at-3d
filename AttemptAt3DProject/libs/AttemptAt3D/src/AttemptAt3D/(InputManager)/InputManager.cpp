@@ -11,27 +11,27 @@ namespace AttemptAt3D
 
 	/* Constants */
 
-	static const std::vector<int> KEYS
-	{
-		GLFW_KEY_W,
-		GLFW_KEY_S,
-		GLFW_KEY_A,
-		GLFW_KEY_D,
-		GLFW_KEY_SPACE,
-		GLFW_KEY_LEFT_SHIFT,
-		GLFW_KEY_UP,
-		GLFW_KEY_DOWN,
-		GLFW_KEY_RIGHT,
-		GLFW_KEY_LEFT,
-		GLFW_KEY_ESCAPE
-	};
+	// static const std::vector<int> KEYS
+	// {
+	// 	GLFW_KEY_W,
+	// 	GLFW_KEY_S,
+	// 	GLFW_KEY_A,
+	// 	GLFW_KEY_D,
+	// 	GLFW_KEY_SPACE,
+	// 	GLFW_KEY_LEFT_SHIFT,
+	// 	GLFW_KEY_UP,
+	// 	GLFW_KEY_DOWN,
+	// 	GLFW_KEY_RIGHT,
+	// 	GLFW_KEY_LEFT,
+	// 	GLFW_KEY_ESCAPE
+	// };
 
-	static const std::vector<int> MOUSE_BUTTONS
-	{
-		GLFW_MOUSE_BUTTON_LEFT,
-		GLFW_MOUSE_BUTTON_RIGHT,
-		GLFW_MOUSE_BUTTON_MIDDLE
-	};
+	// static const std::vector<int> MOUSE_BUTTONS
+	// {
+	// 	GLFW_MOUSE_BUTTON_LEFT,
+	// 	GLFW_MOUSE_BUTTON_RIGHT,
+	// 	GLFW_MOUSE_BUTTON_MIDDLE
+	// };
 
 	static const InputVal FALSE_FALSE_INPUT = InputVal(false, false);
 
@@ -40,25 +40,15 @@ namespace AttemptAt3D
 	InputManager::InputManager() :
 		keyDict(),
 		anyKey(FALSE_FALSE_INPUT),
-		_keyCount(0),
+		_anyKeyCount(0),
 		mouseButtonDict(),
 		anyMouseButton(FALSE_FALSE_INPUT),
-		_mouseButtonCount(0),
+		_anyMouseButtonCount(0),
 		cursorX(0.0f),
 		cursorY(0.0f),
 		deltaCursorX(0.0f),
 		deltaCursorY(0.0f)
-	{
-		for (const int& key : KEYS)
-		{
-			this->keyDict[key] = FALSE_FALSE_INPUT;
-		}
-
-		for (const int& mb : MOUSE_BUTTONS)
-		{
-			this->mouseButtonDict[mb] = FALSE_FALSE_INPUT;
-		}
-	}
+	{}
 
 	/* Methods */
 
@@ -71,16 +61,16 @@ namespace AttemptAt3D
 
 	void InputManager::nextLoopIteration()
 	{
-		for (const int& key : KEYS)
+		for (auto iter = this->keyDict.begin(); iter != this->keyDict.end(); iter++)
 		{
-			this->keyDict[key].pressedOnce = false;
+			iter->second.pressedOnce = false;
 		}
 
 		this->anyKey.pressedOnce = false;
 
-		for (const int& mb : MOUSE_BUTTONS)
+		for (auto iter = this->mouseButtonDict.begin(); iter != this->mouseButtonDict.end(); iter++)
 		{
-			this->mouseButtonDict[mb].pressedOnce = false;
+			iter->second.pressedOnce = false;
 		}
 
 		this->anyMouseButton.pressedOnce = false;
@@ -98,7 +88,6 @@ namespace AttemptAt3D
 		}
 		else
 		{
-			Debug::LogWarning("Checking for a key that is not registered.");
 			return FALSE_FALSE_INPUT;
 		}
 	}
@@ -112,7 +101,6 @@ namespace AttemptAt3D
 		}
 		else
 		{
-			Debug::LogWarning("Checking for a mouse button that is not registered.");
 			return FALSE_FALSE_INPUT;
 		}
 	}
@@ -123,55 +111,70 @@ namespace AttemptAt3D
 	{
 		InputManager* self = PtrForGlfw::Retrieve(windowForGlfw)->get<InputManager>();
 
-		auto tryGet = self->keyDict.find(key);
-		if (tryGet != self->keyDict.end())
+		// only replaces the item if it doesn't exist
+		auto iter = self->keyDict.emplace(key, FALSE_FALSE_INPUT).first;
+
+		if (action == GLFW_PRESS)
 		{
-			if (action == GLFW_PRESS)
+			if (!iter->second.isDown)
 			{
-				if (!tryGet->second.isDown)
-				{
-					tryGet->second.pressedOnce = true;
-					self->anyKey.pressedOnce = true;
+				iter->second.pressedOnce = true;
+				self->anyKey.pressedOnce = true;
 
-					tryGet->second.isDown = true;
-					self->_keyCount++;
-				}
+				iter->second.isDown = true;
+				self->_anyKeyCount++;
 			}
-			else if (action == GLFW_RELEASE)
-			{
-				if (tryGet->second.isDown)
-				{
-					tryGet->second.isDown = false;
-					self->_keyCount--;
-				}
-			}
-
-			if (self->_keyCount > 0)
-			{ self->anyKey.isDown = true; }
-			else
-			{ self->anyKey.isDown = false; }
 		}
+		else if (action == GLFW_RELEASE)
+		{
+			if (iter->second.isDown)
+			{
+				iter->second.isDown = false;
+				self->_anyKeyCount--;
+			}
+		}
+
+		if (self->_anyKeyCount > 0)
+		{ self->anyKey.isDown = true; }
+		else if (self->_anyKeyCount == 0)
+		{ self->anyKey.isDown = false; }
+		else
+		{ Debug::LogWarning("InputManager::_anyKeyCount is below 0."); }
 	}
 
 	void InputManager::mouseButtonCallback(GLFWwindow* windowForGlfw, int button, int action, int mods)
 	{
 		InputManager* self = PtrForGlfw::Retrieve(windowForGlfw)->get<InputManager>();
 
-		auto tryGet = self->mouseButtonDict.find(button);
-		if (tryGet != self->mouseButtonDict.end())
-		{
-			if (action == GLFW_PRESS)
-			{
-				if (!tryGet->second.isDown)
-				{ tryGet->second.pressedOnce = true; }
+		// only replaces the item if it doesn't exist
+		auto iter = self->mouseButtonDict.emplace(button, FALSE_FALSE_INPUT).first;
 
-				tryGet->second.isDown = true;
-			}
-			else if (action == GLFW_RELEASE)
+		if (action == GLFW_PRESS)
+		{
+			if (!iter->second.isDown)
 			{
-				tryGet->second.isDown = false;
+				iter->second.pressedOnce = true;
+				self->anyMouseButton.pressedOnce = true;
+
+				iter->second.isDown = true;
+				self->_anyMouseButtonCount++;
 			}
 		}
+		else if (action == GLFW_RELEASE)
+		{
+			if (iter->second.isDown)
+			{
+				iter->second.isDown = false;
+				self->_anyMouseButtonCount--;
+			}
+		}
+
+		if (self->_anyMouseButtonCount > 0)
+		{ self->anyMouseButton.isDown = true; }
+		else if (self->_anyMouseButtonCount == 0)
+		{ self->anyMouseButton.isDown = false; }
+		else
+		{ Debug::LogWarning("InputManager::_anyMouseButtonCount is below 0."); }
 	}
 
 	void InputManager::cursorPosCallback(GLFWwindow* windowForGlfw, double xPos, double yPos)

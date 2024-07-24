@@ -188,18 +188,15 @@ namespace AttemptAt3D
 	
 	void Head::doCameraMovements(float deltaTime)
 	{
-		if (this->inputManager.getKey(GLFW_KEY_ESCAPE).pressedOnce || this->inputManager.getMouseButton(GLFW_MOUSE_BUTTON_LEFT).pressedOnce)
+		if (this->inputManager.get_anyMouseButton().pressedOnce)
 		{
-			if (capturedMouseForCamera)
-			{
-				capturedMouseForCamera = false;
-				glfwSetInputMode(this->windowForGlfw, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-			}
-			else
-			{
-				capturedMouseForCamera = true;
-				glfwSetInputMode(this->windowForGlfw, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-			}
+			capturedMouseForCamera = true;
+			glfwSetInputMode(this->windowForGlfw, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		}
+		if (this->inputManager.getKey(GLFW_KEY_ESCAPE).pressedOnce)
+		{
+			capturedMouseForCamera = false;
+			glfwSetInputMode(this->windowForGlfw, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		}
 
 		bool hasMadeMovements = false;
@@ -208,7 +205,7 @@ namespace AttemptAt3D
 
 		const float moveSpeed = 0.01f;
 		Vec movement = Vecs::Zero;
-		if (this->inputManager.getKey(GLFW_KEY_W).isDown || this->inputManager.get_anyKey().isDown)
+		if (this->inputManager.getKey(GLFW_KEY_W).isDown)
 		{
 			Vec temp = glm::normalize(Vec(this->mainCamera->tran.get_forwardVec().x, this->mainCamera->tran.get_forwardVec().y, 0.0f));
 			movement.x += temp.x;

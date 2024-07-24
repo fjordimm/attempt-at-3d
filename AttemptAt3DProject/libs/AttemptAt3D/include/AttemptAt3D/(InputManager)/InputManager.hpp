@@ -52,11 +52,11 @@ namespace AttemptAt3D
 	   private:
 		std::map<int, InputVal> keyDict;
 		InputVal anyKey;
-		int _keyCount;
+		int _anyKeyCount;
 
 		std::map<int, InputVal> mouseButtonDict;
 		InputVal anyMouseButton;
-		int _mouseButtonCount;
+		int _anyMouseButtonCount;
 
 		float cursorX;
 		float cursorY;
