@@ -24,13 +24,7 @@ namespace AttemptAt3D
 		cursorY(0.0f),
 		deltaCursorX(0.0f),
 		deltaCursorY(0.0f)
-	{
-		for (std::size_t i = 0; i < InputManager::CursorSmoothing; i++)
-		{
-			this->deltaCursorXOlds[i] = 0.0f;
-			this->deltaCursorYOlds[i] = 0.0f;
-		}
-	}
+	{}
 
 	/* Methods */
 
@@ -57,7 +51,6 @@ namespace AttemptAt3D
 
 		this->anyMouseButton.pressedOnce = false;
 
-		this->updateDeltaCursorOlds();
 		this->deltaCursorX = 0.0f;
 		this->deltaCursorY = 0.0f;
 	}
@@ -86,45 +79,6 @@ namespace AttemptAt3D
 		{
 			return FALSE_FALSE_INPUT;
 		}
-	}
-
-	float InputManager::getDeltaCursorX() const
-	{
-		float normalizer = 1.0f / (float)InputManager::CursorSmoothing;
-
-		float ret = 0.0f;
-		for (std::size_t i = 0; i < InputManager::CursorSmoothing; i++)
-		{
-			ret += this->deltaCursorXOlds[i] * (float)i * normalizer;
-		}
-		ret += this->deltaCursorX * (float)InputManager::CursorSmoothing * normalizer;
-
-		return ret;
-	}
-
-	float InputManager::getDeltaCursorY() const
-	{
-		float normalizer = 1.0f / (float)InputManager::CursorSmoothing;
-
-		float ret = 0.0f;
-		for (std::size_t i = 0; i < InputManager::CursorSmoothing; i++)
-		{
-			ret += this->deltaCursorYOlds[i] * (float)i * normalizer;
-		}
-		ret += this->deltaCursorY * (float)InputManager::CursorSmoothing * normalizer;
-
-		return ret;
-	}
-
-	void InputManager::updateDeltaCursorOlds()
-	{
-		for (std::size_t i = 0; i < InputManager::CursorSmoothing - 1; i++)
-		{
-			this->deltaCursorXOlds[i] = this->deltaCursorXOlds[i + 1];
-			this->deltaCursorYOlds[i] = this->deltaCursorYOlds[i + 1];
-		}
-		this->deltaCursorXOlds[InputManager::CursorSmoothing - 1] = this->deltaCursorX;
-		this->deltaCursorYOlds[InputManager::CursorSmoothing - 1] = this->deltaCursorY;
 	}
 
 	/* Methods for External Use */
