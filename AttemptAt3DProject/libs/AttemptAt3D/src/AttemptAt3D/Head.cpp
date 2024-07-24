@@ -1,7 +1,6 @@
 
 #include "AttemptAt3D/Head.hpp"
 
-#include <memory>
 #include <cstring>
 #include <chrono>
 #include <cstdlib>
@@ -19,7 +18,8 @@ namespace AttemptAt3D
 		windowForGlfw(nullptr),
 		ptrForGlfw(),
 		shaderManager(),
-		inputManager()
+		inputManager(),
+		forms()
 	{
 		this->mainCamera = std::make_unique<Forms::Camera>(this->shaderManager);
 	}
@@ -119,21 +119,19 @@ namespace AttemptAt3D
 	{
 		/// Temp ///
 		////////////////////////////////////////////////////////////
-		float totalTime = 0.0f;
-
 		this->mainCamera->tran.acq_position() = Vec(0.0f, -21.0f, 6.0f);
 		this->mainCamera->recalculateAndApplyViewMatrix(this->shaderManager);
 
 		std::unique_ptr<Form> form1 = std::make_unique<Form>(this->shaderManager, MeshSamples::Cube().make());
-		form1->tran.acq_scale().x = 3.0f;
-		form1->tran.acq_scale().y = 3.0f;
+		form1->tran.acq_scale().x = 5.0f;
+		form1->tran.acq_scale().y = 5.0f;
 		form1->tran.acq_scale().z = 0.1f;
+		this->forms.push_back(std::move(form1));
 
 		std::unique_ptr<Form> form2 = std::make_unique<Form>(this->shaderManager, MeshSamples::Cube().make());
 		form2->tran.acq_position().z = 1.1f;
 		form2->tran.locallyRotate(Vecs::Up, -0.25f * 3.1415926f);
-		// form2->tran.locallyRotate(Vecs::Right, -0.0f * 3.1415926f);
-		// form2->tran.locallyRotate(Vecs::Forwards, 0.0f * 3.1415926f);
+		this->forms.push_back(std::move(form2));
 		////////////////////////////////////////////////////////////
 
 		while (!glfwWindowShouldClose(this->windowForGlfw))
@@ -151,9 +149,7 @@ namespace AttemptAt3D
 
 			/// Temp ///
 			////////////////////////////////////////////////////////////
-			totalTime += deltaTime;
-
-			form2->tran.rotate(Vecs::Forwards, 0.001f * deltaTime);
+			// form2->tran.rotate(Vecs::Forwards, 0.001f * deltaTime);
 			////////////////////////////////////////////////////////////
 
 			/* Render everything */
@@ -161,9 +157,11 @@ namespace AttemptAt3D
 			glClearColor(0.1f, 0.0f, 0.25f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-			// draw all bodies
-			form1->draw(this->shaderManager);
-			form2->draw(this->shaderManager);
+			for (std::unique_ptr<Form>& _form : this->forms)
+			{
+				Form* form = _form.get();
+				form->draw(this->shaderManager);
+			}
 
 			/* Required by InputManager at the end of each iteration of the main loop */
 
@@ -201,9 +199,13 @@ namespace AttemptAt3D
 
 		bool hasMadeMovements = false;
 
+		float moveSpeed = 0.01f;
+		if (this->inputManager.getKey(GLFW_KEY_LEFT_CONTROL).isDown)
+		{ moveSpeed *= 3.0f; }
+		float rotSpeed = 0.002f;
+
 		/* Camera translation */
 
-		const float moveSpeed = 0.01f;
 		Vec movement = Vecs::Zero;
 		if (this->inputManager.getKey(GLFW_KEY_W).isDown)
 		{
@@ -245,7 +247,6 @@ namespace AttemptAt3D
 
 		/* Camera rotation */
 
-		const float rotSpeed = 0.002f;
 		if (this->capturedMouseForCamera)
 		{
 			float deltaCursorX = this->inputManager.get_deltaCursorX();

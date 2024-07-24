@@ -9,30 +9,6 @@ namespace AttemptAt3D
 {
 	using InputVal = InputManager::InputVal;
 
-	/* Constants */
-
-	// static const std::vector<int> KEYS
-	// {
-	// 	GLFW_KEY_W,
-	// 	GLFW_KEY_S,
-	// 	GLFW_KEY_A,
-	// 	GLFW_KEY_D,
-	// 	GLFW_KEY_SPACE,
-	// 	GLFW_KEY_LEFT_SHIFT,
-	// 	GLFW_KEY_UP,
-	// 	GLFW_KEY_DOWN,
-	// 	GLFW_KEY_RIGHT,
-	// 	GLFW_KEY_LEFT,
-	// 	GLFW_KEY_ESCAPE
-	// };
-
-	// static const std::vector<int> MOUSE_BUTTONS
-	// {
-	// 	GLFW_MOUSE_BUTTON_LEFT,
-	// 	GLFW_MOUSE_BUTTON_RIGHT,
-	// 	GLFW_MOUSE_BUTTON_MIDDLE
-	// };
-
 	static const InputVal FALSE_FALSE_INPUT = InputVal(false, false);
 
 	/* Constructors */

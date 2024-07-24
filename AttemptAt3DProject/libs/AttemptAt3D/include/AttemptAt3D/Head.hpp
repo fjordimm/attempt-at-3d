@@ -2,6 +2,8 @@
 #pragma once
 
 #include <string>
+#include <list>
+#include <memory>
 #define GLEW_STATIC
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -36,6 +38,7 @@ namespace AttemptAt3D
 
 		ShaderManager shaderManager;
 		InputManager inputManager;
+		std::list<std::unique_ptr<Form>> forms;
 
 		bool capturedMouseForCamera;
 
