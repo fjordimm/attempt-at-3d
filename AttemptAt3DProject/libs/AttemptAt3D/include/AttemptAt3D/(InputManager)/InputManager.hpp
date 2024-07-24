@@ -2,6 +2,7 @@
 #pragma once
 
 #include <map>
+#include <cstdlib>
 #define GLEW_STATIC
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -60,8 +61,11 @@ namespace AttemptAt3D
 
 		float cursorX;
 		float cursorY;
+		static constexpr std::size_t CursorSmoothing = 3;
 		float deltaCursorX;
 		float deltaCursorY;
+		float deltaCursorXOlds[CursorSmoothing];
+		float deltaCursorYOlds[CursorSmoothing];
 
 		/* Getters and Setters */
 
@@ -70,8 +74,6 @@ namespace AttemptAt3D
 		inline const InputVal& get_anyMouseButton() { return this->anyMouseButton; }
 		inline float get_cursorX() { return this->cursorX; }
 		inline float get_cursorY() { return this->cursorY; }
-		inline float get_deltaCursorX() { return this->deltaCursorX; }
-		inline float get_deltaCursorY() { return this->deltaCursorY; }
 
 		/* Methods */
 
@@ -81,6 +83,11 @@ namespace AttemptAt3D
 
 		const InputVal& getKey(int key) const;
 		const InputVal& getMouseButton(int mouseButton) const;
+		float getDeltaCursorX() const;
+		float getDeltaCursorY() const;
+
+	   private:
+		void updateDeltaCursorOlds();
 
 		/* Methods for External Use */
 

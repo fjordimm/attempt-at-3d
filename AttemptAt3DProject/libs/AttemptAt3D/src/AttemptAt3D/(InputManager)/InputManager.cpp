@@ -24,7 +24,13 @@ namespace AttemptAt3D
 		cursorY(0.0f),
 		deltaCursorX(0.0f),
 		deltaCursorY(0.0f)
-	{}
+	{
+		for (std::size_t i = 0; i < InputManager::CursorSmoothing; i++)
+		{
+			this->deltaCursorXOlds[i] = 0.0f;
+			this->deltaCursorYOlds[i] = 0.0f;
+		}
+	}
 
 	/* Methods */
 
@@ -51,6 +57,7 @@ namespace AttemptAt3D
 
 		this->anyMouseButton.pressedOnce = false;
 
+		this->updateDeltaCursorOlds();
 		this->deltaCursorX = 0.0f;
 		this->deltaCursorY = 0.0f;
 	}
@@ -79,6 +86,39 @@ namespace AttemptAt3D
 		{
 			return FALSE_FALSE_INPUT;
 		}
+	}
+
+	float InputManager::getDeltaCursorX() const
+	{
+		float ret = 0.0f;
+		for (std::size_t i = 0; i < InputManager::CursorSmoothing; i++)
+		{
+			ret += this->deltaCursorXOlds[i];
+		}
+		ret += this->deltaCursorX;
+		return ret / (float)(InputManager::CursorSmoothing + 1);
+	}
+
+	float InputManager::getDeltaCursorY() const
+	{
+		float ret = 0.0f;
+		for (std::size_t i = 0; i < InputManager::CursorSmoothing; i++)
+		{
+			ret += this->deltaCursorYOlds[i];
+		}
+		ret += this->deltaCursorY;
+		return ret / (float)(InputManager::CursorSmoothing + 1);
+	}
+
+	void InputManager::updateDeltaCursorOlds()
+	{
+		for (std::size_t i = 0; i < InputManager::CursorSmoothing - 1; i++)
+		{
+			this->deltaCursorXOlds[i] = this->deltaCursorXOlds[i + 1];
+			this->deltaCursorYOlds[i] = this->deltaCursorYOlds[i + 1];
+		}
+		this->deltaCursorXOlds[InputManager::CursorSmoothing - 1] = this->deltaCursorX;
+		this->deltaCursorYOlds[InputManager::CursorSmoothing - 1] = this->deltaCursorY;
 	}
 
 	/* Methods for External Use */
@@ -157,8 +197,8 @@ namespace AttemptAt3D
 	{
 		InputManager* self = PtrForGlfw::Retrieve(windowForGlfw)->get<InputManager>();
 
-		self->deltaCursorX = xPos - self->cursorX;
-		self->deltaCursorY = yPos - self->cursorY;
+		self->deltaCursorX += xPos - self->cursorX;
+		self->deltaCursorY += yPos - self->cursorY;
 
 		self->cursorX = xPos;
 		self->cursorY = yPos;

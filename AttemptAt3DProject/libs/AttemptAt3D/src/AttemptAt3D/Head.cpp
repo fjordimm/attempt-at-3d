@@ -126,15 +126,16 @@ namespace AttemptAt3D
 		{
 			long long seed = std::chrono::time_point_cast<std::chrono::microseconds>(std::chrono::system_clock::now()).time_since_epoch().count();
 			std::default_random_engine randGen(seed);
-			std::uniform_real_distribution<float> randDist(-100.0f, 100.0f);
+			std::normal_distribution<float> randDist(-50.0f, 50.0f);
 			
-			for (int i = 0; i < 500; i++)
+			for (int i = 0; i < 6000; i++)
 			{
 				float xPos = randDist(randGen);
 				float yPos = randDist(randGen);
+				float zPos = randDist(randGen);
 
 				std::unique_ptr<Form> form = std::make_unique<Form>(this->shaderManager, MeshSamples::Cube().make());
-				form->tran.acq_position() = Vec(xPos, yPos, 1.1f);
+				form->tran.acq_position() = Vec(xPos, yPos, zPos);
 				this->forms.push_back(std::move(form));
 			}
 		}
@@ -208,7 +209,7 @@ namespace AttemptAt3D
 		float moveSpeed = 0.15f;
 		if (this->inputManager.getKey(GLFW_KEY_LEFT_CONTROL).isDown)
 		{ moveSpeed *= 0.1f; }
-		float rotSpeed = 0.002f;
+		float rotSpeed = 0.0004f;
 
 		/* Camera translation */
 
@@ -255,11 +256,13 @@ namespace AttemptAt3D
 
 		if (this->capturedMouseForCamera)
 		{
-			float deltaCursorX = this->inputManager.get_deltaCursorX();
-			float deltaCursorY = this->inputManager.get_deltaCursorY();
+			float deltaCursorX = this->inputManager.getDeltaCursorX();
+			float deltaCursorY = this->inputManager.getDeltaCursorY();
 
 			if (!Math::RoughlyEqual(deltaCursorX, 0.0f) || !Math::RoughlyEqual(deltaCursorY, 0.0f))
 			{
+				// Debug::Logf("(%f, %f)", deltaCursorX, deltaCursorY);
+
 				glm::vec2 temp = glm::vec2(deltaCursorX, deltaCursorY);
 				this->mainCamera->tran.locallyRotate(Vecs::Right, -temp.y * rotSpeed * deltaTime);
 				this->mainCamera->tran.rotate(Vecs::Up, -temp.x * rotSpeed * deltaTime);
