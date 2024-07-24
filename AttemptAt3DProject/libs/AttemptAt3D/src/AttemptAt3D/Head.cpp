@@ -209,7 +209,7 @@ namespace AttemptAt3D
 		float moveSpeed = 0.15f;
 		if (this->inputManager.getKey(GLFW_KEY_LEFT_CONTROL).isDown)
 		{ moveSpeed *= 0.1f; }
-		float rotSpeed = 0.0004f;
+		float rotSpeed = 0.004f;
 
 		/* Camera translation */
 
@@ -264,8 +264,8 @@ namespace AttemptAt3D
 				// Debug::Logf("(%f, %f)", deltaCursorX, deltaCursorY);
 
 				glm::vec2 temp = glm::vec2(deltaCursorX, deltaCursorY);
-				this->mainCamera->tran.locallyRotate(Vecs::Right, -temp.y * rotSpeed * deltaTime);
-				this->mainCamera->tran.rotate(Vecs::Up, -temp.x * rotSpeed * deltaTime);
+				this->mainCamera->tran.locallyRotate(Vecs::Right, -temp.y * rotSpeed);
+				this->mainCamera->tran.rotate(Vecs::Up, -temp.x * rotSpeed);
 
 				hasMadeMovements = true;
 			}
