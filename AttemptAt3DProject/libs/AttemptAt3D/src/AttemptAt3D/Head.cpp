@@ -5,6 +5,7 @@
 #include <chrono>
 #include <cstdlib>
 #include <cmath>
+#include <random>
 #include "AttemptAt3D/(Debug)/Debug.hpp"
 #include "AttemptAt3D/(Tran)/Tran.hpp"
 #include "AttemptAt3D/(headerGroups)/allMeshSamples.hpp"
@@ -100,6 +101,9 @@ namespace AttemptAt3D
 
 		this->inputManager.giveWindowForGlfw(this->windowForGlfw);
 
+		this->mainCamera->tran.acq_position() = Vec(0.0f, -21.0f, 6.0f);
+		this->mainCamera->recalculateAndApplyViewMatrix(this->shaderManager);
+
 		/* Miscellaneous pre-main-loop tasks */
 
 		capturedMouseForCamera = false;
@@ -119,19 +123,21 @@ namespace AttemptAt3D
 	{
 		/// Temp ///
 		////////////////////////////////////////////////////////////
-		this->mainCamera->tran.acq_position() = Vec(0.0f, -21.0f, 6.0f);
-		this->mainCamera->recalculateAndApplyViewMatrix(this->shaderManager);
+		{
+			long long seed = std::chrono::time_point_cast<std::chrono::microseconds>(std::chrono::system_clock::now()).time_since_epoch().count();
+			std::default_random_engine randGen(seed);
+			std::uniform_real_distribution<float> randDist(-100.0f, 100.0f);
+			
+			for (int i = 0; i < 500; i++)
+			{
+				float xPos = randDist(randGen);
+				float yPos = randDist(randGen);
 
-		std::unique_ptr<Form> form1 = std::make_unique<Form>(this->shaderManager, MeshSamples::Cube().make());
-		form1->tran.acq_scale().x = 5.0f;
-		form1->tran.acq_scale().y = 5.0f;
-		form1->tran.acq_scale().z = 0.1f;
-		this->forms.push_back(std::move(form1));
-
-		std::unique_ptr<Form> form2 = std::make_unique<Form>(this->shaderManager, MeshSamples::Cube().make());
-		form2->tran.acq_position().z = 1.1f;
-		form2->tran.locallyRotate(Vecs::Up, -0.25f * 3.1415926f);
-		this->forms.push_back(std::move(form2));
+				std::unique_ptr<Form> form = std::make_unique<Form>(this->shaderManager, MeshSamples::Cube().make());
+				form->tran.acq_position() = Vec(xPos, yPos, 1.1f);
+				this->forms.push_back(std::move(form));
+			}
+		}
 		////////////////////////////////////////////////////////////
 
 		while (!glfwWindowShouldClose(this->windowForGlfw))
@@ -199,9 +205,9 @@ namespace AttemptAt3D
 
 		bool hasMadeMovements = false;
 
-		float moveSpeed = 0.01f;
+		float moveSpeed = 0.15f;
 		if (this->inputManager.getKey(GLFW_KEY_LEFT_CONTROL).isDown)
-		{ moveSpeed *= 3.0f; }
+		{ moveSpeed *= 0.1f; }
 		float rotSpeed = 0.002f;
 
 		/* Camera translation */
