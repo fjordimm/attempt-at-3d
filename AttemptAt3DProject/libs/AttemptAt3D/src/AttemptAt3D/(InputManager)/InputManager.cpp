@@ -90,32 +90,30 @@ namespace AttemptAt3D
 
 	float InputManager::getDeltaCursorX() const
 	{
-		float weightedSum = 0.0f;
-		for (std::size_t i = 1; i <= InputManager::CursorSmoothing; i++)
+		float normalizer = 1.0f / (float)InputManager::CursorSmoothing;
+
+		float ret = 0.0f;
+		for (std::size_t i = 0; i < InputManager::CursorSmoothing; i++)
 		{
-			weightedSum += this->deltaCursorXOlds[i] * (float)(i);
+			ret += this->deltaCursorXOlds[i] * (float)i * normalizer;
 		}
-		weightedSum += this->deltaCursorX * (float)InputManager::CursorSmoothing;
+		ret += this->deltaCursorX * (float)InputManager::CursorSmoothing * normalizer;
 
-		// sum_i=1^n{i} + n + 1
-		float normalizer = 0.5f * ((float)InputManager::CursorSmoothing + 1.0f) + (float)InputManager::CursorSmoothing + 1.0f;
-
-		return weightedSum / normalizer;
+		return ret;
 	}
 
 	float InputManager::getDeltaCursorY() const
 	{
-		// 1 / (sum_i=1^n{i} + n + 1)
-		float normalizer = 1.0f / (0.5f * ((float)InputManager::CursorSmoothing + 1.0f) + (float)InputManager::CursorSmoothing + 1.0f);
+		float normalizer = 1.0f / (float)InputManager::CursorSmoothing;
 
-		float weightedSum = 0.0f;
-		for (std::size_t i = 1; i <= InputManager::CursorSmoothing; i++)
+		float ret = 0.0f;
+		for (std::size_t i = 0; i < InputManager::CursorSmoothing; i++)
 		{
-			weightedSum += this->deltaCursorYOlds[i] * (float)i * normalizer;
+			ret += this->deltaCursorYOlds[i] * (float)i * normalizer;
 		}
-		weightedSum += this->deltaCursorY * (float)InputManager::CursorSmoothing * normalizer;
+		ret += this->deltaCursorY * (float)InputManager::CursorSmoothing * normalizer;
 
-		return weightedSum;
+		return ret;
 	}
 
 	void InputManager::updateDeltaCursorOlds()

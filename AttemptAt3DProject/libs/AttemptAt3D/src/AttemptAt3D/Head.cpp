@@ -128,7 +128,7 @@ namespace AttemptAt3D
 			std::default_random_engine randGen(seed);
 			std::normal_distribution<float> randDist(-50.0f, 50.0f);
 			
-			for (int i = 0; i < 600; i++)
+			for (int i = 0; i < 6000; i++)
 			{
 				float xPos = randDist(randGen);
 				float yPos = randDist(randGen);
@@ -209,7 +209,7 @@ namespace AttemptAt3D
 		float moveSpeed = 0.15f;
 		if (this->inputManager.getKey(GLFW_KEY_LEFT_CONTROL).isDown)
 		{ moveSpeed *= 0.1f; }
-		float rotSpeed = 0.004f;
+		float rotSpeed = 0.0014f;
 
 		/* Camera translation */
 

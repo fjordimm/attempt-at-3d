@@ -61,7 +61,7 @@ namespace AttemptAt3D
 
 		float cursorX;
 		float cursorY;
-		static constexpr std::size_t CursorSmoothing = 20;
+		static constexpr std::size_t CursorSmoothing = 3;
 		float deltaCursorX;
 		float deltaCursorY;
 		float deltaCursorXOlds[CursorSmoothing];
