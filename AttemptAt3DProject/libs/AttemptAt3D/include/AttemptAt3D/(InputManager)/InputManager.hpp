@@ -50,7 +50,14 @@ namespace AttemptAt3D
 		/* Fields */
 
 	   private:
-		std::map<int, InputVal> keyMap;
+		std::map<int, InputVal> keyDict;
+		InputVal anyKey;
+		int _keyCount;
+
+		std::map<int, InputVal> mouseButtonDict;
+		InputVal anyMouseButton;
+		int _mouseButtonCount;
+
 		float cursorX;
 		float cursorY;
 		float deltaCursorX;
@@ -59,6 +66,8 @@ namespace AttemptAt3D
 		/* Getters and Setters */
 
 	   public:
+		inline const InputVal& get_anyKey() { return this->anyKey; }
+		inline const InputVal& get_anyMouseButton() { return this->anyMouseButton; }
 		inline float get_cursorX() { return this->cursorX; }
 		inline float get_cursorY() { return this->cursorY; }
 		inline float get_deltaCursorX() { return this->deltaCursorX; }
@@ -70,15 +79,14 @@ namespace AttemptAt3D
 		void giveWindowForGlfw(GLFWwindow* windowForGlfw);
 		void nextLoopIteration();
 
-		/* Operator Overloads */
-
-	   public:
-		const InputVal& operator[](int key) const;
+		const InputVal& getKey(int key) const;
+		const InputVal& getMouseButton(int mouseButton) const;
 
 		/* Methods for External Use */
 
 	   private:
 		static void keyCallback(GLFWwindow* windowForGlfw, int key, int scancode, int action, int mods);
+		static void mouseButtonCallback(GLFWwindow* windowForGlfw, int button, int action, int mods);
 		static void cursorPosCallback(GLFWwindow* windowForGlfw, double xPos, double yPos);
 	};
 }

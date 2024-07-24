@@ -188,7 +188,7 @@ namespace AttemptAt3D
 	
 	void Head::doCameraMovements(float deltaTime)
 	{
-		if (this->inputManager[GLFW_KEY_ESCAPE].pressedOnce)
+		if (this->inputManager.getKey(GLFW_KEY_ESCAPE).pressedOnce || this->inputManager.getMouseButton(GLFW_MOUSE_BUTTON_LEFT).pressedOnce)
 		{
 			if (capturedMouseForCamera)
 			{
@@ -208,35 +208,35 @@ namespace AttemptAt3D
 
 		const float moveSpeed = 0.01f;
 		Vec movement = Vecs::Zero;
-		if (this->inputManager[GLFW_KEY_W].isDown)
+		if (this->inputManager.getKey(GLFW_KEY_W).isDown || this->inputManager.get_anyKey().isDown)
 		{
 			Vec temp = glm::normalize(Vec(this->mainCamera->tran.get_forwardVec().x, this->mainCamera->tran.get_forwardVec().y, 0.0f));
 			movement.x += temp.x;
 			movement.y += temp.y;
 		}
-		if (this->inputManager[GLFW_KEY_S].isDown)
+		if (this->inputManager.getKey(GLFW_KEY_S).isDown)
 		{
 			Vec temp = glm::normalize(Vec(this->mainCamera->tran.get_forwardVec().x, this->mainCamera->tran.get_forwardVec().y, 0.0f));
 			movement.x -= temp.x;
 			movement.y -= temp.y;
 		}
-		if (this->inputManager[GLFW_KEY_D].isDown)
+		if (this->inputManager.getKey(GLFW_KEY_D).isDown)
 		{
 			Vec temp = glm::normalize(Vec(this->mainCamera->tran.get_rightVec().x, this->mainCamera->tran.get_rightVec().y, 0.0f));
 			movement.x += temp.x;
 			movement.y += temp.y;
 		}
-		if (this->inputManager[GLFW_KEY_A].isDown)
+		if (this->inputManager.getKey(GLFW_KEY_A).isDown)
 		{
 			Vec temp = glm::normalize(Vec(this->mainCamera->tran.get_rightVec().x, this->mainCamera->tran.get_rightVec().y, 0.0f));
 			movement.x -= temp.x;
 			movement.y -= temp.y;
 		}
-		if (this->inputManager[GLFW_KEY_SPACE].isDown)
+		if (this->inputManager.getKey(GLFW_KEY_SPACE).isDown)
 		{
 			movement.z += 1.0f;
 		}
-		if (this->inputManager[GLFW_KEY_LEFT_SHIFT].isDown)
+		if (this->inputManager.getKey(GLFW_KEY_LEFT_SHIFT).isDown)
 		{
 			movement.z -= 1.0f;
 		}
