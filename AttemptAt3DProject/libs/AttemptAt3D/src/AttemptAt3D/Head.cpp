@@ -128,7 +128,7 @@ namespace AttemptAt3D
 			std::default_random_engine randGen(seed);
 			std::normal_distribution<float> randDist(-50.0f, 50.0f);
 			
-			for (int i = 0; i < 6000; i++)
+			for (int i = 0; i < 600; i++)
 			{
 				float xPos = randDist(randGen);
 				float yPos = randDist(randGen);
