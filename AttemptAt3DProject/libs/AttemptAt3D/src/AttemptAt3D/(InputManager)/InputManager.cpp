@@ -23,7 +23,9 @@ namespace AttemptAt3D
 		cursorX(0.0f),
 		cursorY(0.0f),
 		deltaCursorX(0.0f),
-		deltaCursorY(0.0f)
+		deltaCursorY(0.0f),
+		deltaScrollX(0.0f),
+		deltaScrollY(0.0f)
 	{}
 
 	/* Methods */
@@ -33,6 +35,7 @@ namespace AttemptAt3D
 		glfwSetKeyCallback(windowForGlfw, InputManager::keyCallback);
 		glfwSetMouseButtonCallback(windowForGlfw, InputManager::mouseButtonCallback);
 		glfwSetCursorPosCallback(windowForGlfw, InputManager::cursorPosCallback);
+		glfwSetScrollCallback(windowForGlfw, InputManager::scrollCallback);
 	}
 
 	void InputManager::nextLoopIteration()
@@ -53,6 +56,9 @@ namespace AttemptAt3D
 
 		this->deltaCursorX = 0.0f;
 		this->deltaCursorY = 0.0f;
+
+		this->deltaScrollX = 0.0f;
+		this->deltaScrollY = 0.0f;
 	}
 
 	const InputVal& InputManager::getKey(int key) const
@@ -162,5 +168,13 @@ namespace AttemptAt3D
 
 		self->cursorX = xPos;
 		self->cursorY = yPos;
+	}
+
+	void InputManager::scrollCallback(GLFWwindow* windowForGlfw, double xOffset, double yOffset)
+	{
+		InputManager* self = PtrForGlfw::Retrieve(windowForGlfw)->get<InputManager>();
+
+		self->deltaScrollX += xOffset;
+		self->deltaScrollY += yOffset;
 	}
 }

@@ -41,8 +41,9 @@ namespace AttemptAt3D
 		std::list<std::unique_ptr<Form>> forms;
 
 		bool capturedMouseForCamera;
-
 		std::unique_ptr<Forms::Camera> mainCamera;
+		float mainCameraMovementSpeed;
+		float mainCameraRotationSpeed;
 
 		/* Getters and Setters */
 

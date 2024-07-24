@@ -64,6 +64,9 @@ namespace AttemptAt3D
 		float deltaCursorX;
 		float deltaCursorY;
 
+		float deltaScrollX;
+		float deltaScrollY;
+
 		/* Getters and Setters */
 
 	   public:
@@ -73,6 +76,8 @@ namespace AttemptAt3D
 		inline float get_cursorY() { return this->cursorY; }
 		inline float get_deltaCursorX() { return this->deltaCursorX; }
 		inline float get_deltaCursorY() { return this->deltaCursorY; }
+		inline float get_deltaScrollX() { return this->deltaScrollX; }
+		inline float get_deltaScrollY() { return this->deltaScrollY; }
 
 		/* Methods */
 
@@ -89,5 +94,6 @@ namespace AttemptAt3D
 		static void keyCallback(GLFWwindow* windowForGlfw, int key, int scancode, int action, int mods);
 		static void mouseButtonCallback(GLFWwindow* windowForGlfw, int button, int action, int mods);
 		static void cursorPosCallback(GLFWwindow* windowForGlfw, double xPos, double yPos);
+		static void scrollCallback(GLFWwindow* windowForGlfw, double xOffset, double yOffset);
 	};
 }

@@ -20,7 +20,9 @@ namespace AttemptAt3D
 		ptrForGlfw(),
 		shaderManager(),
 		inputManager(),
-		forms()
+		forms(),
+		mainCameraMovementSpeed(0.15f),
+		mainCameraRotationSpeed(0.0025f)
 	{
 		this->mainCamera = std::make_unique<Forms::Camera>(this->shaderManager);
 	}
@@ -128,7 +130,7 @@ namespace AttemptAt3D
 			std::default_random_engine randGen(seed);
 			std::normal_distribution<float> randDist(-50.0f, 50.0f);
 			
-			for (int i = 0; i < 60; i++)
+			for (int i = 0; i < 600; i++)
 			{
 				float xPos = randDist(randGen);
 				float yPos = randDist(randGen);
@@ -193,6 +195,8 @@ namespace AttemptAt3D
 	
 	void Head::doCameraMovements(float deltaTime)
 	{
+		bool hasMadeMovements = false;
+
 		if (this->inputManager.get_anyMouseButton().pressedOnce)
 		{
 			capturedMouseForCamera = true;
@@ -204,12 +208,12 @@ namespace AttemptAt3D
 			glfwSetInputMode(this->windowForGlfw, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		}
 
-		bool hasMadeMovements = false;
+		this->mainCameraMovementSpeed += 0.3f * this->mainCameraMovementSpeed * this->inputManager.get_deltaScrollY();
+		if (this->mainCameraMovementSpeed < 0.002f)
+		{ this->mainCameraMovementSpeed = 0.002f; }
 
-		float moveSpeed = 0.15f;
-		if (this->inputManager.getKey(GLFW_KEY_LEFT_CONTROL).isDown)
-		{ moveSpeed *= 0.1f; }
-		float rotSpeed = 0.0025f;
+		float cameraMovementSpeed = this->mainCameraMovementSpeed;
+		float cameraRotationSpeed = this->mainCameraRotationSpeed;
 
 		/* Camera translation */
 
@@ -248,7 +252,7 @@ namespace AttemptAt3D
 		}
 		if (!Vecs::RoughlyEqual(movement, Vecs::Zero))
 		{
-			this->mainCamera->tran.move((moveSpeed * deltaTime) * glm::normalize(movement));
+			this->mainCamera->tran.move((cameraMovementSpeed * deltaTime) * glm::normalize(movement));
 			hasMadeMovements = true;
 		}
 
@@ -264,8 +268,8 @@ namespace AttemptAt3D
 				// Debug::Logf("(%f, %f)", deltaCursorX, deltaCursorY);
 
 				glm::vec2 temp = glm::vec2(deltaCursorX, deltaCursorY);
-				this->mainCamera->tran.locallyRotate(Vecs::Right, -temp.y * rotSpeed);
-				this->mainCamera->tran.rotate(Vecs::Up, -temp.x * rotSpeed);
+				this->mainCamera->tran.locallyRotate(Vecs::Right, -temp.y * cameraRotationSpeed);
+				this->mainCamera->tran.rotate(Vecs::Up, -temp.x * cameraRotationSpeed);
 
 				hasMadeMovements = true;
 			}
