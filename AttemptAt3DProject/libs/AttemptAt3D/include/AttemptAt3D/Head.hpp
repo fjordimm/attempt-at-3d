@@ -48,13 +48,13 @@ namespace AttemptAt3D
 		/* Getters and Setters */
 
 	   public:
-		inline ShaderManager& get_shaderManager() { return this->shaderManager; }
+		inline ShaderManager& getShaderManager() { return this->shaderManager; }
 
 	   private:
-		void set_fov(float val);
-		void set_aspectRatio(float val);
-		void set_nearClippingPlane(float val);
-		void set_farClippingPlane(float val);
+		void setFov(float val);
+		void setAspectRatio(float val);
+		void setNearClippingPlane(float val);
+		void setFarClippingPlane(float val);
 
 		/* Methods */
 

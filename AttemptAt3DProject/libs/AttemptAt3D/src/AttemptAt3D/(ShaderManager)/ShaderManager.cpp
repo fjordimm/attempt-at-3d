@@ -32,22 +32,22 @@ namespace AttemptAt3D
 
 	/* Getters and Setters */
 
-	void ShaderManager::set_uni_transScaleVal(const glm::mat4& val)
+	void ShaderManager::setUni_transScaleVal(const glm::mat4& val)
 	{ glUniformMatrix4fv(this->uni_transScale, 1, GL_FALSE, glm::value_ptr(val)); }
 	
-	void ShaderManager::set_uni_transRotVal(const glm::mat4& val)
+	void ShaderManager::setUni_transRotVal(const glm::mat4& val)
 	{ glUniformMatrix4fv(this->uni_transRot, 1, GL_FALSE, glm::value_ptr(val)); }
 	
-	void ShaderManager::set_uni_transPosVal(const glm::mat4& val)
+	void ShaderManager::setUni_transPosVal(const glm::mat4& val)
 	{ glUniformMatrix4fv(this->uni_transPos, 1, GL_FALSE, glm::value_ptr(val)); }
 
-	void ShaderManager::set_uni_viewVal(const glm::mat4& val)
+	void ShaderManager::setUni_viewVal(const glm::mat4& val)
 	{ glUniformMatrix4fv(this->uni_view, 1, GL_FALSE, glm::value_ptr(val)); }
 
-	void ShaderManager::set_uni_projVal(const glm::mat4& val)
+	void ShaderManager::setUni_projVal(const glm::mat4& val)
 	{ glUniformMatrix4fv(this->uni_proj, 1, GL_FALSE, glm::value_ptr(val)); }
 
-	void ShaderManager::set_uni_sunRotVal(const glm::mat4& val)
+	void ShaderManager::setUni_sunRotVal(const glm::mat4& val)
 	{ glUniformMatrix4fv(this->uni_sunRot, 1, GL_FALSE, glm::value_ptr(val)); }
 
 	/* Methods */

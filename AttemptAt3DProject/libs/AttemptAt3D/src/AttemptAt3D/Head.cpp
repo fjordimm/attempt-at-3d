@@ -27,25 +27,25 @@ namespace AttemptAt3D
 		this->mainCamera = std::make_unique<Forms::Camera>(this->shaderManager);
 	}
 
-	void Head::set_fov(float val)
+	void Head::setFov(float val)
 	{
 		this->_fov = val;
 		this->_updateProjectionMatrix();
 	}
 
-	void Head::set_aspectRatio(float val)
+	void Head::setAspectRatio(float val)
 	{
 		this->_aspectRatio = val;
 		this->_updateProjectionMatrix();
 	}
 
-	void Head::set_nearClippingPlane(float val)
+	void Head::setNearClippingPlane(float val)
 	{
 		this->_nearClippingPlane = val;
 		this->_updateProjectionMatrix();
 	}
 
-	void Head::set_farClippingPlane(float val)
+	void Head::setFarClippingPlane(float val)
 	{
 		this->_farClippingPlane = val;
 		this->_updateProjectionMatrix();
@@ -96,14 +96,14 @@ namespace AttemptAt3D
 		/* Head settings */
 
 		glfwSetWindowSizeCallback(this->windowForGlfw, Head::onWindowResize);
-		this->set_fov(glm::radians(45.0f));
-		this->set_aspectRatio((float)windowWidth / (float)windowHeight);
-		this->set_nearClippingPlane(0.01f);
-		this->set_farClippingPlane(100000.0f);
+		this->setFov(glm::radians(45.0f));
+		this->setAspectRatio((float)windowWidth / (float)windowHeight);
+		this->setNearClippingPlane(0.01f);
+		this->setFarClippingPlane(100000.0f);
 
 		this->inputManager.giveWindowForGlfw(this->windowForGlfw);
 
-		this->mainCamera->tran.acq_position() = Vec(0.0f, -21.0f, 6.0f);
+		this->mainCamera->tran.acqPosition() = Vec(0.0f, -21.0f, 6.0f);
 		this->mainCamera->recalculateAndApplyViewMatrix(this->shaderManager);
 
 		/* Miscellaneous pre-main-loop tasks */
@@ -137,7 +137,7 @@ namespace AttemptAt3D
 				float zPos = randDist(randGen);
 
 				std::unique_ptr<Form> form = std::make_unique<Form>(this->shaderManager, MeshSamples::Cube().make());
-				form->tran.acq_position() = Vec(xPos, yPos, zPos);
+				form->tran.acqPosition() = Vec(xPos, yPos, zPos);
 				this->forms.push_back(std::move(form));
 			}
 		}
@@ -188,7 +188,7 @@ namespace AttemptAt3D
 
 	void Head::_updateProjectionMatrix()
 	{
-		this->shaderManager.set_uni_projVal(
+		this->shaderManager.setUni_projVal(
 			glm::perspective(this->_fov, this->_aspectRatio, this->_nearClippingPlane, this->_farClippingPlane)
 		);
 	}
@@ -197,18 +197,18 @@ namespace AttemptAt3D
 	{
 		bool hasMadeMovements = false;
 
-		if (this->inputManager.get_anyMouseButton().pressedOnce)
+		if (this->inputManager.getAnyMouseButton().pressedOnce)
 		{
 			capturedMouseForCamera = true;
 			glfwSetInputMode(this->windowForGlfw, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 		}
-		if (this->inputManager.getKey(GLFW_KEY_ESCAPE).pressedOnce)
+		if (this->inputManager.findKey(GLFW_KEY_ESCAPE).pressedOnce)
 		{
 			capturedMouseForCamera = false;
 			glfwSetInputMode(this->windowForGlfw, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		}
 
-		this->mainCameraMovementSpeed += 0.3f * this->mainCameraMovementSpeed * this->inputManager.get_deltaScrollY();
+		this->mainCameraMovementSpeed += 0.3f * this->mainCameraMovementSpeed * this->inputManager.getDeltaScrollY();
 		if (this->mainCameraMovementSpeed < 0.002f)
 		{ this->mainCameraMovementSpeed = 0.002f; }
 
@@ -218,35 +218,35 @@ namespace AttemptAt3D
 		/* Camera translation */
 
 		Vec movement = Vecs::Zero;
-		if (this->inputManager.getKey(GLFW_KEY_W).isDown)
+		if (this->inputManager.findKey(GLFW_KEY_W).isDown)
 		{
-			Vec temp = glm::normalize(Vec(this->mainCamera->tran.get_forwardVec().x, this->mainCamera->tran.get_forwardVec().y, 0.0f));
+			Vec temp = glm::normalize(Vec(this->mainCamera->tran.getForwardVec().x, this->mainCamera->tran.getForwardVec().y, 0.0f));
 			movement.x += temp.x;
 			movement.y += temp.y;
 		}
-		if (this->inputManager.getKey(GLFW_KEY_S).isDown)
+		if (this->inputManager.findKey(GLFW_KEY_S).isDown)
 		{
-			Vec temp = glm::normalize(Vec(this->mainCamera->tran.get_forwardVec().x, this->mainCamera->tran.get_forwardVec().y, 0.0f));
+			Vec temp = glm::normalize(Vec(this->mainCamera->tran.getForwardVec().x, this->mainCamera->tran.getForwardVec().y, 0.0f));
 			movement.x -= temp.x;
 			movement.y -= temp.y;
 		}
-		if (this->inputManager.getKey(GLFW_KEY_D).isDown)
+		if (this->inputManager.findKey(GLFW_KEY_D).isDown)
 		{
-			Vec temp = glm::normalize(Vec(this->mainCamera->tran.get_rightVec().x, this->mainCamera->tran.get_rightVec().y, 0.0f));
+			Vec temp = glm::normalize(Vec(this->mainCamera->tran.getRightVec().x, this->mainCamera->tran.getRightVec().y, 0.0f));
 			movement.x += temp.x;
 			movement.y += temp.y;
 		}
-		if (this->inputManager.getKey(GLFW_KEY_A).isDown)
+		if (this->inputManager.findKey(GLFW_KEY_A).isDown)
 		{
-			Vec temp = glm::normalize(Vec(this->mainCamera->tran.get_rightVec().x, this->mainCamera->tran.get_rightVec().y, 0.0f));
+			Vec temp = glm::normalize(Vec(this->mainCamera->tran.getRightVec().x, this->mainCamera->tran.getRightVec().y, 0.0f));
 			movement.x -= temp.x;
 			movement.y -= temp.y;
 		}
-		if (this->inputManager.getKey(GLFW_KEY_SPACE).isDown)
+		if (this->inputManager.findKey(GLFW_KEY_SPACE).isDown)
 		{
 			movement.z += 1.0f;
 		}
-		if (this->inputManager.getKey(GLFW_KEY_LEFT_SHIFT).isDown)
+		if (this->inputManager.findKey(GLFW_KEY_LEFT_SHIFT).isDown)
 		{
 			movement.z -= 1.0f;
 		}
@@ -260,8 +260,8 @@ namespace AttemptAt3D
 
 		if (this->capturedMouseForCamera)
 		{
-			float deltaCursorX = this->inputManager.get_deltaCursorX();
-			float deltaCursorY = this->inputManager.get_deltaCursorY();
+			float deltaCursorX = this->inputManager.getDeltaCursorX();
+			float deltaCursorY = this->inputManager.getDeltaCursorY();
 
 			if (!Math::RoughlyEqual(deltaCursorX, 0.0f) || !Math::RoughlyEqual(deltaCursorY, 0.0f))
 			{
@@ -277,7 +277,7 @@ namespace AttemptAt3D
 		{
 			/* Bound camera rotation from looking beyond straight up or straight down */
 
-			Vec eulers = this->mainCamera->tran.getEulerAngles();
+			Vec eulers = this->mainCamera->tran.eulerAngles();
 			static constexpr float maxAngle = Math::PiOver2 - 0.01f;
 			if (eulers.x > maxAngle)
 			{
@@ -322,6 +322,6 @@ namespace AttemptAt3D
 		Head* self = PtrForGlfw::Retrieve(windowForGlfw)->get<Head>();
 
 		glViewport(0, 0, width, height);
-		self->set_aspectRatio((float)width / (float)height);
+		self->setAspectRatio((float)width / (float)height);
 	}
 }

@@ -56,7 +56,7 @@ namespace AttemptAt3D
 
 	/* Getters and Setters */
 
-	const glm::mat4& Tran::get_positionMatrix()
+	const glm::mat4& Tran::getPositionMatrix()
 	{
 		if (this->_mayHaveChangedPosition)
 		{
@@ -67,7 +67,7 @@ namespace AttemptAt3D
 		return this->_cached_positionMatrix;
 	}
 
-	const glm::mat4& Tran::get_rotationMatrix()
+	const glm::mat4& Tran::getRotationMatrix()
 	{
 		if (this->_mayHaveChangedRotation)
 		{
@@ -78,7 +78,7 @@ namespace AttemptAt3D
 		return this->_cached_rotationMatrix;
 	}
 
-	const Vec& Tran::get_forwardVec()
+	const Vec& Tran::getForwardVec()
 	{
 		if (this->_mayHaveChangedRotation)
 		{
@@ -89,7 +89,7 @@ namespace AttemptAt3D
 		return this->_cached_forwardVec;
 	}
 
-	const Vec& Tran::get_upVec()
+	const Vec& Tran::getUpVec()
 	{
 		if (this->_mayHaveChangedRotation)
 		{
@@ -100,7 +100,7 @@ namespace AttemptAt3D
 		return this->_cached_upVec;
 	}
 
-	const Vec& Tran::get_rightVec()
+	const Vec& Tran::getRightVec()
 	{
 		if (this->_mayHaveChangedRotation)
 		{
@@ -111,7 +111,7 @@ namespace AttemptAt3D
 		return this->_cached_rightVec;
 	}
 	
-	const glm::mat4 Tran::get_scaleMatrix()
+	const glm::mat4 Tran::getScaleMatrix()
 	{
 		if (this->_mayHaveChangedScale)
 		{
@@ -127,55 +127,55 @@ namespace AttemptAt3D
 	std::string Tran::toString() const
 	{
 		std::ostringstream ret;
-		ret << "{pos" << Vecs::ToString(this->_position).c_str() << " rot" << Vecs::ToString(this->getEulerAngles()).c_str() << " scale" << Vecs::ToString(this->_scale).c_str() << "}";
+		ret << "{pos" << Vecs::ToString(this->_position).c_str() << " rot" << Vecs::ToString(this->eulerAngles()).c_str() << " scale" << Vecs::ToString(this->_scale).c_str() << "}";
 		return ret.str();
 	}
 	
-	Vec Tran::getEulerAngles() const
+	Vec Tran::eulerAngles() const
 	{
 		return glm::eulerAngles(this->_rotation);
 	}
 
 	void Tran::move(const Vec& translation)
 	{
-		this->acq_position() += translation;
+		this->acqPosition() += translation;
 	}
 	
 	void Tran::locallyMove(const Vec& translation)
 	{
-		this->acq_position() += this->get_rotation() * translation;
+		this->acqPosition() += this->getRotation() * translation;
 	}
 
 	void Tran::moveAlong(const Vec& axis, float distance)
 	{
-		this->acq_position() += distance * axis;
+		this->acqPosition() += distance * axis;
 	}
 
 	void Tran::locallyMoveAlong(const Vec& axis, float distance)
 	{
-		this->acq_position() += distance * (this->get_rotation() * axis);
+		this->acqPosition() += distance * (this->getRotation() * axis);
 	}
 
 	void Tran::rotate(const Vec& axis, float radians)
 	{
-		this->acq_rotation() = glm::angleAxis(radians, axis) * this->get_rotation();
+		this->acqRotation() = glm::angleAxis(radians, axis) * this->getRotation();
 	}
 
 	void Tran::locallyRotate(const Vec& axis, float radians)
 	{
-		this->acq_rotation() = this->get_rotation() * glm::angleAxis(radians, axis);
+		this->acqRotation() = this->getRotation() * glm::angleAxis(radians, axis);
 	}
 
 	void Tran::lookTowards(const Vec& target, const Vec& up)
 	{
-		Vec newForwards = glm::normalize(target - this->get_position());
+		Vec newForwards = glm::normalize(target - this->getPosition());
 
 		Vec xAxis = glm::normalize(glm::cross(newForwards, up));
 		Vec yAxis = newForwards;
 		Vec zAxis = glm::normalize(glm::cross(xAxis, newForwards));
 		glm::mat3 rotationMatrix = glm::mat3(xAxis, yAxis, zAxis);
 
-		this->acq_rotation() = glm::quat_cast(rotationMatrix);
+		this->acqRotation() = glm::quat_cast(rotationMatrix);
 	}
 
 	void Tran::_updatePositionDeps()

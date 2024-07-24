@@ -44,9 +44,9 @@ namespace AttemptAt3D
 		{
 			glBindVertexArray(this->vao);
 
-			shaderManager.set_uni_transScaleVal(this->tran->get_scaleMatrix());
-			shaderManager.set_uni_transRotVal(this->tran->get_rotationMatrix());
-			shaderManager.set_uni_transPosVal(this->tran->get_positionMatrix());
+			shaderManager.setUni_transScaleVal(this->tran->getScaleMatrix());
+			shaderManager.setUni_transRotVal(this->tran->getRotationMatrix());
+			shaderManager.setUni_transPosVal(this->tran->getPositionMatrix());
 			glDrawElements(GL_TRIANGLES, this->mesh->elementsLen, GL_UNSIGNED_INT, 0);
 
 			glBindVertexArray(0);

@@ -38,25 +38,25 @@ namespace AttemptAt3D
 		/* Getters and Setters */
 
 	   public:
-		inline const Vec& get_position() const { return this->_position; }
-		inline const Quat& get_rotation() const { return this->_rotation; }
-		inline const Vec& get_scale() const { return this->_scale; }
-		inline Vec& acq_position() { this->_mayHaveChangedPosition = true; return this->_position; }
-		inline Quat& acq_rotation() { this->_mayHaveChangedRotation = true; return this->_rotation; }
-		inline Vec& acq_scale() { this->_mayHaveChangedScale = true; return this->_scale; }
+		inline const Vec& getPosition() const { return this->_position; }
+		inline const Quat& getRotation() const { return this->_rotation; }
+		inline const Vec& getScale() const { return this->_scale; }
+		inline Vec& acqPosition() { this->_mayHaveChangedPosition = true; return this->_position; }
+		inline Quat& acqRotation() { this->_mayHaveChangedRotation = true; return this->_rotation; }
+		inline Vec& acqScale() { this->_mayHaveChangedScale = true; return this->_scale; }
 		
-		const glm::mat4& get_positionMatrix();
-		const glm::mat4& get_rotationMatrix();
-		const Vec& get_forwardVec();
-		const Vec& get_upVec();
-		const Vec& get_rightVec();
-		const glm::mat4 get_scaleMatrix();
+		const glm::mat4& getPositionMatrix();
+		const glm::mat4& getRotationMatrix();
+		const Vec& getForwardVec();
+		const Vec& getUpVec();
+		const Vec& getRightVec();
+		const glm::mat4 getScaleMatrix();
 
 		/* Methods */
 
 	   public:
 		std::string toString() const;
-		Vec getEulerAngles() const;
+		Vec eulerAngles() const;
 
 		void move(const Vec& translation);
 		void moveAlong(const Vec& axis, float distance);

@@ -39,12 +39,12 @@ namespace AttemptAt3D
 		/* Getters and Setters */
 
 	   public:
-		void set_uni_transScaleVal(const glm::mat4& val);
-		void set_uni_transRotVal(const glm::mat4& val);
-		void set_uni_transPosVal(const glm::mat4& val);
-		void set_uni_viewVal(const glm::mat4& val);
-		void set_uni_projVal(const glm::mat4& val);
-		void set_uni_sunRotVal(const glm::mat4& val);
+		void setUni_transScaleVal(const glm::mat4& val);
+		void setUni_transRotVal(const glm::mat4& val);
+		void setUni_transPosVal(const glm::mat4& val);
+		void setUni_viewVal(const glm::mat4& val);
+		void setUni_projVal(const glm::mat4& val);
+		void setUni_sunRotVal(const glm::mat4& val);
 
 		/* Methods */
 

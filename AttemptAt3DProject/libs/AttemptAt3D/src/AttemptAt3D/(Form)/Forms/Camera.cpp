@@ -16,11 +16,11 @@ namespace AttemptAt3D::Forms
 	void Camera::recalculateAndApplyViewMatrix(ShaderManager& shaderManager)
 	{
 		glm::mat4 viewMatrix = glm::lookAt(
-			this->tran.get_position(),
-			this->tran.get_position() + this->tran.get_forwardVec(),
-			this->tran.get_upVec()
+			this->tran.getPosition(),
+			this->tran.getPosition() + this->tran.getForwardVec(),
+			this->tran.getUpVec()
 		);
 
-		shaderManager.set_uni_viewVal(viewMatrix);
+		shaderManager.setUni_viewVal(viewMatrix);
 	}
 }

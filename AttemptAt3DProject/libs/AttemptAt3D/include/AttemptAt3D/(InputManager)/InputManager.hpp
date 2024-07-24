@@ -70,14 +70,14 @@ namespace AttemptAt3D
 		/* Getters and Setters */
 
 	   public:
-		inline const InputVal& get_anyKey() { return this->anyKey; }
-		inline const InputVal& get_anyMouseButton() { return this->anyMouseButton; }
-		inline float get_cursorX() { return this->cursorX; }
-		inline float get_cursorY() { return this->cursorY; }
-		inline float get_deltaCursorX() { return this->deltaCursorX; }
-		inline float get_deltaCursorY() { return this->deltaCursorY; }
-		inline float get_deltaScrollX() { return this->deltaScrollX; }
-		inline float get_deltaScrollY() { return this->deltaScrollY; }
+		inline const InputVal& getAnyKey() { return this->anyKey; }
+		inline const InputVal& getAnyMouseButton() { return this->anyMouseButton; }
+		inline float getCursorX() { return this->cursorX; }
+		inline float getCursorY() { return this->cursorY; }
+		inline float getDeltaCursorX() { return this->deltaCursorX; }
+		inline float getDeltaCursorY() { return this->deltaCursorY; }
+		inline float getDeltaScrollX() { return this->deltaScrollX; }
+		inline float getDeltaScrollY() { return this->deltaScrollY; }
 
 		/* Methods */
 
@@ -85,8 +85,8 @@ namespace AttemptAt3D
 		void giveWindowForGlfw(GLFWwindow* windowForGlfw);
 		void nextLoopIteration();
 
-		const InputVal& getKey(int key) const;
-		const InputVal& getMouseButton(int mouseButton) const;
+		const InputVal& findKey(int key) const;
+		const InputVal& findMouseButton(int mouseButton) const;
 
 		/* Methods for External Use */
 
