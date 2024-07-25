@@ -53,9 +53,9 @@ namespace AttemptAt3D
 	   public:
 		void onUpdate(WorldState& worldState, float deltaTime);
 
-	   private:
-		virtual void onCreate_child(WorldState& worldState) {}
-		virtual void onUpdate_child(WorldState& worldState, float deltaTime) {}
+	   protected:
+		virtual void onCreate_(WorldState& worldState) {}
+		virtual void onUpdate_(WorldState& worldState, float deltaTime) {}
 
 		/* Friends */
 

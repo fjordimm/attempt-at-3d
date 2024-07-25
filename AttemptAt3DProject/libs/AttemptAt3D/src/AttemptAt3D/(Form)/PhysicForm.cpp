@@ -3,11 +3,17 @@
 
 namespace AttemptAt3D
 {
-	/* Constructors */
-
-	PhysicForm::PhysicForm(ShaderManager& shaderManager, std::unique_ptr<Mesh> mesh)
-		: Form(shaderManager, std::move(mesh))
-	{}
-
 	/* Methods */
+
+	void PhysicForm::onCreate_(WorldState& worldState)
+	{
+		this->onCreate__(worldState);
+	}
+
+	void PhysicForm::onUpdate_(WorldState& worldState, float deltaTime)
+	{
+		this->tran.move(deltaTime * this->positionVel);
+
+		this->onUpdate__(worldState, deltaTime);
+	}
 }

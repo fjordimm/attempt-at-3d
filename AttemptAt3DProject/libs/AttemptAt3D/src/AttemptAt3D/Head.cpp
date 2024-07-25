@@ -10,6 +10,7 @@
 #include "AttemptAt3D/(Tran)/Tran.hpp"
 #include "AttemptAt3D/(headerGroups)/allMeshSamples.hpp"
 #include "AttemptAt3D/(Math)/Math.hpp"
+#include "AttemptAt3D/(Form)/PhysicForm.hpp"
 
 namespace AttemptAt3D
 {
@@ -74,7 +75,7 @@ namespace AttemptAt3D
 		this->worldState.inputManager.giveWindowForGlfw(this->windowForGlfw);
 
 		this->worldState.mainCamera = Forms::Camera::New(this->worldState);
-		this->worldState.mainCamera->tran.acqPosition() = Vec(0.0f, -21.0f, 6.0f);
+		this->worldState.mainCamera->tran.acqPosition() = Vec(0.0f, -80.0f, 6.0f);
 		this->worldState.mainCamera->recalculateAndApplyViewMatrix(this->worldState.shaderManager);
 
 		/* Miscellaneous pre-main-loop tasks */
@@ -103,7 +104,7 @@ namespace AttemptAt3D
 
 			long long seed = std::chrono::time_point_cast<std::chrono::microseconds>(std::chrono::system_clock::now()).time_since_epoch().count();
 			std::default_random_engine randGen(seed);
-			std::normal_distribution<float> randDist(-50.0f, 50.0f);
+			std::normal_distribution<float> randDist(0.0f, 30.0f);
 			
 			for (int i = 0; i < 600; i++)
 			{
@@ -116,6 +117,11 @@ namespace AttemptAt3D
 				form->tran.acqPosition() = Vec(xPos, yPos, zPos);
 				this->worldState.forms.push_back(std::move(form));
 			}
+
+			std::unique_ptr<PhysicForm> spinner = PhysicForm::New(this->worldState, MeshSamples::Cube().make());
+			spinner->tran.acqScale() = Vec(5.0f, 5.0f, 5.0f);
+			spinner->positionVel = Vec(0.0f, 0.0f, 0.01f);
+			this->worldState.forms.push_back(std::move(spinner));
 		}
 		////////////////////////////////////////////////////////////
 
@@ -132,9 +138,16 @@ namespace AttemptAt3D
 
 			this->doCameraMovements(deltaTime);
 
+			for (std::unique_ptr<Form>& _form : this->worldState.forms)
+			{
+				Form* form = _form.get();
+				form->onUpdate(this->worldState, deltaTime);
+			}
+
 			/// Temp ///
 			////////////////////////////////////////////////////////////
-			// form2->tran.rotate(Vecs::Forwards, 0.001f * deltaTime);
+			PhysicForm& spinner = *(PhysicForm*)this->worldState.forms.back().get();
+			spinner.positionVel *= (1.0f - 0.001f * deltaTime);
 			////////////////////////////////////////////////////////////
 
 			/* Render everything */

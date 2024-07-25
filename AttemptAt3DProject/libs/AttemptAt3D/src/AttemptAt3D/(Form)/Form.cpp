@@ -22,11 +22,11 @@ namespace AttemptAt3D
 
 	void Form::onCreate(WorldState& worldState)
 	{
-		this->onCreate_child(worldState);
+		this->onCreate_(worldState);
 	}
 
 	void Form::onUpdate(WorldState& worldState, float deltaTime)
 	{
-		this->onUpdate_child(worldState, deltaTime);
+		this->onUpdate_(worldState, deltaTime);
 	}
 }

@@ -9,26 +9,34 @@ namespace AttemptAt3D
 	{
 		/* Constructors */
 
+		using Form::Form;
+
+	   protected:
+		template <class T, typename std::enable_if<std::is_base_of<PhysicForm, T>::value>::type* = nullptr>
+		static inline std::unique_ptr<T> New(WorldState& worldState, std::unique_ptr<Mesh> mesh)
+		{ return Form::New<T>(worldState, std::move(mesh)); }
+
 	   public:
-		PhysicForm() = delete;
-		PhysicForm(const PhysicForm&) = delete;
-		PhysicForm& operator=(const PhysicForm&) = delete;
-		
-		PhysicForm(ShaderManager& shaderManager, std::unique_ptr<Mesh> mesh);
+		static inline std::unique_ptr<PhysicForm> New(WorldState& worldState, std::unique_ptr<Mesh> mesh)
+		{ return PhysicForm::New<PhysicForm>(worldState, std::move(mesh)); }
 		
 		/* Fields */
 
-	   private:
+	   public:
 		Vec positionVel;
 		Vec rotationVelAxis;
 		float rotationVelRadians;
 
-		/* Getters and Setters */
-
-		inline const Vec& getPositionVel();
-		inline const Vec& getRotationVelAxis();
-		inline const Vec& getRotationVelRadians();
-
 		/* Methods */
+
+	   protected:
+		void onCreate_(WorldState& worldState) final;
+		void onUpdate_(WorldState& worldState, float deltaTime) final;
+		virtual void onCreate__(WorldState& worldState) {};
+		virtual void onUpdate__(WorldState& worldState, float deltaTime) {};
+
+		/* Friends */
+
+		friend std::unique_ptr<PhysicForm> std::make_unique<PhysicForm>(AttemptAt3D::WorldState&, std::unique_ptr<AttemptAt3D::Mesh>&&);
 	};
 }
