@@ -7,6 +7,8 @@ namespace AttemptAt3D
 {
 	/* Constructors */
 
+	GLuint theVao = -1;
+
 	DrawObj::DrawObj(ShaderManager& shaderManager, Tran* tran, Mesh* mesh) :
 		tran(tran),
 		mesh(mesh),
@@ -18,21 +20,29 @@ namespace AttemptAt3D
 		{
 			/* Initialize VAO */
 
-			glGenVertexArrays(1, &this->vao);
-			glBindVertexArray(this->vao);
-			
-			glGenBuffers(1, &this->vbo);
-			glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
+			static bool didItOnce = false;
 
-			glGenBuffers(1, &this->ebo);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->ebo);
+			if (!didItOnce)
+			{
+				glGenVertexArrays(1, &this->vao);
+				theVao = this->vao;
+				glBindVertexArray(this->vao);
+				
+				glGenBuffers(1, &this->vbo);
+				glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
 
-			glBufferData(GL_ARRAY_BUFFER, this->mesh->verticesLen * sizeof(this->mesh->vertices[0]), this->mesh->vertices.get(), GL_DYNAMIC_DRAW);
-			glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->mesh->elementsLen * sizeof(this->mesh->elements[0]), this->mesh->elements.get(), GL_DYNAMIC_DRAW);
+				glGenBuffers(1, &this->ebo);
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->ebo);
 
-			shaderManager.doAttribs();
+				glBufferData(GL_ARRAY_BUFFER, this->mesh->verticesLen * sizeof(this->mesh->vertices[0]), this->mesh->vertices.get(), GL_DYNAMIC_DRAW);
+				glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->mesh->elementsLen * sizeof(this->mesh->elements[0]), this->mesh->elements.get(), GL_DYNAMIC_DRAW);
 
-			glBindVertexArray(0);
+				shaderManager.doAttribs();
+
+				glBindVertexArray(0);
+
+				didItOnce = true;
+			}
 		}
 	}
 
@@ -42,21 +52,21 @@ namespace AttemptAt3D
 	{
 		if (this->mesh)
 		{
-			glBindVertexArray(this->vao);
+			glBindVertexArray(theVao);
 
 			shaderManager.setUni_transScaleVal(this->tran->getScaleMatrix());
 			shaderManager.setUni_transRotVal(this->tran->getRotationMatrix());
 			shaderManager.setUni_transPosVal(this->tran->getPositionMatrix());
 			glDrawElements(GL_TRIANGLES, this->mesh->elementsLen, GL_UNSIGNED_INT, 0);
 
-			glBindVertexArray(0);
+			// glBindVertexArray(0);
 		}
 	}
 
 	void DrawObj::cleanupForGl()
 	{
-		glDeleteBuffers(1, &this->ebo);
-		glDeleteBuffers(1, &this->vbo);
-		glDeleteVertexArrays(1, &this->vao);
+		// glDeleteBuffers(1, &this->ebo);
+		// glDeleteBuffers(1, &this->vbo);
+		// glDeleteVertexArrays(1, &this->vao);
 	}
 }
