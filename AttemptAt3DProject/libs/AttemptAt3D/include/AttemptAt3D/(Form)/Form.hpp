@@ -21,14 +21,18 @@ namespace AttemptAt3D
 		
 		Form(WorldState& worldState, std::unique_ptr<Mesh> mesh);
 
-	   public:
-		template <class T = Form, typename std::enable_if<std::is_base_of<Form, T>::value>::type* = nullptr>
+	   protected:
+		template <class T, typename std::enable_if<std::is_base_of<Form, T>::value>::type* = nullptr>
 		static std::unique_ptr<T> New(WorldState& worldState, std::unique_ptr<Mesh> mesh)
 		{
 			std::unique_ptr<T> ret = std::make_unique<T>(worldState, std::move(mesh));
 			ret->onCreate(worldState);
 			return std::move(ret);
 		}
+
+	   public:
+		static inline std::unique_ptr<Form> New(WorldState& worldState, std::unique_ptr<Mesh> mesh)
+		{ return Form::New<Form>(worldState, std::move(mesh)); }
 
 		/* Fields */
 

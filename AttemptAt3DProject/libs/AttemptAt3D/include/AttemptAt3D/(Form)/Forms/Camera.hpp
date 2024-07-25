@@ -11,12 +11,16 @@ namespace AttemptAt3D::Forms
 
 		using Form::Form;
 
-	   public:
-		template <class T = Camera, typename std::enable_if<std::is_base_of<Camera, T>::value>::type* = nullptr>
+	   protected:
+		template <class T, typename std::enable_if<std::is_base_of<Camera, T>::value>::type* = nullptr>
 		static std::unique_ptr<T> New(WorldState& worldState)
 		{
 			return Form::New<T>(worldState, nullptr);
 		}
+
+	   public:
+		static inline std::unique_ptr<Camera> New(WorldState& worldState)
+		{ return Camera::New<Camera>(worldState); }
 
 		/* Methods */
 

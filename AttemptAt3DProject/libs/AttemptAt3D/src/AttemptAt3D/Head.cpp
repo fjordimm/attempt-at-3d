@@ -97,7 +97,7 @@ namespace AttemptAt3D
 		/// Temp ///
 		////////////////////////////////////////////////////////////
 		{
-			Form::New<Form>(this->worldState, MeshSamples::Cube().make());
+			Form::New(this->worldState, MeshSamples::Cube().make());
 
 			/////
 
