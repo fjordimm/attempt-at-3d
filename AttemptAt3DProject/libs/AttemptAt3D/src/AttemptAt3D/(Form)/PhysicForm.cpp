@@ -12,7 +12,7 @@ namespace AttemptAt3D
 
 	void PhysicForm::onUpdate_(WorldState& worldState, float deltaTime)
 	{
-		this->tran.move(deltaTime * this->positionVel);
+		this->tran.move(deltaTime * this->velocity);
 
 		this->onUpdate__(worldState, deltaTime);
 	}

@@ -106,22 +106,17 @@ namespace AttemptAt3D
 			std::default_random_engine randGen(seed);
 			std::normal_distribution<float> randDist(0.0f, 30.0f);
 			
-			for (int i = 0; i < 600; i++)
+			for (int i = 0; i < 60; i++)
 			{
 				float xPos = randDist(randGen);
 				float yPos = randDist(randGen);
 				float zPos = randDist(randGen);
 
-				// std::unique_ptr<Form> form = std::make_unique<Form>(this->worldState.shaderManager, MeshSamples::Cube().make());
-				std::unique_ptr<Form> form = Form::New(this->worldState, MeshSamples::Cube().make());
-				form->tran.acqPosition() = Vec(xPos, yPos, zPos);
-				this->worldState.forms.push_back(std::move(form));
+				std::unique_ptr<PhysicForm> form1 = PhysicForm::New(this->worldState, MeshSamples::Cube().make());
+				form1->tran.acqPosition() = Vec(xPos, yPos, zPos);
+				form1->velocity = -0.002f * Vec(xPos, yPos, zPos);
+				this->worldState.forms.push_back(std::move(form1));
 			}
-
-			std::unique_ptr<PhysicForm> spinner = PhysicForm::New(this->worldState, MeshSamples::Cube().make());
-			spinner->tran.acqScale() = Vec(5.0f, 5.0f, 5.0f);
-			spinner->positionVel = Vec(0.0f, 0.0f, 0.01f);
-			this->worldState.forms.push_back(std::move(spinner));
 		}
 		////////////////////////////////////////////////////////////
 
@@ -146,8 +141,11 @@ namespace AttemptAt3D
 
 			/// Temp ///
 			////////////////////////////////////////////////////////////
-			PhysicForm& spinner = *(PhysicForm*)this->worldState.forms.back().get();
-			spinner.positionVel *= (1.0f - 0.001f * deltaTime);
+			for (std::unique_ptr<Form>& _form : this->worldState.forms)
+			{
+				PhysicForm* form = (PhysicForm*)_form.get();
+				form->velocity *= 1.0f - 0.001f * deltaTime;
+			}
 			////////////////////////////////////////////////////////////
 
 			/* Render everything */

@@ -23,9 +23,9 @@ namespace AttemptAt3D
 		/* Fields */
 
 	   public:
-		Vec positionVel;
-		Vec rotationVelAxis;
-		float rotationVelRadians;
+		Vec velocity;
+		Vec rotationVelocityAxis;
+		float rotationVelocityRadians;
 
 		/* Methods */
 
