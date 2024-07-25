@@ -24,8 +24,7 @@ namespace AttemptAt3D
 
 	   public:
 		Vec velocity;
-		Vec rotationVelocityAxis;
-		float rotationVelocityRadians;
+		float friction;
 
 		/* Methods */
 

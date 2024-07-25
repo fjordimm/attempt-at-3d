@@ -115,6 +115,7 @@ namespace AttemptAt3D
 				std::unique_ptr<PhysicForm> form1 = PhysicForm::New(this->worldState, MeshSamples::Cube().make());
 				form1->tran.acqPosition() = Vec(xPos, yPos, zPos);
 				form1->velocity = -0.002f * Vec(xPos, yPos, zPos);
+				form1->friction = 0.001f;
 				this->worldState.forms.push_back(std::move(form1));
 			}
 		}
@@ -141,11 +142,6 @@ namespace AttemptAt3D
 
 			/// Temp ///
 			////////////////////////////////////////////////////////////
-			for (std::unique_ptr<Form>& _form : this->worldState.forms)
-			{
-				PhysicForm* form = (PhysicForm*)_form.get();
-				form->velocity *= 1.0f - 0.001f * deltaTime;
-			}
 			////////////////////////////////////////////////////////////
 
 			/* Render everything */
