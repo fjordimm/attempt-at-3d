@@ -35,3 +35,5 @@ target_include_directories(AttemptAt3DExec PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/..
 
 find_package(OpenGL REQUIRED)
 target_link_libraries(AttemptAt3DExec OpenGL::GL)
+
+target_compile_options(AttemptAt3DExec PRIVATE -O2)

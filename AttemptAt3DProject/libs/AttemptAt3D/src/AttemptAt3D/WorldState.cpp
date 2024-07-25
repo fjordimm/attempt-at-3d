@@ -13,7 +13,7 @@ namespace AttemptAt3D
 		forms(),
 		hasCapturedCursorForCamera(false),
 		mainCamera(nullptr),
-		mainCameraMovementSpeed(0.0008f),
+		mainCameraMovementSpeed(0.008f),
 		mainCameraRotationSpeed(0.0025f)
 	{}
 

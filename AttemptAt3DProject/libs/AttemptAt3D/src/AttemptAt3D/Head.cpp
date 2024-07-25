@@ -75,7 +75,7 @@ namespace AttemptAt3D
 		this->worldState.inputManager.giveWindowForGlfw(this->windowForGlfw);
 
 		this->worldState.mainCamera = Forms::Camera::New(this->worldState);
-		this->worldState.mainCamera->tran.acqPosition() = Vec(0.0f, -200.0f, 6.0f);
+		this->worldState.mainCamera->tran.acqPosition() = Vec(0.0f, -1900.0f, 6.0f);
 		this->worldState.mainCamera->recalculateAndApplyViewMatrix(this->worldState.shaderManager);
 
 		/* Miscellaneous pre-main-loop tasks */
@@ -104,21 +104,20 @@ namespace AttemptAt3D
 
 			long long seed = std::chrono::time_point_cast<std::chrono::microseconds>(std::chrono::system_clock::now()).time_since_epoch().count();
 			std::default_random_engine randGen(seed);
-			std::normal_distribution<float> randDist(0.0f, 4.0f);
+			std::normal_distribution<float> randDist(0.0f, 3.0f);
 			
-			for (int i = 0; i < 3000; i++)
+			for (int i = 0; i < 20000; i++)
 			{
 				float xPos = randDist(randGen);
 				float yPos = randDist(randGen);
 				float zPos = randDist(randGen);
 
-				xPos = xPos * xPos * xPos;
-				yPos = yPos * yPos * yPos;
-				zPos = zPos * zPos * zPos;
+				Vec vec = Vec(xPos, yPos, zPos);
+				vec *= glm::length2(vec);
 
 				std::unique_ptr<PhysicForm> form1 = PhysicForm::New(this->worldState, MeshSamples::Cube().make());
-				form1->tran.acqPosition() = Vec(xPos, yPos, zPos);
-				form1->velocity = -0.002f * Vec(xPos, yPos, zPos);
+				form1->tran.acqPosition() = vec;
+				form1->velocity = -0.002f * vec;
 				form1->friction = 0.001f;
 				this->worldState.forms.push_back(std::move(form1));
 			}
@@ -176,8 +175,6 @@ namespace AttemptAt3D
 	
 	void Head::doCameraMovements(float deltaTime)
 	{
-		bool hasMadeMovements = false;
-
 		if (this->worldState.inputManager.getAnyMouseButton().pressedOnce)
 		{
 			this->worldState.hasCapturedCursorForCamera = true;
@@ -234,8 +231,7 @@ namespace AttemptAt3D
 		if (!Vecs::RoughlyEqual(movement, Vecs::Zero))
 		{
 			// this->worldState.mainCamera->tran.move((cameraMovementSpeed * deltaTime) * glm::normalize(movement));
-			this->worldState.mainCamera->velocity += cameraMovementSpeed * glm::normalize(movement);
-			hasMadeMovements = true;
+			this->worldState.mainCamera->velocity += (cameraMovementSpeed * deltaTime ) * glm::normalize(movement);
 		}
 
 		/* Camera rotation */
@@ -252,8 +248,6 @@ namespace AttemptAt3D
 				glm::vec2 temp = glm::vec2(deltaCursorX, deltaCursorY);
 				this->worldState.mainCamera->tran.locallyRotate(Vecs::Right, -temp.y * cameraRotationSpeed);
 				this->worldState.mainCamera->tran.rotate(Vecs::Up, -temp.x * cameraRotationSpeed);
-
-				hasMadeMovements = true;
 			}
 		}
 		{
@@ -264,12 +258,10 @@ namespace AttemptAt3D
 			if (eulers.x > maxAngle)
 			{
 				this->worldState.mainCamera->tran.locallyRotate(Vecs::Right, -(eulers.x - maxAngle));
-				hasMadeMovements = true;
 			}
 			else if (eulers.x < -maxAngle)
 			{
 				this->worldState.mainCamera->tran.locallyRotate(Vecs::Right, (-maxAngle - eulers.x));
-				hasMadeMovements = true;
 			}
 		}
 
