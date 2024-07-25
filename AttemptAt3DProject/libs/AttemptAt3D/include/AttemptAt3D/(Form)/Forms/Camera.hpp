@@ -1,20 +1,20 @@
 
 #pragma once
 
-#include "AttemptAt3D/(Form)/Form.hpp"
+#include "AttemptAt3D/(Form)/PhysicForm.hpp"
 
 namespace AttemptAt3D::Forms
 {
-	class Camera : public Form
+	class Camera : public PhysicForm
 	{
 		/* Constructors */
 
-		using Form::Form;
+		using PhysicForm::PhysicForm;
 
 	   protected:
 		template <class T, typename std::enable_if<std::is_base_of<Camera, T>::value>::type* = nullptr>
 		static inline std::unique_ptr<T> New(WorldState& worldState)
-		{ return Form::New<T>(worldState, nullptr); }
+		{ return PhysicForm::New<T>(worldState, nullptr); }
 
 	   public:
 		static inline std::unique_ptr<Camera> New(WorldState& worldState)
@@ -24,6 +24,12 @@ namespace AttemptAt3D::Forms
 
 	   public:
 		void recalculateAndApplyViewMatrix(ShaderManager& shaderManager);
+
+	   protected:
+		void onCreate__(WorldState& worldState) final;
+		void onUpdate__(WorldState& worldState, float deltaTime) final;
+		virtual void onCreate___(WorldState& worldState) {};
+		virtual void onUpdate___(WorldState& worldState, float deltaTime) {};
 
 		/* Friends */
 

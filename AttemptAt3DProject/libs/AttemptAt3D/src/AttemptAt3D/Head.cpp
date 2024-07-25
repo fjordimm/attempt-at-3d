@@ -133,6 +133,7 @@ namespace AttemptAt3D
 			float deltaTime = Head::CalculateDeltaTime();
 
 			this->doCameraMovements(deltaTime);
+			this->worldState.mainCamera->onUpdate(this->worldState, deltaTime);
 
 			for (std::unique_ptr<Form>& _form : this->worldState.forms)
 			{
@@ -185,8 +186,8 @@ namespace AttemptAt3D
 		}
 
 		this->worldState.mainCameraMovementSpeed += 0.3f * this->worldState.mainCameraMovementSpeed * this->worldState.inputManager.getDeltaScrollY();
-		if (this->worldState.mainCameraMovementSpeed < 0.002f)
-		{ this->worldState.mainCameraMovementSpeed = 0.002f; }
+		if (this->worldState.mainCameraMovementSpeed < 0.00002f)
+		{ this->worldState.mainCameraMovementSpeed = 0.00002f; }
 
 		float cameraMovementSpeed = this->worldState.mainCameraMovementSpeed;
 		float cameraRotationSpeed = this->worldState.mainCameraRotationSpeed;
@@ -228,7 +229,8 @@ namespace AttemptAt3D
 		}
 		if (!Vecs::RoughlyEqual(movement, Vecs::Zero))
 		{
-			this->worldState.mainCamera->tran.move((cameraMovementSpeed * deltaTime) * glm::normalize(movement));
+			// this->worldState.mainCamera->tran.move((cameraMovementSpeed * deltaTime) * glm::normalize(movement));
+			this->worldState.mainCamera->velocity += cameraMovementSpeed * glm::normalize(movement);
 			hasMadeMovements = true;
 		}
 
@@ -267,12 +269,9 @@ namespace AttemptAt3D
 			}
 		}
 
-		/* Update view matrix if necessary */
+		/* Update view matrix */
 
-		if (hasMadeMovements)
-		{
-			this->worldState.mainCamera->recalculateAndApplyViewMatrix(this->worldState.shaderManager);
-		}
+		this->worldState.mainCamera->recalculateAndApplyViewMatrix(this->worldState.shaderManager);
 	}
 
 	/* Functions */

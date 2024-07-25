@@ -17,4 +17,20 @@ namespace AttemptAt3D::Forms
 
 		shaderManager.setUni_viewVal(viewMatrix);
 	}
+
+	void Camera::onCreate__(WorldState& worldState)
+	{
+		this->velocity = Vecs::Zero;
+		this->friction = 0.01f;
+
+		this->onCreate___(worldState);
+	}
+
+	void Camera::onUpdate__(WorldState& worldState, float deltaTime)
+	{
+		this->tran.move(deltaTime * this->velocity);
+		this->velocity *= 1.0f - this->friction * deltaTime;
+
+		this->onUpdate___(worldState, deltaTime);
+	}
 }
