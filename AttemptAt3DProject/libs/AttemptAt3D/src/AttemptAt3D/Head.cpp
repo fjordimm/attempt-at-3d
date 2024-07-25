@@ -75,7 +75,7 @@ namespace AttemptAt3D
 		this->worldState.inputManager.giveWindowForGlfw(this->windowForGlfw);
 
 		this->worldState.mainCamera = Forms::Camera::New(this->worldState);
-		this->worldState.mainCamera->tran.acqPosition() = Vec(0.0f, -80.0f, 6.0f);
+		this->worldState.mainCamera->tran.acqPosition() = Vec(0.0f, -200.0f, 6.0f);
 		this->worldState.mainCamera->recalculateAndApplyViewMatrix(this->worldState.shaderManager);
 
 		/* Miscellaneous pre-main-loop tasks */
@@ -104,13 +104,17 @@ namespace AttemptAt3D
 
 			long long seed = std::chrono::time_point_cast<std::chrono::microseconds>(std::chrono::system_clock::now()).time_since_epoch().count();
 			std::default_random_engine randGen(seed);
-			std::normal_distribution<float> randDist(0.0f, 30.0f);
+			std::normal_distribution<float> randDist(0.0f, 4.0f);
 			
-			for (int i = 0; i < 60; i++)
+			for (int i = 0; i < 3000; i++)
 			{
 				float xPos = randDist(randGen);
 				float yPos = randDist(randGen);
 				float zPos = randDist(randGen);
+
+				xPos = xPos * xPos * xPos;
+				yPos = yPos * yPos * yPos;
+				zPos = zPos * zPos * zPos;
 
 				std::unique_ptr<PhysicForm> form1 = PhysicForm::New(this->worldState, MeshSamples::Cube().make());
 				form1->tran.acqPosition() = Vec(xPos, yPos, zPos);
@@ -181,13 +185,13 @@ namespace AttemptAt3D
 		}
 		if (this->worldState.inputManager.findKey(GLFW_KEY_ESCAPE).pressedOnce)
 		{
-			this->worldState.hasCapturedCursorForCamera = true;
+			this->worldState.hasCapturedCursorForCamera = false;
 			glfwSetInputMode(this->windowForGlfw, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		}
 
 		this->worldState.mainCameraMovementSpeed += 0.3f * this->worldState.mainCameraMovementSpeed * this->worldState.inputManager.getDeltaScrollY();
-		if (this->worldState.mainCameraMovementSpeed < 0.00002f)
-		{ this->worldState.mainCameraMovementSpeed = 0.00002f; }
+		if (this->worldState.mainCameraMovementSpeed < 0.000002f)
+		{ this->worldState.mainCameraMovementSpeed = 0.000002f; }
 
 		float cameraMovementSpeed = this->worldState.mainCameraMovementSpeed;
 		float cameraRotationSpeed = this->worldState.mainCameraRotationSpeed;
