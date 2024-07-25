@@ -1,5 +1,7 @@
 
 #include "AttemptAt3D/WorldState.hpp"
+#include "AttemptAt3D/(Form)/Form.hpp"
+#include "AttemptAt3D/(Form)/Forms/Camera.hpp"
 
 namespace AttemptAt3D
 {

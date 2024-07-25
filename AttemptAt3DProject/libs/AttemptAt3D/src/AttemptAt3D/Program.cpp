@@ -6,6 +6,6 @@ int main(void)
 {
 	AttemptAt3D::Head head;
 	head.start(900, 600);
-
+	
 	return 0;
 }

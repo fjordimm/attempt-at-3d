@@ -5,12 +5,6 @@
 
 namespace AttemptAt3D::Forms
 {
-	/* Constructors */
-
-	Camera::Camera(ShaderManager& shaderManager)
-		: Form(shaderManager, nullptr)
-	{}
-
 	/* Methods */
 
 	void Camera::recalculateAndApplyViewMatrix(ShaderManager& shaderManager)

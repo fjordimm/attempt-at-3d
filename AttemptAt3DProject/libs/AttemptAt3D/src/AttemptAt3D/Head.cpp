@@ -73,7 +73,7 @@ namespace AttemptAt3D
 
 		this->worldState.inputManager.giveWindowForGlfw(this->windowForGlfw);
 
-		this->worldState.mainCamera = std::make_unique<Forms::Camera>(this->worldState.shaderManager);
+		this->worldState.mainCamera = Forms::Camera::New(this->worldState);
 		this->worldState.mainCamera->tran.acqPosition() = Vec(0.0f, -21.0f, 6.0f);
 		this->worldState.mainCamera->recalculateAndApplyViewMatrix(this->worldState.shaderManager);
 
@@ -97,6 +97,10 @@ namespace AttemptAt3D
 		/// Temp ///
 		////////////////////////////////////////////////////////////
 		{
+			Form::New<Form>(this->worldState, MeshSamples::Cube().make());
+
+			/////
+
 			long long seed = std::chrono::time_point_cast<std::chrono::microseconds>(std::chrono::system_clock::now()).time_since_epoch().count();
 			std::default_random_engine randGen(seed);
 			std::normal_distribution<float> randDist(-50.0f, 50.0f);
@@ -107,7 +111,8 @@ namespace AttemptAt3D
 				float yPos = randDist(randGen);
 				float zPos = randDist(randGen);
 
-				std::unique_ptr<Form> form = std::make_unique<Form>(this->worldState.shaderManager, MeshSamples::Cube().make());
+				// std::unique_ptr<Form> form = std::make_unique<Form>(this->worldState.shaderManager, MeshSamples::Cube().make());
+				std::unique_ptr<Form> form = Form::New(this->worldState, MeshSamples::Cube().make());
 				form->tran.acqPosition() = Vec(xPos, yPos, zPos);
 				this->worldState.forms.push_back(std::move(form));
 			}

@@ -5,15 +5,13 @@
 #include <memory>
 #include "AttemptAt3D/(ShaderManager)/ShaderManager.hpp"
 #include "AttemptAt3D/(InputManager)/InputManager.hpp"
-#include "AttemptAt3D/(Form)/Form.hpp"
-#include "AttemptAt3D/(Form)/Forms/Camera.hpp"
 
 namespace AttemptAt3D
 {
 	/* Forward Declarations */
 
-	// class Form;
-	// namespace Forms { class Camera; }
+	class Form;
+	namespace Forms { class Camera; }
 
 	class WorldState
 	{

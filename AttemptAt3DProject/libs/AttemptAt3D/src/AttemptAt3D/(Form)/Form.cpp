@@ -7,16 +7,11 @@ namespace AttemptAt3D
 {
 	/* Constructors */
 
-	Form::Form(ShaderManager& shaderManager, std::unique_ptr<Mesh> mesh) :
+	Form::Form(WorldState& worldState, std::unique_ptr<Mesh> mesh) :
 		tran(),
 		mesh(std::move(mesh)),
-		drawObj(shaderManager, &this->tran, this->mesh.get())
+		drawObj(worldState.shaderManager, &this->tran, this->mesh.get())
 	{}
-
-	// std::unique_ptr<Form> Form::New(ShaderManager& shaderManager, std::unique_ptr<Mesh> mesh)
-	// {
-	// 	std::unique_ptr<Form> ret = std::make_unique<Form>(shaderManager, std::move(mesh));
-	// }
 
 	/* Methods */
 
@@ -25,5 +20,13 @@ namespace AttemptAt3D
 		this->drawObj.draw(shaderManager);
 	}
 
-	// void onCreate()
+	void Form::onCreate(WorldState& worldState)
+	{
+		this->onCreate_child(worldState);
+	}
+
+	void Form::onUpdate(WorldState& worldState, float deltaTime)
+	{
+		this->onUpdate_child(worldState, deltaTime);
+	}
 }
