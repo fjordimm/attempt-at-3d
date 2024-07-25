@@ -15,6 +15,10 @@ namespace AttemptAt3D
 
 	class WorldState
 	{
+		// TEMP
+	   public:
+		static unsigned long long thingyCount;
+
 		/* Constructors */
 
 	   public:

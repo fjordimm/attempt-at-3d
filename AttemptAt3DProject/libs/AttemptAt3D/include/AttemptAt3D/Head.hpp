@@ -48,7 +48,7 @@ namespace AttemptAt3D
 		/* Functions */
 
 	   private:
-		static float CalculateDeltaTime(); // In milliseconds
+		static void CalculateDeltaTime(float& deltaTime, float& totalTime); // In milliseconds
 
 		/* Methods for External Use */
 

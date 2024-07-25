@@ -5,6 +5,9 @@
 
 namespace AttemptAt3D
 {
+	// TEMP
+	unsigned long long WorldState::thingyCount = 0;
+
 	/* Constructors */
 
 	WorldState::WorldState() :

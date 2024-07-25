@@ -98,9 +98,7 @@ namespace AttemptAt3D
 		/// Temp ///
 		////////////////////////////////////////////////////////////
 		{
-			Form::New(this->worldState, MeshSamples::Cube().make());
-
-			/////
+			WorldState::thingyCount = 0;
 
 			long long seed = std::chrono::time_point_cast<std::chrono::microseconds>(std::chrono::system_clock::now()).time_since_epoch().count();
 			std::default_random_engine randGen(seed);
@@ -115,10 +113,13 @@ namespace AttemptAt3D
 				Vec vec = Vec(xPos, yPos, zPos);
 				vec *= glm::length2(vec);
 
-				std::unique_ptr<PhysicForm> form1 = PhysicForm::New(this->worldState, MeshSamples::Cube().make());
+				// std::unique_ptr<PhysicForm> form1 = PhysicForm::New(this->worldState, MeshSamples::Cube().make());
+				// form1->tran.acqPosition() = vec;
+				// form1->velocity = -0.002f * vec;
+				// form1->friction = 0.001f;
+				// this->worldState.forms.push_back(std::move(form1));
+				std::unique_ptr<Form> form1 = Form::New(this->worldState, MeshSamples::Cube().make());
 				form1->tran.acqPosition() = vec;
-				form1->velocity = -0.002f * vec;
-				form1->friction = 0.001f;
 				this->worldState.forms.push_back(std::move(form1));
 			}
 		}
@@ -133,7 +134,9 @@ namespace AttemptAt3D
 
 			/* Do movements, physics, inputs, etc. */
 
-			float deltaTime = Head::CalculateDeltaTime();
+			float deltaTime;
+			float totalTime;
+			Head::CalculateDeltaTime(deltaTime, totalTime);
 
 			this->doCameraMovements(deltaTime);
 			this->worldState.mainCamera->onUpdate(this->worldState, deltaTime);
@@ -146,6 +149,18 @@ namespace AttemptAt3D
 
 			/// Temp ///
 			////////////////////////////////////////////////////////////
+			static float timeCounter = 0.0f;
+			timeCounter += deltaTime;
+
+			if (timeCounter >= 1000.0f)
+			{
+				Debug::Logf("deltaTime = %f", deltaTime);
+
+				// Debug::Logf("thingyCount = %lli", WorldState::thingyCount);
+				WorldState::thingyCount = 0;
+
+				timeCounter = 0.0f;
+			}
 			////////////////////////////////////////////////////////////
 
 			/* Render everything */
@@ -272,18 +287,22 @@ namespace AttemptAt3D
 
 	/* Functions */
 
-	float Head::CalculateDeltaTime()
+	void Head::CalculateDeltaTime(float& deltaTime, float& totalTime)
 	{
 		using std::chrono::steady_clock;
 		using std::chrono::duration;
 		using durMillisecs = duration<float, std::ratio<1, 1000>>;
 
+		static steady_clock::time_point initialTimePoint = steady_clock::now();
+
 		static steady_clock::time_point timePoint = steady_clock::now();
 		steady_clock::time_point oldTimePoint = timePoint;
 		timePoint = steady_clock::now();
+		durMillisecs timeElapsedSinceLastFrame = std::chrono::duration_cast<durMillisecs>(timePoint - oldTimePoint);
+		deltaTime = timeElapsedSinceLastFrame.count();
 
-		durMillisecs timeElapsed = std::chrono::duration_cast<durMillisecs>(timePoint - oldTimePoint);
-		return timeElapsed.count();
+		durMillisecs timeElapsedSinceStart = std::chrono::duration_cast<durMillisecs>(timePoint - initialTimePoint);
+		totalTime = timeElapsedSinceStart.count();
 	}
 
 	/* Methods for External Use */
