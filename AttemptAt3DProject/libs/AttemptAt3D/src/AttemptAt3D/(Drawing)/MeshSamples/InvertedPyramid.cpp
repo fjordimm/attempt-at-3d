@@ -1,5 +1,5 @@
 
-#include "AttemptAt3D/(Mesh)/MeshSamples/InvertedPyramid.hpp"
+#include "AttemptAt3D/(Drawing)/MeshSamples/InvertedPyramid.hpp"
 
 namespace AttemptAt3D::MeshSamples
 {

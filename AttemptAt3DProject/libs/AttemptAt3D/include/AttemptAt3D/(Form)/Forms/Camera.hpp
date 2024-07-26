@@ -33,6 +33,6 @@ namespace AttemptAt3D::Forms
 
 		/* Friends */
 
-		friend std::unique_ptr<Camera> std::make_unique<Camera>(AttemptAt3D::WorldState&, std::unique_ptr<AttemptAt3D::Mesh>&&);
+		friend std::unique_ptr<Camera> std::make_unique<Camera>(AttemptAt3D::WorldState&, AttemptAt3D::Mesh*&);
 	};
 }

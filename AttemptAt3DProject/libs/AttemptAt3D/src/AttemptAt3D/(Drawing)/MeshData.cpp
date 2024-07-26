@@ -1,5 +1,5 @@
 
-#include "AttemptAt3D/(Mesh)/Mesh.hpp"
+#include "AttemptAt3D/(Drawing)/MeshData.hpp"
 
 #include <sstream>
 
@@ -7,7 +7,7 @@ namespace AttemptAt3D
 {
 	/* Constructors */
 
-	Mesh::Mesh(std::size_t verticesLen, std::unique_ptr<float[]> vertices, std::size_t elementsLen, std::unique_ptr<GLuint[]> elements) :
+	MeshData::MeshData(std::size_t verticesLen, std::unique_ptr<float[]> vertices, std::size_t elementsLen, std::unique_ptr<GLuint[]> elements) :
 		verticesLen(verticesLen),
 		vertices(std::move(vertices)),
 		elementsLen(elementsLen),
@@ -16,11 +16,11 @@ namespace AttemptAt3D
 
 	/* Methods */
 
-	std::string Mesh::toString() const
+	std::string MeshData::toString() const
 	{
 		std::ostringstream ret;
 
-		ret << "Mesh:\n";
+		ret << "MeshData:\n";
 
 		ret << "  Vertices (" << this->verticesLen << "):\n    ";
 		for (int i = 0; i < this->verticesLen; i++)

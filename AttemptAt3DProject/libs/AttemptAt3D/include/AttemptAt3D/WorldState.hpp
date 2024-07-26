@@ -3,8 +3,9 @@
 
 #include <list>
 #include <memory>
-#include "AttemptAt3D/(ShaderManager)/ShaderManager.hpp"
+#include "AttemptAt3D/(Drawing)/ShaderManager.hpp"
 #include "AttemptAt3D/(InputManager)/InputManager.hpp"
+#include "AttemptAt3D/(Drawing)/MeshManager.hpp"
 
 namespace AttemptAt3D
 {
@@ -15,10 +16,6 @@ namespace AttemptAt3D
 
 	class WorldState
 	{
-		// TEMP
-	   public:
-		static unsigned long long thingyCount;
-
 		/* Constructors */
 
 	   public:
@@ -36,8 +33,9 @@ namespace AttemptAt3D
 		float _farClippingPlane;
 
 	   public:
-		ShaderManager shaderManager;
 		InputManager inputManager;
+		ShaderManager shaderManager;
+		MeshManager meshManager;
 		std::list<std::unique_ptr<Form>> forms;
 
 		bool hasCapturedCursorForCamera;

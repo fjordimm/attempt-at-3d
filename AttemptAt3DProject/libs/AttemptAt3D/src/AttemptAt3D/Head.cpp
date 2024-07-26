@@ -14,6 +14,9 @@
 
 namespace AttemptAt3D
 {
+	// TEMP
+	static Mesh* cubeMesh = nullptr;
+
 	/* Constructors */
 
 	Head::Head() :
@@ -74,6 +77,8 @@ namespace AttemptAt3D
 
 		this->worldState.inputManager.giveWindowForGlfw(this->windowForGlfw);
 
+		cubeMesh = this->worldState.meshManager.add(this->worldState.shaderManager, std::move(MeshSamples::Cube().make()));
+
 		this->worldState.mainCamera = Forms::Camera::New(this->worldState);
 		this->worldState.mainCamera->tran.acqPosition() = Vec(0.0f, -1900.0f, 6.0f);
 		this->worldState.mainCamera->recalculateAndApplyViewMatrix(this->worldState.shaderManager);
@@ -98,8 +103,6 @@ namespace AttemptAt3D
 		/// Temp ///
 		////////////////////////////////////////////////////////////
 		{
-			WorldState::thingyCount = 0;
-
 			long long seed = std::chrono::time_point_cast<std::chrono::microseconds>(std::chrono::system_clock::now()).time_since_epoch().count();
 			std::default_random_engine randGen(seed);
 			std::normal_distribution<float> randDist(0.0f, 3.0f);
@@ -113,7 +116,7 @@ namespace AttemptAt3D
 				Vec vec = Vec(xPos, yPos, zPos);
 				vec *= glm::length2(vec);
 
-				std::unique_ptr<PhysicForm> form1 = PhysicForm::New(this->worldState, MeshSamples::Cube().make());
+				std::unique_ptr<PhysicForm> form1 = PhysicForm::New(this->worldState, cubeMesh);
 				form1->tran.acqPosition() = vec;
 				form1->velocity = -0.002f * vec;
 				form1->friction = 0.001f;

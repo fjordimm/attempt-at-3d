@@ -1,5 +1,5 @@
 
-#include "AttemptAt3D/(Mesh)/MeshSamples/Cube.hpp"
+#include "AttemptAt3D/(Drawing)/MeshSamples/Cube.hpp"
 
 namespace AttemptAt3D::MeshSamples
 {

@@ -13,12 +13,12 @@ namespace AttemptAt3D
 
 	   protected:
 		template <class T, typename std::enable_if<std::is_base_of<PhysicForm, T>::value>::type* = nullptr>
-		static inline std::unique_ptr<T> New(WorldState& worldState, std::unique_ptr<Mesh> mesh)
-		{ return Form::New<T>(worldState, std::move(mesh)); }
+		static inline std::unique_ptr<T> New(WorldState& worldState, Mesh* mesh)
+		{ return Form::New<T>(worldState, mesh); }
 
 	   public:
-		static inline std::unique_ptr<PhysicForm> New(WorldState& worldState, std::unique_ptr<Mesh> mesh)
-		{ return PhysicForm::New<PhysicForm>(worldState, std::move(mesh)); }
+		static inline std::unique_ptr<PhysicForm> New(WorldState& worldState, Mesh* mesh)
+		{ return PhysicForm::New<PhysicForm>(worldState, mesh); }
 		
 		/* Fields */
 
@@ -36,6 +36,6 @@ namespace AttemptAt3D
 
 		/* Friends */
 
-		friend std::unique_ptr<PhysicForm> std::make_unique<PhysicForm>(AttemptAt3D::WorldState&, std::unique_ptr<AttemptAt3D::Mesh>&&);
+		friend std::unique_ptr<PhysicForm> std::make_unique<PhysicForm>(AttemptAt3D::WorldState&, AttemptAt3D::Mesh*&);
 	};
 }

@@ -1,18 +1,17 @@
 
 #include "AttemptAt3D/WorldState.hpp"
+
 #include "AttemptAt3D/(Form)/Form.hpp"
 #include "AttemptAt3D/(Form)/Forms/Camera.hpp"
 
 namespace AttemptAt3D
 {
-	// TEMP
-	unsigned long long WorldState::thingyCount = 0;
-
 	/* Constructors */
 
 	WorldState::WorldState() :
-		shaderManager(),
 		inputManager(),
+		shaderManager(),
+		meshManager(),
 		forms(),
 		hasCapturedCursorForCamera(false),
 		mainCamera(nullptr),

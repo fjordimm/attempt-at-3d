@@ -10,16 +10,16 @@
 
 namespace AttemptAt3D
 {
-	class Mesh
+	class MeshData
 	{
 		/* Constructors */
 
 	   public:
-		Mesh() = delete;
-		Mesh(const Mesh&) = delete;
-		Mesh& operator=(const Mesh&) = delete;
+		MeshData() = delete;
+		MeshData(const MeshData&) = delete;
+		MeshData& operator=(const MeshData&) = delete;
 		
-		Mesh(std::size_t verticesLen, std::unique_ptr<float[]> vertices, std::size_t elementsLen, std::unique_ptr<GLuint[]> elements);
+		MeshData(std::size_t verticesLen, std::unique_ptr<float[]> vertices, std::size_t elementsLen, std::unique_ptr<GLuint[]> elements);
 
 		/* Fields */
 

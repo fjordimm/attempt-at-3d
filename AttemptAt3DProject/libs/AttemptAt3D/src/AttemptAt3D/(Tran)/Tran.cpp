@@ -182,8 +182,6 @@ namespace AttemptAt3D
 	void Tran::_updatePositionDeps()
 	{
 		this->_cached_positionMatrix = glm::translate(IdentityMat, this->_position);
-
-		WorldState::thingyCount++;
 	}
 
 	void Tran::_updateRotationDeps()
@@ -192,14 +190,10 @@ namespace AttemptAt3D
 		this->_cached_forwardVec = glm::rotate(this->_rotation, Vecs::Forwards);
 		this->_cached_upVec = glm::rotate(this->_rotation, Vecs::Up);
 		this->_cached_rightVec = glm::rotate(this->_rotation, Vecs::Right);
-
-		WorldState::thingyCount++;
 	}
 	
 	void Tran::_updateScaleDeps()
 	{
 		this->_cached_scaleMatrix = glm::scale(IdentityMat, this->_scale);
-
-		WorldState::thingyCount++;
 	}
 }

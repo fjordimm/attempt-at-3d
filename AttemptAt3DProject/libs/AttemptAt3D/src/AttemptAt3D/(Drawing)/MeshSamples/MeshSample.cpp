@@ -1,6 +1,6 @@
 
 #include <cstring>
-#include "AttemptAt3D/(Mesh)/MeshSamples/MeshSample.hpp"
+#include "AttemptAt3D/(Drawing)/MeshSamples/MeshSample.hpp"
 #include "AttemptAt3D/(Debug)/Debug.hpp"
 
 namespace AttemptAt3D::MeshSamples
@@ -11,7 +11,7 @@ namespace AttemptAt3D::MeshSamples
 
 	/* Methods */
 
-	std::unique_ptr<Mesh> MeshSample::make() const
+	std::unique_ptr<MeshData> MeshSample::make() const
 	{
 		std::size_t vertsLen = this->verticesSize() / sizeof(float);
 
@@ -23,6 +23,6 @@ namespace AttemptAt3D::MeshSamples
 		std::unique_ptr<GLuint[]> elems(new GLuint[elemsLen]);
 		std::memcpy(elems.get(), this->elements(), this->elementsSize());
 
-		return std::make_unique<Mesh>(vertsLen, std::move(verts), elemsLen, std::move(elems));
+		return std::make_unique<MeshData>(vertsLen, std::move(verts), elemsLen, std::move(elems));
 	}
 }

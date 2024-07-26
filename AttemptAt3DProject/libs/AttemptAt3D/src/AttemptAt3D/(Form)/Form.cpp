@@ -7,17 +7,16 @@ namespace AttemptAt3D
 {
 	/* Constructors */
 
-	Form::Form(WorldState& worldState, std::unique_ptr<Mesh> mesh) :
+	Form::Form(WorldState& worldState, Mesh* mesh) :
 		tran(),
-		mesh(std::move(mesh)),
-		drawObj(worldState.shaderManager, &this->tran, this->mesh.get())
+		mesh(mesh)
 	{}
 
 	/* Methods */
 
-	void Form::draw(ShaderManager& shaderManager) const
+	void Form::draw(ShaderManager& shaderManager)
 	{
-		this->drawObj.draw(shaderManager);
+		this->mesh->draw(shaderManager, this->tran);
 	}
 
 	void Form::onCreate(WorldState& worldState)

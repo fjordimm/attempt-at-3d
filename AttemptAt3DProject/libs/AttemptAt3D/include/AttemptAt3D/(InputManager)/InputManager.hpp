@@ -11,6 +11,8 @@ namespace AttemptAt3D
 {
 	class InputManager
 	{
+		// TODO: make it unordered_map instead of map
+
 		/* Structs */
 
 	   public:

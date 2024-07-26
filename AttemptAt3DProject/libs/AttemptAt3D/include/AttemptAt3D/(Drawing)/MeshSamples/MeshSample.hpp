@@ -6,7 +6,7 @@
 #define GLEW_STATIC
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include "AttemptAt3D/(Mesh)/Mesh.hpp"
+#include "AttemptAt3D/(Drawing)/MeshData.hpp"
 
 namespace AttemptAt3D::MeshSamples
 {
@@ -23,7 +23,7 @@ namespace AttemptAt3D::MeshSamples
 		/* Methods */
 
 	   public:
-		std::unique_ptr<Mesh> make() const;
+		std::unique_ptr<MeshData> make() const;
 
 	   protected:
 		virtual std::size_t verticesSize() const = 0; // In bytes, not length
