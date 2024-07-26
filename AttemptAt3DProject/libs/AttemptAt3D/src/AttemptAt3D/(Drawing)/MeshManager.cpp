@@ -33,6 +33,7 @@ namespace AttemptAt3D
 		}
 		else
 		{
+			iter->second.get()->cleanupForGl();
 			this->meshes.erase(iter);
 		}
 	}

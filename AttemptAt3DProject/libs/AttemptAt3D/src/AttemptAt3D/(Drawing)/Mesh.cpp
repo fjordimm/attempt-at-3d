@@ -20,10 +20,10 @@ namespace AttemptAt3D
 		glBindVertexArray(this->vao);
 		
 		glGenBuffers(1, &this->vbo);
-		// glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
+		glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
 
 		glGenBuffers(1, &this->ebo);
-		// glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->ebo);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->ebo);
 
 		shaderManager.doAttribs();
 
