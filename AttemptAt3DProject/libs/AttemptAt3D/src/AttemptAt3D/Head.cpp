@@ -104,7 +104,7 @@ namespace AttemptAt3D
 			std::default_random_engine randGen(seed);
 			std::normal_distribution<float> randDist(0.0f, 3.0f);
 			
-			for (int i = 0; i < 20000; i++)
+			for (int i = 0; i < 9000; i++)
 			{
 				float xPos = randDist(randGen);
 				float yPos = randDist(randGen);
@@ -113,14 +113,14 @@ namespace AttemptAt3D
 				Vec vec = Vec(xPos, yPos, zPos);
 				vec *= glm::length2(vec);
 
-				// std::unique_ptr<PhysicForm> form1 = PhysicForm::New(this->worldState, MeshSamples::Cube().make());
-				// form1->tran.acqPosition() = vec;
-				// form1->velocity = -0.002f * vec;
-				// form1->friction = 0.001f;
-				// this->worldState.forms.push_back(std::move(form1));
-				std::unique_ptr<Form> form1 = Form::New(this->worldState, MeshSamples::Cube().make());
+				std::unique_ptr<PhysicForm> form1 = PhysicForm::New(this->worldState, MeshSamples::Cube().make());
 				form1->tran.acqPosition() = vec;
+				form1->velocity = -0.002f * vec;
+				form1->friction = 0.001f;
 				this->worldState.forms.push_back(std::move(form1));
+				// std::unique_ptr<Form> form1 = Form::New(this->worldState, MeshSamples::Cube().make());
+				// form1->tran.acqPosition() = vec;
+				// this->worldState.forms.push_back(std::move(form1));
 			}
 		}
 		////////////////////////////////////////////////////////////
@@ -150,16 +150,16 @@ namespace AttemptAt3D
 			/// Temp ///
 			////////////////////////////////////////////////////////////
 			static float timeCounter = 0.0f;
+			static float frameCounter = 0.0f;
 			timeCounter += deltaTime;
+			frameCounter += 1.0f;
 
-			if (timeCounter >= 1000.0f)
+			if (timeCounter >= 1500.0f)
 			{
-				Debug::Logf("deltaTime = %f", deltaTime);
-
-				// Debug::Logf("thingyCount = %lli", WorldState::thingyCount);
-				WorldState::thingyCount = 0;
+				Debug::Logf("fps: %f", frameCounter / (timeCounter / 1000.0f));
 
 				timeCounter = 0.0f;
+				frameCounter = 0.0f;
 			}
 			////////////////////////////////////////////////////////////
 

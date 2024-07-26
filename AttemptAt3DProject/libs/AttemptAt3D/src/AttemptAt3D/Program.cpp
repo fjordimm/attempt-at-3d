@@ -5,7 +5,7 @@
 int main(void)
 {
 	AttemptAt3D::Head head;
-	head.start(900, 600);
+	head.start(1300, 750);
 	
 	return 0;
 }

@@ -12,7 +12,7 @@ namespace AttemptAt3D::Debug
 	{
 		std::lock_guard<std::mutex> _lock(_Globals::_GlobalMutex_debug);
 
-		std::fprintf(stderr, "===DEBUG===: %s\n", msg);
+		std::fprintf(stderr, "===DEBUG=== %s\n", msg);
 		std::fflush(stderr);
 	}
 
@@ -20,7 +20,7 @@ namespace AttemptAt3D::Debug
 	{
 		std::lock_guard<std::mutex> _lock(_Globals::_GlobalMutex_debug);
 
-		std::fprintf(stderr, "===WARNING===: %s\n", msg);
+		std::fprintf(stderr, "===WARNING=== %s\n", msg);
 		std::fflush(stderr);
 	}
 
@@ -28,7 +28,7 @@ namespace AttemptAt3D::Debug
 	{
 		std::lock_guard<std::mutex> _lock(_Globals::_GlobalMutex_debug);
 
-		std::fprintf(stderr, "===NONFATAL ERROR===: %s\n", msg);
+		std::fprintf(stderr, "===NONFATAL ERROR=== %s\n", msg);
 		std::fflush(stderr);
 	}
 
@@ -36,7 +36,7 @@ namespace AttemptAt3D::Debug
 	{
 		std::lock_guard<std::mutex> _lock(_Globals::_GlobalMutex_debug);
 		
-		std::fprintf(stderr, "===FATAL ERROR===: %s\n", msg);
+		std::fprintf(stderr, "===FATAL ERROR=== %s\n", msg);
 		std::fflush(stderr);
 		std::exit(EXIT_FAILURE);
 	}
@@ -58,7 +58,7 @@ namespace AttemptAt3D::Debug
 
 		std::va_list argptr;
 		va_start(argptr, format);
-		std::fprintf(stderr, "===DEBUG===: ");
+		std::fprintf(stderr, "===DEBUG=== ");
 		std::vfprintf(stderr, format, argptr);
 		std::fprintf(stderr, "\n");
 		std::fflush(stderr);
