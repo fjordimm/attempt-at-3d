@@ -43,7 +43,7 @@ namespace AttemptAt3D
 		if (this->mesh)
 		{
 			glBindVertexArray(this->vao);
-
+			
 			shaderManager.setUni_transScaleVal(this->tran->getScaleMatrix());
 			shaderManager.setUni_transRotVal(this->tran->getRotationMatrix());
 			shaderManager.setUni_transPosVal(this->tran->getPositionMatrix());

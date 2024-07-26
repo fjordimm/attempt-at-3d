@@ -13,7 +13,9 @@ namespace AttemptAt3D
 
 	Mesh* MeshManager::add(std::unique_ptr<Mesh> mesh)
 	{
-
+		Mesh* ret = mesh.get();
+		this->meshes[ret] = std::move(mesh);
+		return ret;
 	}
 
 	void MeshManager::remove(Mesh* mesh)
