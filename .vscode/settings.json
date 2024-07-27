@@ -73,6 +73,7 @@
 		"condition_variable": "cpp",
 		"coroutine": "cpp",
 		"resumable": "cpp",
-		"random": "cpp"
+		"random": "cpp",
+		"*.in": "c"
 	}
 }

@@ -4,6 +4,8 @@
 
 int main(void)
 {
+	AttemptAt3D::Debug::Log("like bruh");
+
 	AttemptAt3D::Head head;
 	head.start(1300, 750);
 	

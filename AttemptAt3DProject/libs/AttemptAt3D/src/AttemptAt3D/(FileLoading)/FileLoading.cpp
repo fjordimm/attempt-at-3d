@@ -10,7 +10,7 @@ namespace AttemptAt3D::FileLoading
 {
 	std::unique_ptr<const std::string> LoadFile(const std::string name)
 	{
-		std::string fullName = std::string(CMAKE_SOURCE_DIR) + "/libs/AttemptAt3D/" + name;
+		std::string fullName = std::string(CMAKECONFIG_SOURCE_DIR) + "/libs/AttemptAt3D/" + name;
 
 		FILE* file = fopen(fullName.c_str(), "r");
 

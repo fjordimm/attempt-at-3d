@@ -5,6 +5,19 @@
 #include <cstdio>
 #include <cstdarg>
 #include <cstdlib>
+#include "CMakeConfig.h"
+
+#ifdef CMAKECONFIG_DO_TERMINAL_COLORS
+static constexpr char PRINTCOLOR_DEBUG[] = "\033[36m"; // cyan
+static constexpr char PRINTCOLOR_WARNING[] = "\033[33m"; // yellow
+static constexpr char PRINTCOLOR_ERROR[] = "\033[31m"; // red
+static constexpr char PRINTCOLOR_NONE[] = "\033[0m";
+#else
+static constexpr char PRINTCOLOR_DEBUG[] = "";
+static constexpr char PRINTCOLOR_WARNING[] = "";
+static constexpr char PRINTCOLOR_ERROR[] = "";
+static constexpr char PRINTCOLOR_NONE[] = "";
+#endif
 
 namespace AttemptAt3D::Debug
 {
@@ -12,7 +25,7 @@ namespace AttemptAt3D::Debug
 	{
 		std::lock_guard<std::mutex> _lock(_Globals::_GlobalMutex_debug);
 
-		std::fprintf(stderr, "===DEBUG=== %s\n", msg);
+		std::fprintf(stderr, "%s[[[ DEBUG ]]]%s %s\n", PRINTCOLOR_DEBUG, PRINTCOLOR_NONE, msg);
 		std::fflush(stderr);
 	}
 
@@ -20,7 +33,7 @@ namespace AttemptAt3D::Debug
 	{
 		std::lock_guard<std::mutex> _lock(_Globals::_GlobalMutex_debug);
 
-		std::fprintf(stderr, "===WARNING=== %s\n", msg);
+		std::fprintf(stderr, "%s[[[ WARNING ]]]%s %s\n", PRINTCOLOR_WARNING, PRINTCOLOR_NONE, msg);
 		std::fflush(stderr);
 	}
 
@@ -28,7 +41,7 @@ namespace AttemptAt3D::Debug
 	{
 		std::lock_guard<std::mutex> _lock(_Globals::_GlobalMutex_debug);
 
-		std::fprintf(stderr, "===NONFATAL ERROR=== %s\n", msg);
+		std::fprintf(stderr, "%s[[[ NONFATAL ERROR ]]]%s %s\n", PRINTCOLOR_WARNING, PRINTCOLOR_NONE, msg);
 		std::fflush(stderr);
 	}
 
@@ -36,7 +49,7 @@ namespace AttemptAt3D::Debug
 	{
 		std::lock_guard<std::mutex> _lock(_Globals::_GlobalMutex_debug);
 		
-		std::fprintf(stderr, "===FATAL ERROR=== %s\n", msg);
+		std::fprintf(stderr, "%s[[[ FATAL ERROR ]]]%s %s\n", PRINTCOLOR_ERROR, PRINTCOLOR_NONE, msg);
 		std::fflush(stderr);
 		std::exit(EXIT_FAILURE);
 	}
@@ -58,7 +71,7 @@ namespace AttemptAt3D::Debug
 
 		std::va_list argptr;
 		va_start(argptr, format);
-		std::fprintf(stderr, "===DEBUG=== ");
+		std::fprintf(stderr, "%s[[[ DEBUG ]]]%s ", PRINTCOLOR_DEBUG, PRINTCOLOR_NONE);
 		std::vfprintf(stderr, format, argptr);
 		std::fprintf(stderr, "\n");
 		std::fflush(stderr);
@@ -69,7 +82,7 @@ namespace AttemptAt3D::Debug
 	{
 		std::lock_guard<std::mutex> _lock(_Globals::_GlobalMutex_debug);
 
-		std::fprintf(stderr, "===EXITING===\n");
+		std::fprintf(stderr, "%s[[[ EXITING ]]]%s\n", PRINTCOLOR_ERROR, PRINTCOLOR_NONE);
 		std::fflush(stderr);
 		std::exit(EXIT_FAILURE);
 	}
