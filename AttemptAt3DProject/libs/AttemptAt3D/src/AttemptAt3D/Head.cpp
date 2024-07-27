@@ -16,6 +16,7 @@ namespace AttemptAt3D
 {
 	// TEMP
 	static Mesh* cubeMesh = nullptr;
+	static Mesh* sphereMesh = nullptr;
 
 	/* Constructors */
 
@@ -62,6 +63,7 @@ namespace AttemptAt3D
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_BACK);
+		glEnable(GL_DITHER);
 
 		/* Activate shaders */
 
@@ -77,10 +79,11 @@ namespace AttemptAt3D
 
 		this->worldState.inputManager.giveWindowForGlfw(this->windowForGlfw);
 
-		cubeMesh = this->worldState.meshManager.add(this->worldState.shaderManager, std::move(MeshSamples::Sphere<9>().make()));
+		cubeMesh = this->worldState.meshManager.add(this->worldState.shaderManager, std::move(MeshSamples::Cube().make()));
+		sphereMesh = this->worldState.meshManager.add(this->worldState.shaderManager, std::move(MeshSamples::Sphere<21>().make()));
 
 		this->worldState.mainCamera = Forms::Camera::New(this->worldState);
-		this->worldState.mainCamera->tran.acqPosition() = Vec(0.0f, -1900.0f, 6.0f);
+		this->worldState.mainCamera->tran.acqPosition() = Vec(0.0f, -100.0f, 0.0f);
 		this->worldState.mainCamera->recalculateAndApplyViewMatrix(this->worldState.shaderManager);
 
 		/* Miscellaneous pre-main-loop tasks */
@@ -107,7 +110,7 @@ namespace AttemptAt3D
 			std::default_random_engine randGen(seed);
 			std::normal_distribution<float> randDist(0.0f, 3.0f);
 			
-			for (int i = 0; i < 8000; i++)
+			for (int i = 0; i < 800; i++)
 			{
 				float xPos = randDist(randGen);
 				float yPos = randDist(randGen);
@@ -116,7 +119,7 @@ namespace AttemptAt3D
 				Vec vec = Vec(xPos, yPos, zPos);
 				vec *= glm::length2(vec);
 
-				std::unique_ptr<PhysicForm> form1 = PhysicForm::New(this->worldState, cubeMesh);
+				std::unique_ptr<PhysicForm> form1 = PhysicForm::New(this->worldState, sphereMesh);
 				form1->tran.acqPosition() = vec;
 				form1->velocity = -0.002f * vec;
 				form1->friction = 0.001f;
