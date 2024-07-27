@@ -8,7 +8,7 @@
 #include "CMakeConfig.h"
 
 #ifdef CMAKECONFIG_DO_TERMINAL_COLORS
-static constexpr char PRINTCOLOR_DEBUG[] = "\033[36m"; // cyan
+static constexpr char PRINTCOLOR_DEBUG[] = "\033[32m"; // green
 static constexpr char PRINTCOLOR_WARNING[] = "\033[33m"; // yellow
 static constexpr char PRINTCOLOR_ERROR[] = "\033[31m"; // red
 static constexpr char PRINTCOLOR_NONE[] = "\033[0m";

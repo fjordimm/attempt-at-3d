@@ -1,10 +1,11 @@
 
 #include "AttemptAt3D/Head.hpp"
 #include "AttemptAt3D/(Debug)/Debug.hpp"
+#include "AttemptAt3D/(Drawing)/MeshSamples/Sphere.hpp"
 
 int main(void)
 {
-	AttemptAt3D::Debug::Log("like bruh");
+	// AttemptAt3D::Debug::Printf("%s\n", AttemptAt3D::MeshSamples::Sphere<2>().make()->toString().c_str());
 
 	AttemptAt3D::Head head;
 	head.start(1300, 750);

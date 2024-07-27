@@ -77,7 +77,7 @@ namespace AttemptAt3D
 
 		this->worldState.inputManager.giveWindowForGlfw(this->windowForGlfw);
 
-		cubeMesh = this->worldState.meshManager.add(this->worldState.shaderManager, std::move(MeshSamples::Cube().make()));
+		cubeMesh = this->worldState.meshManager.add(this->worldState.shaderManager, std::move(MeshSamples::Sphere<2>().make()));
 
 		this->worldState.mainCamera = Forms::Camera::New(this->worldState);
 		this->worldState.mainCamera->tran.acqPosition() = Vec(0.0f, -1900.0f, 6.0f);

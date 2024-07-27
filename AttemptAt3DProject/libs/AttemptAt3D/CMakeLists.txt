@@ -13,6 +13,7 @@ add_executable(AttemptAt3DExec
 	"src/AttemptAt3D/(Drawing)/MeshSamples/MeshSample.cpp"
 	"src/AttemptAt3D/(Drawing)/MeshSamples/InvertedPyramid.cpp"
 	"src/AttemptAt3D/(Drawing)/MeshSamples/Cube.cpp"
+	"src/AttemptAt3D/(Drawing)/MeshSamples/Sphere.cpp"
 	"src/AttemptAt3D/(Drawing)/MeshManager.cpp"
 	"src/AttemptAt3D/(Tran)/Tran.cpp"
 	"src/AttemptAt3D/(Tran)/Vec.cpp"
