@@ -65,7 +65,6 @@ namespace AttemptAt3D::MeshSamples
 		float* finalArray = new float[finalArray_l];
 
 		// bottom vertex
-		// finalArray[0] = 1000.0f;
 		finalArray[0] = bottomVert.x;
 		finalArray[1] = bottomVert.y;
 		finalArray[2] = bottomVert.z;
@@ -78,7 +77,6 @@ namespace AttemptAt3D::MeshSamples
 		{
 			for (int j = 0; j < numVertsPerLayer; j++)
 			{
-				// finalArray[6 * (1 + i * numVertsPerLayer + j) + 0] = 888.0f;
 				finalArray[6 * (1 + i * numVertsPerLayer + j) + 0] = layers[i]->at(j).x;
 				finalArray[6 * (1 + i * numVertsPerLayer + j) + 1] = layers[i]->at(j).y;
 				finalArray[6 * (1 + i * numVertsPerLayer + j) + 2] = layers[i]->at(j).z;
@@ -89,7 +87,6 @@ namespace AttemptAt3D::MeshSamples
 		}
 
 		// top vert
-		// finalArray[finalArray_l - 6] = 2000.0f;
 		finalArray[finalArray_l - 6] = topVert.x;
 		finalArray[finalArray_l - 5] = topVert.y;
 		finalArray[finalArray_l - 4] = topVert.z;
@@ -106,8 +103,7 @@ namespace AttemptAt3D::MeshSamples
 		const int numLayers = Size;
 		const int numVertsPerLayer = Size * 2 + 2;
 		const int numVerts = 1 + numLayers * numVertsPerLayer + 1;
-		// const int numTriangles = numVertsPerLayer * (1 + 2 * (numLayers - 1) + 1);
-		const int numTriangles = 6;
+		const int numTriangles = numVertsPerLayer * (1 + 2 * (numLayers - 1) + 1);
 
 		return sizeof(GLuint) * 3 * numTriangles;
 	}
@@ -118,8 +114,7 @@ namespace AttemptAt3D::MeshSamples
 		const int numLayers = Size;
 		const int numVertsPerLayer = Size * 2 + 2;
 		const int numVerts = 1 + numLayers * numVertsPerLayer + 1;
-		// const int numTriangles = numVertsPerLayer * (1 + 2 * (numLayers - 1) + 1);
-		const int numTriangles = 6;
+		const int numTriangles = numVertsPerLayer * (1 + 2 * (numLayers - 1) + 1);
 
 		int bottomVert_i = 0;
 		int topVert_i = numVerts - 1;
@@ -139,11 +134,11 @@ namespace AttemptAt3D::MeshSamples
 			finalArray[vertA] = bottomVert_i;
 
 			if (j != numVertsPerLayer - 1)
-			{ finalArray[vertB] = 1 + (j + 1); }
+			{ finalArray[vertB] = 1 + j + 1; }
 			else
-			{ finalArray[vertB] = 1 + (0); }
+			{ finalArray[vertB] = 1 + 0; }
 
-			finalArray[vertC] = 1 + (j + 0);
+			finalArray[vertC] = 1 + j + 0;
 		}
 
 		// middle squares
@@ -154,10 +149,10 @@ namespace AttemptAt3D::MeshSamples
 				
 		// 	}
 		// }
-		// for (int i = 3 * (numVertsPerLayer - 1) + 2 + 1; i < 3 * (numVertsPerLayer * (1 + 2 * (numLayers - 1)) + (numVertsPerLayer - 1)) + 0; i++)
-		// {
-		// 	finalArray[i] = topVert_i;
-		// }
+		for (int i = 3 * (numVertsPerLayer - 1) + 2 + 1; i < 3 * (numVertsPerLayer * (1 + 2 * (numLayers - 1)) + (numVertsPerLayer - 1)) + 0; i++)
+		{
+			finalArray[i] = topVert_i;
+		}
 
 		// top cap
 		for (int j = 0; j < numVertsPerLayer; j++)
@@ -168,12 +163,12 @@ namespace AttemptAt3D::MeshSamples
 
 			finalArray[vertA] = topVert_i;
 
-			finalArray[vertB] = topVert_i;
+			finalArray[vertB] = (1 + (numVertsPerLayer * (numLayers - 1))) + j + 0;
 
 			if (j != numVertsPerLayer - 1)
-			{ finalArray[vertC] = topVert_i; }
+			{ finalArray[vertC] = (1 + (numVertsPerLayer * (numLayers - 1))) + j + 1; }
 			else
-			{ finalArray[vertC] = topVert_i; }
+			{ finalArray[vertC] = (1 + (numVertsPerLayer * (numLayers - 1))) + 0; }
 		}
 
 		return finalArray;
