@@ -16,21 +16,23 @@ highp float dithering_random(highp vec2 coords)
 
 void main()
 {
-	/*
+
 	vec4 rotatedNormal = uni_sunRot * vec4(gNormal, 1.0);
 
 	// float shadingMult = 0.5 * rotatedNormal.z + 0.5;
 	float shadingMult = 0.35 * rotatedNormal.z + 0.65;
 
 	outColor = vec4(gColor * shadingMult, 1.0);
-	*/
 
+	
 
-
+	// Dithering:
+	/*
 	vec4 rotatedNormal = uni_sunRot * vec4(gNormal, 1.0);
 
 	float shadingMult = 0.35 * rotatedNormal.z + 0.65;
 	shadingMult += mix(-DITHERING_NOISE_GRANULARITY, DITHERING_NOISE_GRANULARITY, dithering_random(rotatedNormal.xy));
 
 	outColor = vec4(gColor * shadingMult, 1.0);
+	*/
 }
