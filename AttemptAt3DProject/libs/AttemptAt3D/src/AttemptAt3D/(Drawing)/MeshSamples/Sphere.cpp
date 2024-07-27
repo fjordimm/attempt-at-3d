@@ -127,26 +127,23 @@ namespace AttemptAt3D::MeshSamples
 		// bottom cap
 		for (int j = 0; j < numVertsPerLayer; j++)
 		{
-			int vertA = 3 * j + 0;
-			int vertB = 3 * j + 1;
-			int vertC = 3 * j + 2;
+			GLuint vertBottom = bottomVert_i;
+			GLuint vertTopRight = (j == numVertsPerLayer - 1) ?
+				1 + 0 :
+				1 + j + 1;
+			GLuint vertTopLeft = 1 + j + 0;
 
-			finalArray[vertA] = bottomVert_i;
-
-			if (j != numVertsPerLayer - 1)
-			{ finalArray[vertB] = 1 + j + 1; }
-			else
-			{ finalArray[vertB] = 1 + 0; }
-
-			finalArray[vertC] = 1 + j + 0;
+			finalArray[3 * j + 0] = vertBottom;
+			finalArray[3 * j + 1] = vertTopRight;
+			finalArray[3 * j + 2] = vertTopLeft;
 		}
 
 		// middle squares
-		// for (int i = 0; i < numLayers; i++)
+		// for (int i = 0; i < numLayers - 1; i++)
 		// {
 		// 	for (int j = 0; j < numVertsPerLayer; j++)
 		// 	{
-				
+		// 		int vertA = 
 		// 	}
 		// }
 		for (int i = 3 * (numVertsPerLayer - 1) + 2 + 1; i < 3 * (numVertsPerLayer * (1 + 2 * (numLayers - 1)) + (numVertsPerLayer - 1)) + 0; i++)
@@ -157,22 +154,55 @@ namespace AttemptAt3D::MeshSamples
 		// top cap
 		for (int j = 0; j < numVertsPerLayer; j++)
 		{
-			int vertA = 3 * (numVertsPerLayer * (1 + 2 * (numLayers - 1)) + j) + 0;
-			int vertB = 3 * (numVertsPerLayer * (1 + 2 * (numLayers - 1)) + j) + 1;
-			int vertC = 3 * (numVertsPerLayer * (1 + 2 * (numLayers - 1)) + j) + 2;
+			GLuint vertTop = topVert_i;
+			GLuint vertBottomLeft = (1 + (numVertsPerLayer * (numLayers - 1))) + j + 0;
+			GLuint vertBottomRight = (j == numVertsPerLayer - 1) ?
+				(1 + (numVertsPerLayer * (numLayers - 1))) + 0 :
+				(1 + (numVertsPerLayer * (numLayers - 1))) + j + 1;
 
-			finalArray[vertA] = topVert_i;
+			finalArray[3 * (numVertsPerLayer * (1 + 2 * (numLayers - 1)) + j) + 0] = vertTop;
+			finalArray[3 * (numVertsPerLayer * (1 + 2 * (numLayers - 1)) + j) + 1] = vertBottomLeft;
+			finalArray[3 * (numVertsPerLayer * (1 + 2 * (numLayers - 1)) + j) + 2] = vertBottomRight;
 
-			finalArray[vertB] = (1 + (numVertsPerLayer * (numLayers - 1))) + j + 0;
 
-			if (j != numVertsPerLayer - 1)
-			{ finalArray[vertC] = (1 + (numVertsPerLayer * (numLayers - 1))) + j + 1; }
-			else
-			{ finalArray[vertC] = (1 + (numVertsPerLayer * (numLayers - 1))) + 0; }
+
+
+			// int vertA = 3 * (numVertsPerLayer * (1 + 2 * (numLayers - 1)) + j) + 0;
+			// int vertB = 3 * (numVertsPerLayer * (1 + 2 * (numLayers - 1)) + j) + 1;
+			// int vertC = 3 * (numVertsPerLayer * (1 + 2 * (numLayers - 1)) + j) + 2;
+
+			// finalArray[vertA] = topVert_i;
+
+			// finalArray[vertB] = (1 + (numVertsPerLayer * (numLayers - 1))) + j + 0;
+
+			// if (j != numVertsPerLayer - 1)
+			// { finalArray[vertC] = (1 + (numVertsPerLayer * (numLayers - 1))) + j + 1; }
+			// else
+			// { finalArray[vertC] = (1 + (numVertsPerLayer * (numLayers - 1))) + 0; }
 		}
 
 		return finalArray;
 	}
 
-	Sphere<2> sphere2; // solves linker error
+	// solves linker errors
+	Sphere<2>   sphere2;
+	Sphere<3>   sphere3;
+	Sphere<4>   sphere4;
+	Sphere<5>   sphere5;
+	Sphere<6>   sphere6;
+	Sphere<7>   sphere7;
+	Sphere<8>   sphere8;
+	Sphere<9>   sphere9;
+	Sphere<10>  sphere10;
+	Sphere<11>  sphere11;
+	Sphere<12>  sphere12;
+	Sphere<13>  sphere13;
+	Sphere<14>  sphere14;
+	Sphere<15>  sphere15;
+	Sphere<16>  sphere16;
+	Sphere<17>  sphere17;
+	Sphere<18>  sphere18;
+	Sphere<19>  sphere19;
+	Sphere<20>  sphere20;
+	Sphere<21>  sphere21;
 }
