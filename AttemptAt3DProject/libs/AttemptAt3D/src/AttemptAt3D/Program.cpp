@@ -5,7 +5,7 @@
 
 int main(void)
 {
-	// AttemptAt3D::Debug::Printf("%s\n", AttemptAt3D::MeshSamples::Sphere<2>().make()->toString().c_str());
+	// AttemptAt3D::Debug::Printf("%s\n", AttemptAt3D::MeshSamples::Sphere<3>().make()->toString().c_str());
 
 	AttemptAt3D::Head head;
 	head.start(1300, 750);

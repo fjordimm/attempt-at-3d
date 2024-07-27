@@ -36,13 +36,14 @@ namespace AttemptAt3D::MeshSamples
 		{
 			float fractionOfVerticalSemicircle = (float)(i + 1) / (float)(numLayers + 1);
 			float z = std::sin(Math::Pi * fractionOfVerticalSemicircle - Math::PiOver2);
+			float r = std::cos(Math::Pi * fractionOfVerticalSemicircle - Math::PiOver2);
 
 			layers.push_back(std::make_unique<std::vector<Vec>>());
 			for (int j = 0; j < numVertsPerLayer; j++)
 			{
 				float fractionOfHorizontalCircle = (float)j / (float)numVertsPerLayer;
-				float x = std::cos(Math::TwoPi * fractionOfHorizontalCircle);
-				float y = std::sin(Math::TwoPi * fractionOfHorizontalCircle);
+				float x = r * std::cos(Math::TwoPi * fractionOfHorizontalCircle);
+				float y = r * std::sin(Math::TwoPi * fractionOfHorizontalCircle);
 
 				layers[i]->push_back(Vec(x, y, z));
 			}
