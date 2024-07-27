@@ -128,10 +128,10 @@ namespace AttemptAt3D::MeshSamples
 		for (int j = 0; j < numVertsPerLayer; j++)
 		{
 			GLuint vertBottom = bottomVert_i;
+			GLuint vertTopLeft = 1 + j + 0;
 			GLuint vertTopRight = (j == numVertsPerLayer - 1) ?
 				1 + 0 :
 				1 + j + 1;
-			GLuint vertTopLeft = 1 + j + 0;
 
 			finalArray[3 * j + 0] = vertBottom;
 			finalArray[3 * j + 1] = vertTopRight;
@@ -139,17 +139,31 @@ namespace AttemptAt3D::MeshSamples
 		}
 
 		// middle squares
-		// for (int i = 0; i < numLayers - 1; i++)
-		// {
-		// 	for (int j = 0; j < numVertsPerLayer; j++)
-		// 	{
-		// 		int vertA = 
-		// 	}
-		// }
-		for (int i = 3 * (numVertsPerLayer - 1) + 2 + 1; i < 3 * (numVertsPerLayer * (1 + 2 * (numLayers - 1)) + (numVertsPerLayer - 1)) + 0; i++)
+		for (int i = 0; i < numLayers - 1; i++)
 		{
-			finalArray[i] = topVert_i;
+			for (int j = 0; j < numVertsPerLayer; j++)
+			{
+				int vertBottomLeft = (1 + (numVertsPerLayer * (i + 0))) + j + 0;
+				int vertBottomRight = (j == numVertsPerLayer - 1) ?
+					(1 + (numVertsPerLayer * (i + 0))) + 0 :
+					(1 + (numVertsPerLayer * (i + 0))) + j + 1;
+				int vertTopLeft = (1 + (numVertsPerLayer * (i + 1))) + j + 0;
+				int vertTopRight = (j == numVertsPerLayer - 1) ?
+					(1 + (numVertsPerLayer * (i + 1))) + 0 :
+					(1 + (numVertsPerLayer * (i + 1))) + j + 1;
+				
+				finalArray[3 * (numVertsPerLayer * (1 + 2 * i) + 2 * j) + 0] = vertTopRight;
+				finalArray[3 * (numVertsPerLayer * (1 + 2 * i) + 2 * j) + 1] = vertTopLeft;
+				finalArray[3 * (numVertsPerLayer * (1 + 2 * i) + 2 * j) + 2] = vertBottomLeft;
+				finalArray[3 * (numVertsPerLayer * (1 + 2 * i) + 2 * j) + 3] = vertTopRight;
+				finalArray[3 * (numVertsPerLayer * (1 + 2 * i) + 2 * j) + 4] = vertBottomLeft;
+				finalArray[3 * (numVertsPerLayer * (1 + 2 * i) + 2 * j) + 5] = vertBottomRight;
+			}
 		}
+		// for (int i = 3 * (numVertsPerLayer - 1) + 2 + 1; i < 3 * (numVertsPerLayer * (1 + 2 * (numLayers - 1)) + (numVertsPerLayer - 1)) + 0; i++)
+		// {
+		// 	finalArray[i] = topVert_i;
+		// }
 
 		// top cap
 		for (int j = 0; j < numVertsPerLayer; j++)
@@ -163,22 +177,6 @@ namespace AttemptAt3D::MeshSamples
 			finalArray[3 * (numVertsPerLayer * (1 + 2 * (numLayers - 1)) + j) + 0] = vertTop;
 			finalArray[3 * (numVertsPerLayer * (1 + 2 * (numLayers - 1)) + j) + 1] = vertBottomLeft;
 			finalArray[3 * (numVertsPerLayer * (1 + 2 * (numLayers - 1)) + j) + 2] = vertBottomRight;
-
-
-
-
-			// int vertA = 3 * (numVertsPerLayer * (1 + 2 * (numLayers - 1)) + j) + 0;
-			// int vertB = 3 * (numVertsPerLayer * (1 + 2 * (numLayers - 1)) + j) + 1;
-			// int vertC = 3 * (numVertsPerLayer * (1 + 2 * (numLayers - 1)) + j) + 2;
-
-			// finalArray[vertA] = topVert_i;
-
-			// finalArray[vertB] = (1 + (numVertsPerLayer * (numLayers - 1))) + j + 0;
-
-			// if (j != numVertsPerLayer - 1)
-			// { finalArray[vertC] = (1 + (numVertsPerLayer * (numLayers - 1))) + j + 1; }
-			// else
-			// { finalArray[vertC] = (1 + (numVertsPerLayer * (numLayers - 1))) + 0; }
 		}
 
 		return finalArray;
