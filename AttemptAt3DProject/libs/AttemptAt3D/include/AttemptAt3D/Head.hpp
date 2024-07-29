@@ -40,8 +40,10 @@ namespace AttemptAt3D
 	   private:
 		void mainLoop();
 		void endGlfw();
-
 		void doCameraMovements(float deltaTime);
+
+		void onStart();
+		void onUpdate();
 
 		/* Functions */
 

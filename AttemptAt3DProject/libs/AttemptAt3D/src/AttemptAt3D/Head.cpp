@@ -16,7 +16,6 @@ namespace AttemptAt3D
 {
 	// TEMP
 	static Mesh* cubeMesh = nullptr;
-	static Mesh* sphereMesh = nullptr;
 
 	/* Constructors */
 
@@ -79,13 +78,6 @@ namespace AttemptAt3D
 
 		this->worldState.inputManager.giveWindowForGlfw(this->windowForGlfw);
 
-		cubeMesh = this->worldState.meshManager.add(this->worldState.shaderManager, std::move(MeshSamples::Cube().make()));
-		sphereMesh = this->worldState.meshManager.add(this->worldState.shaderManager, std::move(MeshSamples::Sphere<21>().make()));
-
-		this->worldState.mainCamera = Forms::Camera::New(this->worldState);
-		this->worldState.mainCamera->tran.acqPosition() = Vec(0.0f, -100.0f, 0.0f);
-		this->worldState.mainCamera->recalculateAndApplyViewMatrix(this->worldState.shaderManager);
-
 		/* Miscellaneous pre-main-loop tasks */
 
 		worldState.hasCapturedCursorForCamera = false;
@@ -103,33 +95,7 @@ namespace AttemptAt3D
 
 	void Head::mainLoop()
 	{
-		/// Temp ///
-		////////////////////////////////////////////////////////////
-		{
-			long long seed = std::chrono::time_point_cast<std::chrono::microseconds>(std::chrono::system_clock::now()).time_since_epoch().count();
-			std::default_random_engine randGen(seed);
-			std::normal_distribution<float> randDist(0.0f, 3.0f);
-			
-			for (int i = 0; i < 800; i++)
-			{
-				float xPos = randDist(randGen);
-				float yPos = randDist(randGen);
-				float zPos = randDist(randGen);
-
-				Vec vec = Vec(xPos, yPos, zPos);
-				vec *= glm::length2(vec);
-
-				std::unique_ptr<PhysicForm> form1 = PhysicForm::New(this->worldState, sphereMesh);
-				form1->tran.acqPosition() = vec;
-				form1->velocity = -0.002f * vec;
-				form1->friction = 0.001f;
-				this->worldState.forms.push_back(std::move(form1));
-				// std::unique_ptr<Form> form1 = Form::New(this->worldState, MeshSamples::Cube().make());
-				// form1->tran.acqPosition() = vec;
-				// this->worldState.forms.push_back(std::move(form1));
-			}
-		}
-		////////////////////////////////////////////////////////////
+		this->
 
 		while (!glfwWindowShouldClose(this->windowForGlfw))
 		{
@@ -153,21 +119,7 @@ namespace AttemptAt3D
 				form->onUpdate(this->worldState, deltaTime);
 			}
 
-			/// Temp ///
-			////////////////////////////////////////////////////////////
-			static float timeCounter = 0.0f;
-			static float frameCounter = 0.0f;
-			timeCounter += deltaTime;
-			frameCounter += 1.0f;
-
-			if (timeCounter >= 1500.0f)
-			{
-				Debug::Logf("fps: %f", frameCounter / (timeCounter / 1000.0f));
-
-				timeCounter = 0.0f;
-				frameCounter = 0.0f;
-			}
-			////////////////////////////////////////////////////////////
+			this->onUpdate();
 
 			/* Render everything */
 
@@ -289,6 +241,65 @@ namespace AttemptAt3D
 		/* Update view matrix */
 
 		this->worldState.mainCamera->recalculateAndApplyViewMatrix(this->worldState.shaderManager);
+	}
+
+	void Head::onStart()
+	{
+		/* Make shaders */
+
+		/* Make camera */
+		
+		this->worldState.mainCamera = Forms::Camera::New(this->worldState);
+		this->worldState.mainCamera->tran.acqPosition() = Vec(0.0f, -100.0f, 0.0f);
+		this->worldState.mainCamera->recalculateAndApplyViewMatrix(this->worldState.shaderManager);
+
+		/* Anything else */
+
+		/// Temp ///
+		////////////////////////////////////////////////////////////
+		cubeMesh = this->worldState.meshManager.add(this->worldState.shaderManager, std::move(MeshSamples::Cube().make()));
+
+		{
+			long long seed = std::chrono::time_point_cast<std::chrono::microseconds>(std::chrono::system_clock::now()).time_since_epoch().count();
+			std::default_random_engine randGen(seed);
+			std::normal_distribution<float> randDist(0.0f, 3.0f);
+			
+			for (int i = 0; i < 800; i++)
+			{
+				float xPos = randDist(randGen);
+				float yPos = randDist(randGen);
+				float zPos = randDist(randGen);
+
+				Vec vec = Vec(xPos, yPos, zPos);
+				vec *= glm::length2(vec);
+
+				std::unique_ptr<PhysicForm> form1 = PhysicForm::New(this->worldState, cubeMesh);
+				form1->tran.acqPosition() = vec;
+				form1->velocity = -0.002f * vec;
+				form1->friction = 0.001f;
+				this->worldState.forms.push_back(std::move(form1));
+				// std::unique_ptr<Form> form1 = Form::New(this->worldState, MeshSamples::Cube().make());
+				// form1->tran.acqPosition() = vec;
+				// this->worldState.forms.push_back(std::move(form1));
+			}
+		}
+		////////////////////////////////////////////////////////////
+	}
+
+	void Head::onUpdate()
+	{
+		static float timeCounter = 0.0f;
+		static float frameCounter = 0.0f;
+		timeCounter += deltaTime;
+		frameCounter += 1.0f;
+
+		if (timeCounter >= 1500.0f)
+		{
+			// Debug::Logf("fps: %f", frameCounter / (timeCounter / 1000.0f));
+
+			timeCounter = 0.0f;
+			frameCounter = 0.0f;
+		}
 	}
 
 	/* Functions */

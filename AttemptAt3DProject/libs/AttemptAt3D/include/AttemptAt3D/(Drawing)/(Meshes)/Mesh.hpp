@@ -6,8 +6,8 @@
 #define GLEW_STATIC
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include "AttemptAt3D/(Drawing)/MeshData.hpp"
-#include "AttemptAt3D/(Drawing)/ShaderManager.hpp"
+#include "AttemptAt3D/(Drawing)/(Meshes)/MeshData.hpp"
+#include "AttemptAt3D/(Drawing)/(Shaders)/ShaderManager.hpp"
 #include "AttemptAt3D/(Tran)/Tran.hpp"
 
 namespace AttemptAt3D
@@ -48,7 +48,7 @@ namespace AttemptAt3D
 
 	   public:
 		void updateGlBufferData();
-		void draw(ShaderManager& shaderManager, Tran& tran);
+		GLuint getVaoForDrawing();
 
 		/* Friends */
 

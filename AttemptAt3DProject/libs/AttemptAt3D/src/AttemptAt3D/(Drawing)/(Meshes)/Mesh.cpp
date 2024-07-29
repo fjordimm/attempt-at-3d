@@ -1,5 +1,5 @@
 
-#include "AttemptAt3D/(Drawing)/Mesh.hpp"
+#include "AttemptAt3D/(Drawing)/(Meshes)/Mesh.hpp"
 
 namespace AttemptAt3D
 {
@@ -52,19 +52,9 @@ namespace AttemptAt3D
 		glBindVertexArray(0);
 	}
 
-	void Mesh::draw(ShaderManager& shaderManager, Tran& tran)
+	GLuint Mesh::getVaoForDrawing()
 	{
-		if (this->meshData)
-		{
-			glBindVertexArray(this->vao);
-			
-			shaderManager.setUni_transScaleVal(tran.getScaleMatrix());
-			shaderManager.setUni_transRotVal(tran.getRotationMatrix());
-			shaderManager.setUni_transPosVal(tran.getPositionMatrix());
-			glDrawElements(GL_TRIANGLES, this->meshData->elementsLen, GL_UNSIGNED_INT, 0);
-
-			glBindVertexArray(0);
-		}
+		return this->vao;
 	}
 
 	// TODO: optimize draw() by only binding the vao if the previously drawn vao wasn't the same one
