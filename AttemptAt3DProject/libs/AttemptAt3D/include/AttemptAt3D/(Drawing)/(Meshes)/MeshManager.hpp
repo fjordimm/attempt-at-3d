@@ -3,7 +3,8 @@
 
 #include <unordered_map>
 #include <memory>
-#include "AttemptAt3D/(Drawing)/Mesh.hpp"
+#include "AttemptAt3D/(Drawing)/(Meshes)/Mesh.hpp"
+#include "AttemptAt3D/(Drawing)/(Shaders)/ShaderProgram.hpp"
 
 namespace AttemptAt3D
 {
@@ -25,7 +26,7 @@ namespace AttemptAt3D
 		/* Methods */
 
 	   public:
-		Mesh* add(ShaderManager& shaderManager, std::unique_ptr<MeshData> meshData); // Only to be used after the main loop has started
+		Mesh* add(ShaderProgram& shaderProgram, std::unique_ptr<MeshData> meshData); // Only to be used after the main loop has started
 		void remove(Mesh* mesh);
 	};
 }

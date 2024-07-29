@@ -1,7 +1,7 @@
 
 #include "AttemptAt3D/Head.hpp"
 #include "AttemptAt3D/(Debug)/Debug.hpp"
-#include "AttemptAt3D/(Drawing)/MeshSamples/Sphere.hpp"
+#include "AttemptAt3D/(Drawing)/(Meshes)/MeshSamples/Sphere.hpp"
 
 int main(void)
 {

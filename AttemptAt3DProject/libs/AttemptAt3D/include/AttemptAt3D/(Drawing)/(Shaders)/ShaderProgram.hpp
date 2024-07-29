@@ -27,9 +27,11 @@ namespace AttemptAt3D
 		GLuint vertexShader;
 		GLuint geometryShader;
 		GLuint fragmentShader;
-		GLuint program;
 
 		std::list<std::tuple<Mesh*, Tran*>> trans;
+
+	   protected:
+		GLuint program;
 
 		/* Methods */
 
@@ -47,6 +49,7 @@ namespace AttemptAt3D
 		virtual const char* getVertexShaderSourcePath() const = 0;
 		virtual const char* getGeometryShaderSourcePath() const = 0;
 		virtual const char* getFragmentShaderSourcePath() const = 0;
+		
 		virtual void setupUniforms() = 0;
 		virtual void setupAttributes() = 0;
 		virtual void updateUniformsFromTran(Tran& tran) const = 0;

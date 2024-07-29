@@ -3,8 +3,8 @@
 
 #include <memory>
 #include "AttemptAt3D/(Tran)/Tran.hpp"
-#include "AttemptAt3D/(Drawing)/MeshManager.hpp"
-#include "AttemptAt3D/(Drawing)/ShaderManager.hpp"
+#include "AttemptAt3D/(Drawing)/(Shaders)/ShaderProgram.hpp"
+#include "AttemptAt3D/(Drawing)/(Meshes)/MeshManager.hpp"
 #include "AttemptAt3D/WorldState.hpp"
 
 namespace AttemptAt3D
@@ -18,20 +18,20 @@ namespace AttemptAt3D
 		Form(const Form&) = delete;
 		Form& operator=(const Form&) = delete;
 		
-		Form(WorldState& worldState, Mesh* mesh);
+		Form(WorldState& worldState);
 
 	   protected:
 		template <class T, typename std::enable_if<std::is_base_of<Form, T>::value>::type* = nullptr>
-		static std::unique_ptr<T> New(WorldState& worldState, Mesh* mesh)
+		static std::unique_ptr<T> New(WorldState& worldState)
 		{
-			std::unique_ptr<T> ret = std::make_unique<T>(worldState, mesh);
+			std::unique_ptr<T> ret = std::make_unique<T>(worldState);
 			ret->onCreate(worldState);
 			return std::move(ret);
 		}
 
 	   public:
-		static inline std::unique_ptr<Form> New(WorldState& worldState, Mesh* mesh)
-		{ return Form::New<Form>(worldState, mesh); }
+		static inline std::unique_ptr<Form> New(WorldState& worldState)
+		{ return Form::New<Form>(worldState); }
 
 		/* Fields */
 
@@ -39,10 +39,14 @@ namespace AttemptAt3D
 		Tran tran;
 		Mesh* mesh;
 
+	   private:
+		ShaderProgram* shaderProgram;
+		std::list<std::tuple<Mesh*, Tran*>>::const_iterator shaderProgramSpot;
+
 		/* Methods */
 
 	   public:
-		void draw(ShaderManager& shaderManager);
+		void setMeshAndLinkToShaderProgram(ShaderProgram* newShaderProgram, Mesh* mesh);
 
 	   private:
 		void onCreate(WorldState& worldState);
@@ -55,7 +59,9 @@ namespace AttemptAt3D
 
 		/* Friends */
 
-		friend std::unique_ptr<Form> std::make_unique<Form>(AttemptAt3D::WorldState&, AttemptAt3D::Mesh*&);
+		friend std::unique_ptr<Form> std::make_unique<Form>(AttemptAt3D::WorldState&);
+
+		// TODO: do ShaderProgram.removeForm() when Form is removed
 
 		// TODO: call cleanupForGl() for each DrawObj
 	};

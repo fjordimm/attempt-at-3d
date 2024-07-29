@@ -7,16 +7,29 @@ namespace AttemptAt3D
 {
 	/* Constructors */
 
-	Form::Form(WorldState& worldState, Mesh* mesh) :
+	Form::Form(WorldState& worldState) :
 		tran(),
-		mesh(mesh)
+		mesh(nullptr),
+		shaderProgram(nullptr),
+		shaderProgramSpot{}
 	{}
 
 	/* Methods */
 
-	void Form::draw(ShaderManager& shaderManager)
+	void Form::setMeshAndLinkToShaderProgram(ShaderProgram* newShaderProgram, Mesh* mesh)
 	{
-		this->mesh->draw(shaderManager, this->tran);
+		if (this->shaderProgram != nullptr)
+		{
+			this->shaderProgram->removeForm(this->shaderProgramSpot);
+		}
+
+		this->shaderProgram = newShaderProgram;
+		if (newShaderProgram != nullptr)
+		{
+			this->shaderProgram->addForm(mesh, &this->tran);
+		}
+
+		this->mesh = mesh;
 	}
 
 	void Form::onCreate(WorldState& worldState)

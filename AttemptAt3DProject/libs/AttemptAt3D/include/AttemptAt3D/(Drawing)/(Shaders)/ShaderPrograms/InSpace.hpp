@@ -28,9 +28,9 @@ namespace AttemptAt3D::ShaderPrograms
 		/* Getters & Setters */
 
 	   public:
-		void setUniView(const glm::mat4& val);
-		void setUniProj(const glm::mat4& val);
-		void setUniSunRot(const glm::mat4& val);
+		void setUniView(const glm::mat4& val) const;
+		void setUniProj(const glm::mat4& val) const;
+		void setUniSunRot(const glm::mat4& val) const;
 
 		/* Methods */
 

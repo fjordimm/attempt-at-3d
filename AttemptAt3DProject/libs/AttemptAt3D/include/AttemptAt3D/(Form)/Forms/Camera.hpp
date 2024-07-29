@@ -14,7 +14,7 @@ namespace AttemptAt3D::Forms
 	   protected:
 		template <class T, typename std::enable_if<std::is_base_of<Camera, T>::value>::type* = nullptr>
 		static inline std::unique_ptr<T> New(WorldState& worldState)
-		{ return PhysicForm::New<T>(worldState, nullptr); }
+		{ return PhysicForm::New<T>(worldState); }
 
 	   public:
 		static inline std::unique_ptr<Camera> New(WorldState& worldState)
@@ -23,7 +23,7 @@ namespace AttemptAt3D::Forms
 		/* Methods */
 
 	   public:
-		void recalculateAndApplyViewMatrix(ShaderManager& shaderManager);
+		void recalculateAndApplyViewMatrix(WorldState& worldState);
 
 	   protected:
 		void onCreate__(WorldState& worldState) final;
@@ -33,6 +33,6 @@ namespace AttemptAt3D::Forms
 
 		/* Friends */
 
-		friend std::unique_ptr<Camera> std::make_unique<Camera>(AttemptAt3D::WorldState&, AttemptAt3D::Mesh*&);
+		friend std::unique_ptr<Camera> std::make_unique<Camera>(AttemptAt3D::WorldState&);
 	};
 }

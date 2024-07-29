@@ -14,7 +14,7 @@ namespace AttemptAt3D
 
 	/* Methods */
 
-	void Mesh::generateGlVaoAndBuffers(ShaderManager& shaderManager)
+	void Mesh::generateGlVaoAndBuffers()
 	{
 		glGenVertexArrays(1, &this->vao);
 		glBindVertexArray(this->vao);
@@ -25,7 +25,7 @@ namespace AttemptAt3D
 		glGenBuffers(1, &this->ebo);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->ebo);
 
-		shaderManager.doAttribs();
+		// shaderManager.doAttribs();
 
 		this->updateGlBufferData();
 

@@ -7,7 +7,6 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "AttemptAt3D/(Drawing)/(Meshes)/MeshData.hpp"
-#include "AttemptAt3D/(Drawing)/(Shaders)/ShaderManager.hpp"
 #include "AttemptAt3D/(Tran)/Tran.hpp"
 
 namespace AttemptAt3D
@@ -43,7 +42,7 @@ namespace AttemptAt3D
 		/* Methods */
 
 	   private:
-		void generateGlVaoAndBuffers(ShaderManager& shaderManager); // Only to be used by MeshManager
+		void generateGlVaoAndBuffers(); // Only to be used by MeshManager
 		void cleanupForGl(); // Only to be used by MeshManager
 
 	   public:

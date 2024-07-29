@@ -66,7 +66,7 @@ namespace AttemptAt3D
 
 		/* Activate shaders */
 
-		this->worldState.shaderManager.compileAndActivateShaders();
+		this->worldState.shaderProgram_flat.compileAndActivate();
 
 		/* Head settings */
 
@@ -90,13 +90,12 @@ namespace AttemptAt3D
 
 		/* Main loop */
 
+		this->onStart();
 		this->mainLoop();
 	}
 
 	void Head::mainLoop()
 	{
-		this->
-
 		while (!glfwWindowShouldClose(this->windowForGlfw))
 		{
 			/* Stuff required by GLFW */
@@ -119,18 +118,14 @@ namespace AttemptAt3D
 				form->onUpdate(this->worldState, deltaTime);
 			}
 
-			this->onUpdate();
+			this->onUpdate(deltaTime);
 
 			/* Render everything */
 
 			glClearColor(0.1f, 0.0f, 0.25f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-			for (std::unique_ptr<Form>& _form : this->worldState.forms)
-			{
-				Form* form = _form.get();
-				form->draw(this->worldState.shaderManager);
-			}
+			this->worldState.shaderProgram_flat.drawAllTrans();
 
 			/* Required by InputManager at the end of each iteration of the main loop */
 
@@ -142,7 +137,7 @@ namespace AttemptAt3D
 
 	void Head::endGlfw()
 	{
-		this->worldState.shaderManager.cleanupForGl();
+		// this->worldState.shaderManager.cleanupForGl();
 		glfwTerminate();
 	}
 	
@@ -240,24 +235,22 @@ namespace AttemptAt3D
 
 		/* Update view matrix */
 
-		this->worldState.mainCamera->recalculateAndApplyViewMatrix(this->worldState.shaderManager);
+		this->worldState.mainCamera->recalculateAndApplyViewMatrix(this->worldState);
 	}
 
 	void Head::onStart()
 	{
-		/* Make shaders */
-
 		/* Make camera */
 		
 		this->worldState.mainCamera = Forms::Camera::New(this->worldState);
 		this->worldState.mainCamera->tran.acqPosition() = Vec(0.0f, -100.0f, 0.0f);
-		this->worldState.mainCamera->recalculateAndApplyViewMatrix(this->worldState.shaderManager);
+		this->worldState.mainCamera->recalculateAndApplyViewMatrix(this->worldState);
 
 		/* Anything else */
 
 		/// Temp ///
 		////////////////////////////////////////////////////////////
-		cubeMesh = this->worldState.meshManager.add(this->worldState.shaderManager, std::move(MeshSamples::Cube().make()));
+		cubeMesh = this->worldState.meshManager.add(this->worldState.shaderProgram_flat, std::move(MeshSamples::Cube().make()));
 
 		{
 			long long seed = std::chrono::time_point_cast<std::chrono::microseconds>(std::chrono::system_clock::now()).time_since_epoch().count();
@@ -273,7 +266,8 @@ namespace AttemptAt3D
 				Vec vec = Vec(xPos, yPos, zPos);
 				vec *= glm::length2(vec);
 
-				std::unique_ptr<PhysicForm> form1 = PhysicForm::New(this->worldState, cubeMesh);
+				std::unique_ptr<PhysicForm> form1 = PhysicForm::New(this->worldState);
+				form1->setMeshAndLinkToShaderProgram(&this->worldState.shaderProgram_flat, cubeMesh);
 				form1->tran.acqPosition() = vec;
 				form1->velocity = -0.002f * vec;
 				form1->friction = 0.001f;
@@ -286,7 +280,7 @@ namespace AttemptAt3D
 		////////////////////////////////////////////////////////////
 	}
 
-	void Head::onUpdate()
+	void Head::onUpdate(float deltaTime)
 	{
 		static float timeCounter = 0.0f;
 		static float frameCounter = 0.0f;

@@ -3,9 +3,9 @@
 
 #include <list>
 #include <memory>
-#include "AttemptAt3D/(Drawing)/ShaderManager.hpp"
 #include "AttemptAt3D/(InputManager)/InputManager.hpp"
-#include "AttemptAt3D/(Drawing)/MeshManager.hpp"
+#include "AttemptAt3D/(Drawing)/(Shaders)/ShaderPrograms/(NonAbstract)/Flat.hpp"
+#include "AttemptAt3D/(Drawing)/(Meshes)/MeshManager.hpp"
 
 namespace AttemptAt3D
 {
@@ -34,7 +34,7 @@ namespace AttemptAt3D
 
 	   public:
 		InputManager inputManager;
-		ShaderManager shaderManager;
+		ShaderPrograms::Flat shaderProgram_flat;
 		MeshManager meshManager;
 		std::list<std::unique_ptr<Form>> forms;
 

@@ -6,7 +6,7 @@
 #define GLEW_STATIC
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include "AttemptAt3D/(Drawing)/MeshData.hpp"
+#include "AttemptAt3D/(Drawing)/(Meshes)/MeshData.hpp"
 
 namespace AttemptAt3D::MeshSamples
 {

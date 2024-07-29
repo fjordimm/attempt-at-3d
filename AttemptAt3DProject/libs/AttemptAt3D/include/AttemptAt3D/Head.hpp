@@ -43,7 +43,7 @@ namespace AttemptAt3D
 		void doCameraMovements(float deltaTime);
 
 		void onStart();
-		void onUpdate();
+		void onUpdate(float deltaTime);
 
 		/* Functions */
 

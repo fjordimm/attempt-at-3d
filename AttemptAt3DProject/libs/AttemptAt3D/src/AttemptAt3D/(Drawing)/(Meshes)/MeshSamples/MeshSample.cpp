@@ -1,6 +1,6 @@
 
 #include <cstring>
-#include "AttemptAt3D/(Drawing)/MeshSamples/MeshSample.hpp"
+#include "AttemptAt3D/(Drawing)/(Meshes)/MeshSamples/MeshSample.hpp"
 #include "AttemptAt3D/(Debug)/Debug.hpp"
 
 namespace AttemptAt3D::MeshSamples

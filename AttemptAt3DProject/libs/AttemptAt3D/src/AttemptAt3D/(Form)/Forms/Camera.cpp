@@ -7,7 +7,7 @@ namespace AttemptAt3D::Forms
 {
 	/* Methods */
 
-	void Camera::recalculateAndApplyViewMatrix(ShaderManager& shaderManager)
+	void Camera::recalculateAndApplyViewMatrix(WorldState& worldState)
 	{
 		glm::mat4 viewMatrix = glm::lookAt(
 			this->tran.getPosition(),
@@ -15,7 +15,7 @@ namespace AttemptAt3D::Forms
 			this->tran.getUpVec()
 		);
 
-		shaderManager.setUni_viewVal(viewMatrix);
+		worldState.shaderProgram_flat.setUniView(viewMatrix);
 	}
 
 	void Camera::onCreate__(WorldState& worldState)

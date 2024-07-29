@@ -10,7 +10,7 @@ namespace AttemptAt3D
 
 	WorldState::WorldState() :
 		inputManager(),
-		shaderManager(),
+		shaderProgram_flat(),
 		meshManager(),
 		forms(),
 		hasCapturedCursorForCamera(false),
@@ -49,7 +49,7 @@ namespace AttemptAt3D
 
 	void WorldState::_updateProjectionMatrix()
 	{
-		this->shaderManager.setUni_projVal(
+		this->shaderProgram_flat.setUniProj(
 			glm::perspective(this->_fov, this->_aspectRatio, this->_nearClippingPlane, this->_farClippingPlane)
 		);
 	}
