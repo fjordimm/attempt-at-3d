@@ -25,11 +25,13 @@ namespace AttemptAt3D
 		glGenBuffers(1, &this->ebo);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->ebo);
 
+		// Immediately after the call of this function,
+		//   someone must call ShaderProgram.enableAttribsForMesh(),
+		//   and they must call Mesh.updateGlBufferData()
+
 		// shaderManager.doAttribs();
 
-		this->updateGlBufferData();
-
-		glBindVertexArray(0);
+		// this->updateGlBufferData();
 	}
 
 	void Mesh::cleanupForGl()
@@ -48,8 +50,6 @@ namespace AttemptAt3D
 
 		glBufferData(GL_ARRAY_BUFFER, this->meshData->verticesLen * sizeof(this->meshData->vertices[0]), this->meshData->vertices.get(), GL_DYNAMIC_DRAW);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->meshData->elementsLen * sizeof(this->meshData->elements[0]), this->meshData->elements.get(), GL_DYNAMIC_DRAW);
-
-		glBindVertexArray(0);
 	}
 
 	GLuint Mesh::getVaoForDrawing()

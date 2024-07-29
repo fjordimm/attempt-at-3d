@@ -82,8 +82,6 @@ namespace AttemptAt3D
 
 				this->updateUniformsFromTran(*tran);
 				glDrawElements(GL_TRIANGLES, mesh->getElementsLen(), GL_UNSIGNED_INT, 0);
-
-				glBindVertexArray(0);
 			}
 		}
 	}

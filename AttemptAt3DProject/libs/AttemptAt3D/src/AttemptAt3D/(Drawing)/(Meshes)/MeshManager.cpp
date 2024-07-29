@@ -18,6 +18,7 @@ namespace AttemptAt3D
 		std::unique_ptr<Mesh> mesh = std::make_unique<Mesh>(std::move(meshData));
 		mesh->generateGlVaoAndBuffers();
 		shaderProgram.enableAttribsForMesh();
+		mesh->updateGlBufferData();
 
 		Mesh* ret = mesh.get();
 		this->meshes[ret] = std::move(mesh);

@@ -1,6 +1,8 @@
 
 #include "AttemptAt3D/(Drawing)/(Shaders)/ShaderPrograms/InSpace.hpp"
 
+#include "AttemptAt3D/(Debug)/Debug.hpp"
+
 namespace AttemptAt3D::ShaderPrograms
 {
 	/* Constructors */
