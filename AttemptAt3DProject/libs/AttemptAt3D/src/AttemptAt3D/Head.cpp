@@ -252,14 +252,14 @@ namespace AttemptAt3D
 
 		/// Temp ///
 		////////////////////////////////////////////////////////////
-		cubeMesh = this->worldState.meshManager.add(*shaderProgram_flat, std::move(MeshSamples::Cube().make()));
+		cubeMesh = this->worldState.meshManager.add(*shaderProgram_flat, std::move(MeshSamples::Sphere<9>().make()));
 
 		{
 			long long seed = std::chrono::time_point_cast<std::chrono::microseconds>(std::chrono::system_clock::now()).time_since_epoch().count();
 			std::default_random_engine randGen(seed);
 			std::normal_distribution<float> randDist(0.0f, 3.0f);
 			
-			for (int i = 0; i < 300; i++)
+			for (int i = 0; i < 100; i++)
 			{
 				float xPos = randDist(randGen);
 				float yPos = randDist(randGen);

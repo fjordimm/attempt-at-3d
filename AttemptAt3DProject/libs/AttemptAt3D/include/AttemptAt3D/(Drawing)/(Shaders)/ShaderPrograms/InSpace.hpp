@@ -19,7 +19,6 @@ namespace AttemptAt3D::ShaderPrograms
 
 	   private:
 		GLint attribPosition;
-		GLint attribColor;
 
 		GLint uniView;
 		GLint uniProj;

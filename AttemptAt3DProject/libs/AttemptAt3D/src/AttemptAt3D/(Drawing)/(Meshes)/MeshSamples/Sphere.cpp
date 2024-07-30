@@ -16,7 +16,7 @@ namespace AttemptAt3D::MeshSamples
 	{
 		const int numLayers = Size;
 		const int numVertsPerLayer = Size * 2 + 2;
-		return sizeof(float) * 6 * (1 + numLayers * numVertsPerLayer + 1);
+		return sizeof(float) * 3 * (1 + numLayers * numVertsPerLayer + 1);
 	}
 
 	template <std::size_t Size>
@@ -62,38 +62,29 @@ namespace AttemptAt3D::MeshSamples
 
 		/* Create final array */
 
-		std::size_t finalArray_l = 6 * (1 + numLayers * numVertsPerLayer + 1);
+		std::size_t finalArray_l = 3 * (1 + numLayers * numVertsPerLayer + 1);
 		float* finalArray = new float[finalArray_l];
 
 		// bottom vertex
 		finalArray[0] = bottomVert.x;
 		finalArray[1] = bottomVert.y;
 		finalArray[2] = bottomVert.z;
-		finalArray[3] = 1.0f;
-		finalArray[4] = 1.0f;
-		finalArray[5] = 1.0f;
 
 		// middle verts
 		for (int i = 0; i < numLayers; i++)
 		{
 			for (int j = 0; j < numVertsPerLayer; j++)
 			{
-				finalArray[6 * (1 + i * numVertsPerLayer + j) + 0] = layers[i]->at(j).x;
-				finalArray[6 * (1 + i * numVertsPerLayer + j) + 1] = layers[i]->at(j).y;
-				finalArray[6 * (1 + i * numVertsPerLayer + j) + 2] = layers[i]->at(j).z;
-				finalArray[6 * (1 + i * numVertsPerLayer + j) + 3] = 1.0f;
-				finalArray[6 * (1 + i * numVertsPerLayer + j) + 4] = 1.0f;
-				finalArray[6 * (1 + i * numVertsPerLayer + j) + 5] = 1.0f;
+				finalArray[3 * (1 + i * numVertsPerLayer + j) + 0] = layers[i]->at(j).x;
+				finalArray[3 * (1 + i * numVertsPerLayer + j) + 1] = layers[i]->at(j).y;
+				finalArray[3 * (1 + i * numVertsPerLayer + j) + 2] = layers[i]->at(j).z;
 			}
 		}
 
 		// top vert
-		finalArray[finalArray_l - 6] = topVert.x;
-		finalArray[finalArray_l - 5] = topVert.y;
-		finalArray[finalArray_l - 4] = topVert.z;
-		finalArray[finalArray_l - 3] = 1.0f;
-		finalArray[finalArray_l - 2] = 1.0f;
-		finalArray[finalArray_l - 1] = 1.0f;
+		finalArray[finalArray_l - 3] = topVert.x;
+		finalArray[finalArray_l - 2] = topVert.y;
+		finalArray[finalArray_l - 1] = topVert.z;
 
 		return finalArray;
 	}

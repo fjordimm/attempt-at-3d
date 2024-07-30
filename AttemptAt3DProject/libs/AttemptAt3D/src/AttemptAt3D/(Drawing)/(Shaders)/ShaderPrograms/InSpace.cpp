@@ -9,7 +9,6 @@ namespace AttemptAt3D::ShaderPrograms
 
 	InSpace::InSpace() : 
 		attribPosition(-1),
-		attribColor(-1),
 		uniView(-1),
 		uniProj(-1),
 		uniSunRot(-1)
@@ -31,10 +30,7 @@ namespace AttemptAt3D::ShaderPrograms
 	void InSpace::enableAttribsForMesh()
 	{
 		glEnableVertexAttribArray(this->attribPosition);
-		glVertexAttribPointer(this->attribPosition, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), 0);
-
-		glEnableVertexAttribArray(this->attribColor);
-		glVertexAttribPointer(this->attribColor, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+		glVertexAttribPointer(this->attribPosition, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0);
 
 		this->enableAttribsForMesh_();
 	}
@@ -70,7 +66,6 @@ namespace AttemptAt3D::ShaderPrograms
 	void InSpace::setupAttributes()
 	{
 		this->attribPosition = glGetAttribLocation(this->program, "attrib_position");
-		this->attribColor = glGetAttribLocation(this->program, "attrib_color");
 
 		this->setupAttributes_();
 	}
