@@ -15,7 +15,7 @@ namespace AttemptAt3D::Forms
 			this->tran.getUpVec()
 		);
 
-		worldState.shaderProgram_flat.setUniView(viewMatrix);
+		worldState.shaderProgramManager.setViewMatrix(viewMatrix);
 	}
 
 	void Camera::onCreate__(WorldState& worldState)

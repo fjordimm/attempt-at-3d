@@ -11,6 +11,7 @@
 #include "AttemptAt3D/(headerGroups)/allMeshSamples.hpp"
 #include "AttemptAt3D/(Math)/Math.hpp"
 #include "AttemptAt3D/(Form)/PhysicForm.hpp"
+#include "AttemptAt3D/(Drawing)/(Shaders)/ShaderPrograms/(NonAbstract)/Flat.hpp"
 
 namespace AttemptAt3D
 {
@@ -61,17 +62,13 @@ namespace AttemptAt3D
 		glCullFace(GL_BACK);
 		glEnable(GL_DITHER);
 
-		/* Activate shaders */
-
-		this->worldState.shaderProgram_flat.compileAndActivate();
-
 		/* Head settings */
 
 		glfwSetWindowSizeCallback(this->windowForGlfw, Head::onWindowResize);
-		this->worldState.setFov(glm::radians(45.0f));
-		this->worldState.setAspectRatio((float)windowWidth / (float)windowHeight);
-		this->worldState.setNearClippingPlane(0.01f);
-		this->worldState.setFarClippingPlane(100000.0f);
+		this->worldState.shaderProgramManager.setFov(glm::radians(45.0f));
+		this->worldState.shaderProgramManager.setAspectRatio((float)windowWidth / (float)windowHeight);
+		this->worldState.shaderProgramManager.setNearClippingPlane(0.01f);
+		this->worldState.shaderProgramManager.setFarClippingPlane(100000.0f);
 
 		this->worldState.inputManager.giveWindowForGlfw(this->windowForGlfw);
 
@@ -122,7 +119,7 @@ namespace AttemptAt3D
 			glClearColor(0.1f, 0.0f, 0.25f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-			this->worldState.shaderProgram_flat.drawAllTrans();
+			this->worldState.shaderProgramManager.drawEverything();
 
 			/* Required by InputManager at the end of each iteration of the main loop */
 
@@ -236,10 +233,15 @@ namespace AttemptAt3D
 	}
 
 	// TEMP
+	static ShaderProgram* shaderProgram_flat = nullptr;
 	static Mesh* cubeMesh = nullptr;
 
 	void Head::onStart()
 	{
+		/* Make shaders */
+
+		shaderProgram_flat = this->worldState.shaderProgramManager.add(std::make_unique<ShaderPrograms::Flat>());
+
 		/* Make camera */
 		
 		this->worldState.mainCamera = Forms::Camera::New(this->worldState);
@@ -250,14 +252,14 @@ namespace AttemptAt3D
 
 		/// Temp ///
 		////////////////////////////////////////////////////////////
-		cubeMesh = this->worldState.meshManager.add(this->worldState.shaderProgram_flat, std::move(MeshSamples::Cube().make()));
+		cubeMesh = this->worldState.meshManager.add(*shaderProgram_flat, std::move(MeshSamples::Cube().make()));
 
 		{
 			long long seed = std::chrono::time_point_cast<std::chrono::microseconds>(std::chrono::system_clock::now()).time_since_epoch().count();
 			std::default_random_engine randGen(seed);
 			std::normal_distribution<float> randDist(0.0f, 3.0f);
 			
-			for (int i = 0; i < 10; i++)
+			for (int i = 0; i < 300; i++)
 			{
 				float xPos = randDist(randGen);
 				float yPos = randDist(randGen);
@@ -267,10 +269,10 @@ namespace AttemptAt3D
 				vec *= glm::length2(vec);
 
 				std::unique_ptr<PhysicForm> form1 = PhysicForm::New(this->worldState);
-				form1->setMeshAndLinkToShaderProgram(&this->worldState.shaderProgram_flat, cubeMesh);
+				form1->setMeshAndLinkToShaderProgram(shaderProgram_flat, cubeMesh);
 				form1->tran.acqPosition() = vec;
-				// form1->velocity = -0.002f * vec;
-				// form1->friction = 0.001f;
+				form1->velocity = -0.002f * vec;
+				form1->friction = 0.001f;
 				this->worldState.forms.push_back(std::move(form1));
 				// std::unique_ptr<Form> form1 = Form::New(this->worldState, MeshSamples::Cube().make());
 				// form1->tran.acqPosition() = vec;
@@ -289,7 +291,7 @@ namespace AttemptAt3D
 
 		if (timeCounter >= 1500.0f)
 		{
-			Debug::Logf("fps: %f", frameCounter / (timeCounter / 1000.0f));
+			// Debug::Logf("fps: %f", frameCounter / (timeCounter / 1000.0f));
 
 			timeCounter = 0.0f;
 			frameCounter = 0.0f;
@@ -323,6 +325,6 @@ namespace AttemptAt3D
 		Head* self = PtrForGlfw::Retrieve(windowForGlfw)->get<Head>();
 
 		glViewport(0, 0, width, height);
-		self->worldState.setAspectRatio((float)width / (float)height);
+		self->worldState.shaderProgramManager.setAspectRatio((float)width / (float)height);
 	}
 }

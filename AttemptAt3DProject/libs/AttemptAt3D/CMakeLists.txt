@@ -11,6 +11,7 @@ add_executable(AttemptAt3DExec
 	"src/AttemptAt3D/(Drawing)/(Shaders)/ShaderPrograms/InSpace.cpp"
 	"src/AttemptAt3D/(Drawing)/(Shaders)/ShaderPrograms/Has3DShape.cpp"
 	"src/AttemptAt3D/(Drawing)/(Shaders)/ShaderPrograms/(NonAbstract)/Flat.cpp"
+	"src/AttemptAt3D/(Drawing)/(Shaders)/ShaderProgramManager.cpp"
 	"src/AttemptAt3D/(Drawing)/(Meshes)/MeshData.cpp"
 	"src/AttemptAt3D/(Drawing)/(Meshes)/Mesh.cpp"
 	"src/AttemptAt3D/(Drawing)/(Meshes)/MeshSamples/MeshSample.cpp"

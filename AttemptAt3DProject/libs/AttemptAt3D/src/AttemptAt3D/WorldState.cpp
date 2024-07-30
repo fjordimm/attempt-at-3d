@@ -10,7 +10,7 @@ namespace AttemptAt3D
 
 	WorldState::WorldState() :
 		inputManager(),
-		shaderProgram_flat(),
+		shaderProgramManager(),
 		meshManager(),
 		forms(),
 		hasCapturedCursorForCamera(false),
@@ -18,39 +18,4 @@ namespace AttemptAt3D
 		mainCameraMovementSpeed(0.008f),
 		mainCameraRotationSpeed(0.0025f)
 	{}
-
-	/* Getters and Setters */
-
-	void WorldState::setFov(float val)
-	{
-		this->_fov = val;
-		this->_updateProjectionMatrix();
-	}
-
-	void WorldState::setAspectRatio(float val)
-	{
-		this->_aspectRatio = val;
-		this->_updateProjectionMatrix();
-	}
-
-	void WorldState::setNearClippingPlane(float val)
-	{
-		this->_nearClippingPlane = val;
-		this->_updateProjectionMatrix();
-	}
-
-	void WorldState::setFarClippingPlane(float val)
-	{
-		this->_farClippingPlane = val;
-		this->_updateProjectionMatrix();
-	}
-
-	/* Methods */
-
-	void WorldState::_updateProjectionMatrix()
-	{
-		this->shaderProgram_flat.setUniProj(
-			glm::perspective(this->_fov, this->_aspectRatio, this->_nearClippingPlane, this->_farClippingPlane)
-		);
-	}
 }

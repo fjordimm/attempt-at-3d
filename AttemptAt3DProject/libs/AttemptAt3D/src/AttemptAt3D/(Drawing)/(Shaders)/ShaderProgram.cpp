@@ -71,6 +71,8 @@ namespace AttemptAt3D
 
 	void ShaderProgram::drawAllTrans() const
 	{
+		this->use();
+
 		for (const std::tuple<Mesh*, Tran*>& _tup : this->trans)
 		{
 			Mesh* mesh = std::get<0>(_tup);
