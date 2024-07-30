@@ -57,6 +57,7 @@ namespace AttemptAt3D
 		{
 			ShaderProgram* shaderProgram = shaderProgram_.get();
 
+			shaderProgram->use();
 			shaderProgram->drawAllTrans();
 		}
 	}
@@ -70,6 +71,7 @@ namespace AttemptAt3D
 			ShaderPrograms::InSpace* inSpaceShaderProgram = dynamic_cast<ShaderPrograms::InSpace*>(shaderProgram);
 			if (inSpaceShaderProgram != nullptr)
 			{
+				inSpaceShaderProgram->use();
 				inSpaceShaderProgram->setUniView(val);
 			}
 		}
@@ -86,6 +88,7 @@ namespace AttemptAt3D
 			ShaderPrograms::InSpace* inSpaceShaderProgram = dynamic_cast<ShaderPrograms::InSpace*>(shaderProgram);
 			if (inSpaceShaderProgram != nullptr)
 			{
+				inSpaceShaderProgram->use();
 				inSpaceShaderProgram->setUniProj(projMat);
 			}
 		}

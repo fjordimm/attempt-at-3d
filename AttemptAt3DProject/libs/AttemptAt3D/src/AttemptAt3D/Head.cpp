@@ -242,7 +242,7 @@ namespace AttemptAt3D
 		/* Make shaders */
 
 		shaderProgram_flat = this->worldState.shaderProgramManager.add(std::make_unique<ShaderPrograms::Flat>());
-		// shaderProgram_smooth = this->worldState.shaderProgramManager.add(std::make_unique<ShaderPrograms::Smooth>());
+		shaderProgram_smooth = this->worldState.shaderProgramManager.add(std::make_unique<ShaderPrograms::Smooth>());
 
 		/* Make camera */
 		
