@@ -86,4 +86,16 @@ namespace AttemptAt3D::Debug
 		std::fflush(stderr);
 		std::exit(EXIT_FAILURE);
 	}
+
+	void _Assert(bool expr)
+	{
+		std::lock_guard<std::mutex> _lock(_Globals::_GlobalMutex_debug);
+
+		if (!expr)
+		{
+			std::fprintf(stderr, "%s[[[ ASSERTION FAILED ]]]%s\n", PRINTCOLOR_ERROR, PRINTCOLOR_NONE);
+			std::fflush(stderr);
+			std::exit(EXIT_FAILURE);
+		}
+	}
 }

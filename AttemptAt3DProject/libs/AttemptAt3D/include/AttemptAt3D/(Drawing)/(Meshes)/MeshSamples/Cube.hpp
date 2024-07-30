@@ -8,9 +8,9 @@ namespace AttemptAt3D::MeshSamples
 	class Cube : public MeshSample
 	{
 	   protected:
-		virtual std::size_t verticesSize() const override; // In bytes, not length
-		virtual const float* vertices() const override;
-		virtual std::size_t elementsSize() const override; // In bytes, not length
-		virtual const GLuint* elements() const override;
+		virtual std::size_t verticesSize() const final; // In bytes, not length
+		virtual const float* vertices() const final;
+		virtual std::size_t elementsSize() const final; // In bytes, not length
+		virtual const GLuint* elements() const final;
 	};
 }

@@ -247,7 +247,8 @@ namespace AttemptAt3D
 		/* Make sun and camera */
 
 		this->worldState.theSun = Forms::Sun::New(this->worldState);
-		this->worldState.theSun->tran.rotate(Vecs::Forwards, -Math::PiOver2);
+		this->worldState.theSun->tran.locallyRotate(Vecs::Up, 0.4f);
+		this->worldState.theSun->tran.rotate(Vecs::Right, 0.3f);
 		this->worldState.theSun->recalculateAndApplySunRotMatrix(this->worldState);
 		
 		this->worldState.mainCamera = Forms::Camera::New(this->worldState);
@@ -279,10 +280,8 @@ namespace AttemptAt3D
 				form1->tran.acqPosition() = vec;
 				form1->velocity = -0.002f * vec;
 				form1->friction = 0.001f;
+				// form1->tran.rotate(Vecs::Forwards, 0.1f);
 				this->worldState.forms.push_back(std::move(form1));
-				// std::unique_ptr<Form> form1 = Form::New(this->worldState, MeshSamples::Cube().make());
-				// form1->tran.acqPosition() = vec;
-				// this->worldState.forms.push_back(std::move(form1));
 			}
 		}
 		////////////////////////////////////////////////////////////
@@ -302,9 +301,6 @@ namespace AttemptAt3D
 			timeCounter = 0.0f;
 			frameCounter = 0.0f;
 		}
-
-		this->worldState.theSun->tran.locallyRotate(Vecs::Up, 0.006f * deltaTime);
-		this->worldState.theSun->recalculateAndApplySunRotMatrix(this->worldState);
 	}
 
 	/* Functions */
