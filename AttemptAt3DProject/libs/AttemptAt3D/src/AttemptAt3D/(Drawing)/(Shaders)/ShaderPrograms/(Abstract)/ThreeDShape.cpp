@@ -31,7 +31,7 @@ namespace AttemptAt3D::ShaderPrograms
 		this->enableAttribsForMesh__();
 	}
 
-	GLsizei ThreeDShape::getStride_()
+	std::size_t ThreeDShape::getStride_()
 	{
 		return 0 + this->getStride__();
 	}

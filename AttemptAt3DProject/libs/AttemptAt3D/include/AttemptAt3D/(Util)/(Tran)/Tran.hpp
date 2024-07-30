@@ -3,8 +3,8 @@
 
 #include <string>
 #include "AttemptAt3D/(headerGroups)/glmGroup.hpp"
-#include "AttemptAt3D/(Tran)/Vec.hpp"
-#include "AttemptAt3D/(Tran)/Quat.hpp"
+#include "AttemptAt3D/(Util)/(Tran)/Vec.hpp"
+#include "AttemptAt3D/(Util)/(Tran)/Quat.hpp"
 
 namespace AttemptAt3D
 {

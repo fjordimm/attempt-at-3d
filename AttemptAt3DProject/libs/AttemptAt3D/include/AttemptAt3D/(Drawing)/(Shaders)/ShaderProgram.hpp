@@ -3,10 +3,11 @@
 
 #include <list>
 #include <tuple>
+#include <cstdlib>
 #define GLEW_STATIC
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include "AttemptAt3D/(Tran)/Tran.hpp"
+#include "AttemptAt3D/(Util)/(Tran)/Tran.hpp"
 #include "AttemptAt3D/(Drawing)/(Meshes)/Mesh.hpp"
 
 namespace AttemptAt3D
@@ -50,7 +51,7 @@ namespace AttemptAt3D
 		virtual const char* getGeometryShaderSourcePath() const = 0;
 		virtual const char* getFragmentShaderSourcePath() const = 0;
 
-		virtual GLsizei getStride() = 0;
+		virtual std::size_t getStride() = 0;
 		
 		virtual void setupUniforms() = 0;
 		virtual void setupAttributes() = 0;

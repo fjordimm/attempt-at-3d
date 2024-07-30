@@ -3,7 +3,7 @@
 
 #include <string>
 #include "AttemptAt3D/(headerGroups)/glmGroup.hpp"
-#include "AttemptAt3D/(Math)/Math.hpp"
+#include "AttemptAt3D/(Util)/(Math)/Math.hpp"
 
 namespace AttemptAt3D
 {

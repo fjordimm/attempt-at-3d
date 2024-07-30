@@ -3,9 +3,9 @@
 
 #include <vector>
 #include <cmath>
-#include "AttemptAt3D/(Tran)/Vec.hpp"
+#include "AttemptAt3D/(Util)/(Tran)/Vec.hpp"
 #include "AttemptAt3D/(Debug)/Debug.hpp"
-#include "AttemptAt3D/(Math)/Math.hpp"
+#include "AttemptAt3D/(Util)/(Math)/Math.hpp"
 
 namespace AttemptAt3D::MeshSamples
 {

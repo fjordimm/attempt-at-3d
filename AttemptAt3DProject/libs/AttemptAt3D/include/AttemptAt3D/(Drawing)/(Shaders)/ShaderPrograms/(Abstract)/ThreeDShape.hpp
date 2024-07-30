@@ -37,8 +37,8 @@ namespace AttemptAt3D::ShaderPrograms
 		virtual void enableAttribsForMesh__() {}
 
 	   protected:
-		GLsizei getStride_() final;
-		virtual GLsizei getStride__() { return 0; }
+		std::size_t getStride_() final;
+		virtual std::size_t getStride__() { return 0; }
 
 		void setupUniforms_() final;
 		virtual void setupUniforms__() {}

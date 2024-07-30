@@ -2,7 +2,7 @@
 #pragma once
 
 #include <cmath>
-#include "AttemptAt3D/(Math)/_constants.hpp"
+#include "AttemptAt3D/(Util)/(Math)/_constants.hpp"
 
 namespace AttemptAt3D::Math
 {

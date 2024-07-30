@@ -35,7 +35,7 @@ namespace AttemptAt3D::ShaderPrograms
 		this->enableAttribsForMesh_();
 	}
 
-	GLsizei InSpace::getStride()
+	std::size_t InSpace::getStride()
 	{
 		return 3 * sizeof(float) + this->getStride_();
 	}

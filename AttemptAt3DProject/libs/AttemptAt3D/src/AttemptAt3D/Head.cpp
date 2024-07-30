@@ -7,9 +7,9 @@
 #include <cmath>
 #include <random>
 #include "AttemptAt3D/(Debug)/Debug.hpp"
-#include "AttemptAt3D/(Tran)/Tran.hpp"
+#include "AttemptAt3D/(Util)/(Tran)/Tran.hpp"
 #include "AttemptAt3D/(headerGroups)/allMeshSamples.hpp"
-#include "AttemptAt3D/(Math)/Math.hpp"
+#include "AttemptAt3D/(Util)/(Math)/Math.hpp"
 #include "AttemptAt3D/(Form)/PhysicForm.hpp"
 #include "AttemptAt3D/(headerGroups)/allShaderPrograms.hpp"
 

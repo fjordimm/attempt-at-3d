@@ -21,7 +21,7 @@ namespace AttemptAt3D::ShaderPrograms
 		this->enableAttribsForMesh___();
 	}
 
-	GLsizei HasNormals::getStride__()
+	std::size_t HasNormals::getStride__()
 	{
 		return 3 * sizeof(float) + this->getStride___();
 	}
