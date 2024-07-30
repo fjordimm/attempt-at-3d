@@ -1,5 +1,5 @@
 
-#include "AttemptAt3D/(Drawing)/(Shaders)/ShaderPrograms/(NonAbstract)/Flat.hpp"
+#include "AttemptAt3D/(Drawing)/(Shaders)/ShaderPrograms/Flat.hpp"
 
 namespace AttemptAt3D::ShaderPrograms
 {
@@ -11,16 +11,16 @@ namespace AttemptAt3D::ShaderPrograms
 
 	const char* Flat::getVertexShaderSourcePath() const
 	{
-		return "res/shaders/vertexShaderSource.glsl";
+		return "res/shaders/Flat/vertex.glsl";
 	}
 
 	const char* Flat::getGeometryShaderSourcePath() const
 	{
-		return "res/shaders/geometryShaderSource.glsl";
+		return "res/shaders/Flat/geometry.glsl";
 	}
 	
 	const char* Flat::getFragmentShaderSourcePath() const
 	{
-		return "res/shaders/fragmentShaderSource.glsl";
+		return "res/shaders/Flat/fragment.glsl";
 	}
 }

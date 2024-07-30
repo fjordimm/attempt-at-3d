@@ -11,7 +11,7 @@
 #include "AttemptAt3D/(headerGroups)/allMeshSamples.hpp"
 #include "AttemptAt3D/(Math)/Math.hpp"
 #include "AttemptAt3D/(Form)/PhysicForm.hpp"
-#include "AttemptAt3D/(Drawing)/(Shaders)/ShaderPrograms/(NonAbstract)/Flat.hpp"
+#include "AttemptAt3D/(headerGroups)/allShaderPrograms.hpp"
 
 namespace AttemptAt3D
 {
@@ -234,6 +234,7 @@ namespace AttemptAt3D
 
 	// TEMP
 	static ShaderProgram* shaderProgram_flat = nullptr;
+	static ShaderProgram* shaderProgram_smooth = nullptr;
 	static Mesh* cubeMesh = nullptr;
 
 	void Head::onStart()
@@ -241,6 +242,7 @@ namespace AttemptAt3D
 		/* Make shaders */
 
 		shaderProgram_flat = this->worldState.shaderProgramManager.add(std::make_unique<ShaderPrograms::Flat>());
+		// shaderProgram_smooth = this->worldState.shaderProgramManager.add(std::make_unique<ShaderPrograms::Smooth>());
 
 		/* Make camera */
 		
@@ -252,7 +254,7 @@ namespace AttemptAt3D
 
 		/// Temp ///
 		////////////////////////////////////////////////////////////
-		cubeMesh = this->worldState.meshManager.add(*shaderProgram_flat, std::move(MeshSamples::Sphere<9>().make()));
+		cubeMesh = this->worldState.meshManager.add(*shaderProgram_flat, std::move(MeshSamples::Cube().make()));
 
 		{
 			long long seed = std::chrono::time_point_cast<std::chrono::microseconds>(std::chrono::system_clock::now()).time_since_epoch().count();

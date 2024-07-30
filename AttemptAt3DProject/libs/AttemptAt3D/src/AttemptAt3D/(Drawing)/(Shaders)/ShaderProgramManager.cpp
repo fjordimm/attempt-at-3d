@@ -1,7 +1,7 @@
 
 #include "AttemptAt3D/(Drawing)/(Shaders)/ShaderProgramManager.hpp"
 
-#include "AttemptAt3D/(Drawing)/(Shaders)/ShaderPrograms/InSpace.hpp"
+#include "AttemptAt3D/(Drawing)/(Shaders)/ShaderPrograms/(Abstract)/InSpace.hpp"
 #include "AttemptAt3D/(Debug)/Debug.hpp"
 
 namespace AttemptAt3D

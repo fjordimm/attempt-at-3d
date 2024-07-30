@@ -1,11 +1,11 @@
 
 #pragma once
 
-#include "AttemptAt3D/(Drawing)/(Shaders)/ShaderPrograms/Has3DShape.hpp"
+#include "AttemptAt3D/(Drawing)/(Shaders)/ShaderPrograms/(Abstract)/ThreeDShape.hpp"
 
 namespace AttemptAt3D::ShaderPrograms
 {
-	class Flat : public ShaderPrograms::Has3DShape
+	class Flat : public ShaderPrograms::ThreeDShape
 	{
 		/* Constructors */
 

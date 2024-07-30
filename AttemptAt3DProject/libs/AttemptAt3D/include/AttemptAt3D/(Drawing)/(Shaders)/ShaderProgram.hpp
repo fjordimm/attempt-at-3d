@@ -49,6 +49,8 @@ namespace AttemptAt3D
 		virtual const char* getVertexShaderSourcePath() const = 0;
 		virtual const char* getGeometryShaderSourcePath() const = 0;
 		virtual const char* getFragmentShaderSourcePath() const = 0;
+
+		virtual GLsizei getStride() = 0;
 		
 		virtual void setupUniforms() = 0;
 		virtual void setupAttributes() = 0;

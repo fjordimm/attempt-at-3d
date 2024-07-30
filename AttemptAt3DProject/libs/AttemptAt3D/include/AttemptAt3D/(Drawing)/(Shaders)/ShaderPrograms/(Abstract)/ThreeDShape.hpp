@@ -1,19 +1,19 @@
 
 #pragma once
 
-#include "AttemptAt3D/(Drawing)/(Shaders)/ShaderPrograms/InSpace.hpp"
+#include "AttemptAt3D/(Drawing)/(Shaders)/ShaderPrograms/(Abstract)/InSpace.hpp"
 
 namespace AttemptAt3D::ShaderPrograms
 {
-	class Has3DShape : public ShaderPrograms::InSpace
+	class ThreeDShape : public ShaderPrograms::InSpace
 	{
 		/* Constructors */
 
 	   public:
-		Has3DShape(const Has3DShape&) = delete;
-		Has3DShape& operator=(const Has3DShape&) = delete;
+		ThreeDShape(const ThreeDShape&) = delete;
+		ThreeDShape& operator=(const ThreeDShape&) = delete;
 		
-		Has3DShape();
+		ThreeDShape();
 		
 		/* Fields */
 
@@ -37,6 +37,9 @@ namespace AttemptAt3D::ShaderPrograms
 		virtual void enableAttribsForMesh__() {}
 
 	   protected:
+		GLsizei getStride_() final;
+		virtual GLsizei getStride__() { return 0; }
+
 		void setupUniforms_() final;
 		virtual void setupUniforms__() {}
 

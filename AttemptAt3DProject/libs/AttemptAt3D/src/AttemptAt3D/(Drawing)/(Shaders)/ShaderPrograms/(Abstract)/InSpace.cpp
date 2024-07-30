@@ -1,5 +1,5 @@
 
-#include "AttemptAt3D/(Drawing)/(Shaders)/ShaderPrograms/InSpace.hpp"
+#include "AttemptAt3D/(Drawing)/(Shaders)/ShaderPrograms/(Abstract)/InSpace.hpp"
 
 #include "AttemptAt3D/(Debug)/Debug.hpp"
 
@@ -30,9 +30,14 @@ namespace AttemptAt3D::ShaderPrograms
 	void InSpace::enableAttribsForMesh()
 	{
 		glEnableVertexAttribArray(this->attribPosition);
-		glVertexAttribPointer(this->attribPosition, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0);
+		glVertexAttribPointer(this->attribPosition, 3, GL_FLOAT, GL_FALSE, this->getStride(), 0);
 
 		this->enableAttribsForMesh_();
+	}
+
+	GLsizei InSpace::getStride()
+	{
+		return 3 * sizeof(float) + this->getStride_();
 	}
 
 	void InSpace::setupUniforms()
