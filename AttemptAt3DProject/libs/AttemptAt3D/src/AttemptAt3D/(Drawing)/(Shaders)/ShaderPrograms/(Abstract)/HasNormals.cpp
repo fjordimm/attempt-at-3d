@@ -16,7 +16,7 @@ namespace AttemptAt3D::ShaderPrograms
 	void HasNormals::enableAttribsForMesh__()
 	{
 		glEnableVertexAttribArray(this->attribNormal);
-		glVertexAttribPointer(this->attribNormal, 3, GL_FLOAT, GL_FALSE, this->getStride(), (void*)this->ThreeDShape::getStride());
+		glVertexAttribPointer(this->attribNormal, 3, GL_FLOAT, GL_FALSE, this->getStride(), (void*)(this->getStride() - 3 * sizeof(float)));
 
 		this->enableAttribsForMesh___();
 	}
@@ -33,6 +33,8 @@ namespace AttemptAt3D::ShaderPrograms
 
 	void HasNormals::setupAttributes__()
 	{
+		this->attribNormal = glGetAttribLocation(this->program, "attrib_normal");
+
 		this->setupAttributes___();
 	}
 

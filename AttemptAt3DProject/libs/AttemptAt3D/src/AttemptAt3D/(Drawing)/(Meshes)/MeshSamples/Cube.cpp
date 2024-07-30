@@ -23,15 +23,15 @@ namespace AttemptAt3D::MeshSamples
 	std::unique_ptr<const std::vector<Vec>> Cube::vertNormals3D() const
 	{
 		std::unique_ptr<std::vector<Vec>> ret(new std::vector<Vec>{
-			Vec(-1.0f, +1.0f, -1.0f),
-			Vec(+1.0f, +1.0f, -1.0f),
-			Vec(-1.0f, -1.0f, -1.0f),
-			Vec(+1.0f, -1.0f, -1.0f),
+			glm::normalize(Vec(-1.0f, +1.0f, -1.0f)),
+			glm::normalize(Vec(+1.0f, +1.0f, -1.0f)),
+			glm::normalize(Vec(-1.0f, -1.0f, -1.0f)),
+			glm::normalize(Vec(+1.0f, -1.0f, -1.0f)),
 
-			Vec(-1.0f, +1.0f, +1.0f),
-			Vec(+1.0f, +1.0f, +1.0f),
-			Vec(-1.0f, -1.0f, +1.0f),
-			Vec(+1.0f, -1.0f, +1.0f)
+			glm::normalize(Vec(-1.0f, +1.0f, +1.0f)),
+			glm::normalize(Vec(+1.0f, +1.0f, +1.0f)),
+			glm::normalize(Vec(-1.0f, -1.0f, +1.0f)),
+			glm::normalize(Vec(+1.0f, -1.0f, +1.0f))
 		});
 
 		return std::move(ret);
