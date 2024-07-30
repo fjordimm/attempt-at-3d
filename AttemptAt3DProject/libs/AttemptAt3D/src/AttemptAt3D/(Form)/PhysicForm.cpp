@@ -5,16 +5,15 @@ namespace AttemptAt3D
 {
 	/* Constructors */
 	
-	PhysicForm::PhysicForm(WorldState& worldState) : Form(worldState)
+	PhysicForm::PhysicForm(WorldState& worldState) : Form(worldState),
+		velocity(Vecs::Zero),
+		friction(0.0f)
 	{}
 
 	/* Methods */
 
 	void PhysicForm::onCreate_(WorldState& worldState)
 	{
-		this->velocity = Vecs::Zero;
-		this->friction = 0.0f;
-
 		this->onCreate__(worldState);
 	}
 

@@ -25,9 +25,11 @@ add_executable(AttemptAt3DExec
 	"src/AttemptAt3D/(Util)/(Tran)/Vec.cpp"
 	"src/AttemptAt3D/(Form)/Form.cpp"
 	"src/AttemptAt3D/(Form)/Forms/Camera.cpp"
+	"src/AttemptAt3D/(Form)/Forms/Sun.cpp"
 	"src/AttemptAt3D/(Form)/PhysicForm.cpp"
 	"src/AttemptAt3D/(PtrForGlfw)/PtrForGlfw.cpp"
 	"src/AttemptAt3D/(InputManager)/InputManager.cpp"
+	"src/AttemptAt3D/(Util)/(Color)/Color.cpp"
 )
 
 target_include_directories(AttemptAt3DExec PUBLIC include)

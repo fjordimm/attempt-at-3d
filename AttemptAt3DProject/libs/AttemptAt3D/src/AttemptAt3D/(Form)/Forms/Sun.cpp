@@ -6,7 +6,7 @@
 namespace AttemptAt3D::Forms
 {
 	/* Constructors */
-	
+
 	Sun::Sun(WorldState& worldState) : Form(worldState),
 		brightness(0.0f),
 		color(Colors::White)
@@ -14,15 +14,9 @@ namespace AttemptAt3D::Forms
 
 	/* Methods */
 
-	void Sun::recalculateAndApplyViewMatrix(WorldState& worldState)
+	void Sun::recalculateAndApplySunRotMatrix(WorldState& worldState)
 	{
-		glm::mat4 viewMatrix = glm::lookAt(
-			this->tran.getPosition(),
-			this->tran.getPosition() + this->tran.getForwardVec(),
-			this->tran.getUpVec()
-		);
-
-		worldState.shaderProgramManager.setViewMatrix(viewMatrix);
+		worldState.shaderProgramManager.setSunRotMatrix(this->tran.getRotationMatrix());
 	}
 
 	void Sun::onCreate_(WorldState& worldState)

@@ -55,14 +55,7 @@ namespace AttemptAt3D::ShaderPrograms
 		glUniformMatrix4fv(this->uniProj, 1, GL_FALSE, glm::value_ptr(uniProj_val));
 
 		this->uniSunRot = glGetUniformLocation(this->program, "uni_sunRot");
-		glm::mat4 uniSunRot_val;
-		{
-			glm::quat quatX = glm::angleAxis(glm::radians(13.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-			glm::mat4 rotX = glm::toMat4(quatX);
-			glm::quat quatY = glm::angleAxis(glm::radians(31.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-			glm::mat4 rotY = glm::toMat4(quatY);
-			uniSunRot_val = rotY * rotX;
-		}
+		glm::mat4 uniSunRot_val = glm::mat4(1.0f);
 		glUniformMatrix4fv(this->uniSunRot, 1, GL_FALSE, glm::value_ptr(uniSunRot_val));
 
 		this->setupUniforms_();

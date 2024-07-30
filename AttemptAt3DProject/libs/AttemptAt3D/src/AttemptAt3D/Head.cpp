@@ -244,7 +244,11 @@ namespace AttemptAt3D
 		shaderProgram_flat = this->worldState.shaderProgramManager.add(std::make_unique<ShaderPrograms::Flat>());
 		shaderProgram_smooth = this->worldState.shaderProgramManager.add(std::make_unique<ShaderPrograms::Smooth>());
 
-		/* Make camera */
+		/* Make sun and camera */
+
+		this->worldState.theSun = Forms::Sun::New(this->worldState);
+		this->worldState.theSun->tran.rotate(Vecs::Forwards, -Math::PiOver2);
+		this->worldState.theSun->recalculateAndApplySunRotMatrix(this->worldState);
 		
 		this->worldState.mainCamera = Forms::Camera::New(this->worldState);
 		this->worldState.mainCamera->tran.acqPosition() = Vec(0.0f, -100.0f, 0.0f);
@@ -298,6 +302,9 @@ namespace AttemptAt3D
 			timeCounter = 0.0f;
 			frameCounter = 0.0f;
 		}
+
+		this->worldState.theSun->tran.locallyRotate(Vecs::Up, 0.006f * deltaTime);
+		this->worldState.theSun->recalculateAndApplySunRotMatrix(this->worldState);
 	}
 
 	/* Functions */

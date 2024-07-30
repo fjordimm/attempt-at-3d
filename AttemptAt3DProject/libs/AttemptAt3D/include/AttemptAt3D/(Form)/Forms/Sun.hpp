@@ -35,8 +35,8 @@ namespace AttemptAt3D::Forms
 		/* Methods */
 
 	   public:
-		void recalculateAndApplyViewMatrix(WorldState& worldState);
-
+		void recalculateAndApplySunRotMatrix(WorldState& worldState);
+		
 	   protected:
 		void onCreate_(WorldState& worldState) final;
 		void onUpdate_(WorldState& worldState, float deltaTime) final;

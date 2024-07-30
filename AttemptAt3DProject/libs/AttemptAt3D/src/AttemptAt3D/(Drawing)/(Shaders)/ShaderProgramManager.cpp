@@ -77,6 +77,21 @@ namespace AttemptAt3D
 		}
 	}
 
+	void ShaderProgramManager::setSunRotMatrix(const glm::mat4& val)
+	{
+		for (std::unique_ptr<ShaderProgram>& shaderProgram_ : this->shaderPrograms)
+		{
+			ShaderProgram* shaderProgram = shaderProgram_.get();
+
+			ShaderPrograms::InSpace* inSpaceShaderProgram = dynamic_cast<ShaderPrograms::InSpace*>(shaderProgram);
+			if (inSpaceShaderProgram != nullptr)
+			{
+				inSpaceShaderProgram->use();
+				inSpaceShaderProgram->setUniSunRot(val);
+			}
+		}
+	}
+
 	void ShaderProgramManager::_updateProjectionMatrix()
 	{
 		glm::mat4 projMat = glm::perspective(this->_fov, this->_aspectRatio, this->_nearClippingPlane, this->_farClippingPlane);
