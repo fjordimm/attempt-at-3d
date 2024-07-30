@@ -259,7 +259,7 @@ namespace AttemptAt3D
 
 		/// Temp ///
 		////////////////////////////////////////////////////////////
-		cubeMesh = this->worldState.meshManager.add(*shaderProgram_flat, std::move(MeshSamples::Cube().make()));
+		cubeMesh = this->worldState.meshManager.add(*shaderProgram_smooth, std::move(MeshSamples::Cube().make(MeshSamples::MeshSample::MeshVertAttribs::PositionsAndNormals3D)));
 
 		{
 			long long seed = std::chrono::time_point_cast<std::chrono::microseconds>(std::chrono::system_clock::now()).time_since_epoch().count();
@@ -276,7 +276,7 @@ namespace AttemptAt3D
 				vec *= glm::length2(vec);
 
 				std::unique_ptr<PhysicForm> form1 = PhysicForm::New(this->worldState);
-				form1->setMeshAndLinkToShaderProgram(shaderProgram_flat, cubeMesh);
+				form1->setMeshAndLinkToShaderProgram(shaderProgram_smooth, cubeMesh);
 				form1->tran.acqPosition() = vec;
 				form1->velocity = -0.002f * vec;
 				form1->friction = 0.001f;

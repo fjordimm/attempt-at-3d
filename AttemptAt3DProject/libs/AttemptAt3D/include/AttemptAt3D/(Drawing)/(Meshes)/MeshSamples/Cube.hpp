@@ -8,9 +8,8 @@ namespace AttemptAt3D::MeshSamples
 	class Cube : public MeshSample
 	{
 	   protected:
-		virtual std::size_t verticesSize() const final; // In bytes, not length
-		virtual const float* vertices() const final;
-		virtual std::size_t elementsSize() const final; // In bytes, not length
-		virtual const GLuint* elements() const final;
+		std::unique_ptr<const std::vector<Vec>> vertPositions3D() const final;
+		std::unique_ptr<const std::vector<Vec>> vertNormals3D() const final;
+		std::unique_ptr<const std::vector<std::tuple<GLuint, GLuint, GLuint>>> triangles() const final;
 	};
 }
