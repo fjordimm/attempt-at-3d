@@ -5,6 +5,11 @@
 
 namespace AttemptAt3D::Forms
 {
+	/* Constructors */
+	
+	Camera::Camera(WorldState& worldState) : PhysicForm(worldState)
+	{}
+
 	/* Methods */
 
 	void Camera::recalculateAndApplyViewMatrix(WorldState& worldState)

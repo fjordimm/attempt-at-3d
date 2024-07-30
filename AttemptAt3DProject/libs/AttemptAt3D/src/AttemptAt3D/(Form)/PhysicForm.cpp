@@ -3,6 +3,11 @@
 
 namespace AttemptAt3D
 {
+	/* Constructors */
+	
+	PhysicForm::PhysicForm(WorldState& worldState) : Form(worldState)
+	{}
+
 	/* Methods */
 
 	void PhysicForm::onCreate_(WorldState& worldState)

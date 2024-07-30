@@ -2,6 +2,7 @@
 #pragma once
 
 #include "AttemptAt3D/(Form)/Form.hpp"
+#include "AttemptAt3D/(Util)/(Color)/Color.hpp"
 
 namespace AttemptAt3D::Forms
 {
@@ -9,7 +10,12 @@ namespace AttemptAt3D::Forms
 	{
 		/* Constructors */
 
-		using Form::Form;
+	   protected:
+		Sun() = delete;
+		Sun(const Sun&) = delete;
+		Sun& operator=(const Sun&) = delete;
+
+		Sun(WorldState& worldState);
 
 	   protected:
 		template <class T, typename std::enable_if<std::is_base_of<Sun, T>::value>::type* = nullptr>
@@ -24,6 +30,7 @@ namespace AttemptAt3D::Forms
 
 	   public:
 		float brightness;
+		Color color;
 
 		/* Methods */
 

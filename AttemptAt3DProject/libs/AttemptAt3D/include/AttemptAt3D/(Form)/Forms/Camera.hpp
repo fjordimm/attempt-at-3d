@@ -9,7 +9,12 @@ namespace AttemptAt3D::Forms
 	{
 		/* Constructors */
 
-		using PhysicForm::PhysicForm;
+	   protected:
+		Camera() = delete;
+		Camera(const Camera&) = delete;
+		Camera& operator=(const Camera&) = delete;
+
+		Camera(WorldState& worldState);
 
 	   protected:
 		template <class T, typename std::enable_if<std::is_base_of<Camera, T>::value>::type* = nullptr>

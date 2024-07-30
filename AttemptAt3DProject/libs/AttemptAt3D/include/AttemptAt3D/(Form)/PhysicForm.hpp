@@ -9,7 +9,12 @@ namespace AttemptAt3D
 	{
 		/* Constructors */
 
-		using Form::Form;
+	   protected:
+		PhysicForm() = delete;
+		PhysicForm(const PhysicForm&) = delete;
+		PhysicForm& operator=(const PhysicForm&) = delete;
+
+		PhysicForm(WorldState& worldState);
 
 	   protected:
 		template <class T, typename std::enable_if<std::is_base_of<PhysicForm, T>::value>::type* = nullptr>
