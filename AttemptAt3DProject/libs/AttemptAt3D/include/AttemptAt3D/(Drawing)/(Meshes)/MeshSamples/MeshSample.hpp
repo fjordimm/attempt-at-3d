@@ -23,9 +23,7 @@ namespace AttemptAt3D::MeshSamples
 		{
 			None        = 0u,
 			Positions3D = 1u << 0,
-			Normals3D   = 1u << 1,
-
-			PositionsAndNormals3D = Positions3D | Normals3D
+			Normals3D   = 1u << 1
 		};
 
 		/* Constructors */
@@ -39,7 +37,7 @@ namespace AttemptAt3D::MeshSamples
 		/* Methods */
 
 	   public:
-		std::unique_ptr<MeshData> make(MeshVertAttribs attribs = MeshVertAttribs::Positions3D) const;
+		std::unique_ptr<MeshData> make(MeshVertAttribs attribs) const;
 
 	   protected:
 		virtual std::unique_ptr<const std::vector<Vec>> vertPositions3D() const = 0;

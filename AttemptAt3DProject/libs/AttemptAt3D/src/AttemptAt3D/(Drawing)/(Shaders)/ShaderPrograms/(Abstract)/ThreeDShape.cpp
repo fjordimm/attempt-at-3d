@@ -26,6 +26,11 @@ namespace AttemptAt3D::ShaderPrograms
 
 	/* Methods */
 
+	MeshSamples::MeshSample::MeshVertAttribs ThreeDShape::attribFlagsForMeshSamples_() const
+	{
+		return this->attribFlagsForMeshSamples__();
+	}
+
 	void ThreeDShape::enableAttribsForMesh_()
 	{
 		this->enableAttribsForMesh__();

@@ -31,22 +31,20 @@ namespace AttemptAt3D::ShaderPrograms
 
 		/* Methods */
 
-	   public:
+	   protected:
+		MeshSamples::MeshSample::MeshVertAttribs attribFlagsForMeshSamples_() const final;
 		void enableAttribsForMesh_() final;
-	   protected:
-		virtual void enableAttribsForMesh__() {}
-
-	   protected:
-		std::size_t getStride_() final;
-		virtual std::size_t getStride__() { return 0; }
-
+	   	std::size_t getStride_() final;
 		void setupUniforms_() final;
-		virtual void setupUniforms__() {}
-
 		void setupAttributes_() final;
-		virtual void setupAttributes__() {}
-
 		void updateUniformsFromTran_(Tran& tran) const final;
+
+	   protected:
+		virtual MeshSamples::MeshSample::MeshVertAttribs attribFlagsForMeshSamples__() const { return MeshSamples::MeshSample::MeshVertAttribs::None; };
+		virtual void enableAttribsForMesh__() {}
+		virtual std::size_t getStride__() { return 0; }
+		virtual void setupUniforms__() {}
+		virtual void setupAttributes__() {}
 		virtual void updateUniformsFromTran__(Tran& tran) const {}
 	};
 }
