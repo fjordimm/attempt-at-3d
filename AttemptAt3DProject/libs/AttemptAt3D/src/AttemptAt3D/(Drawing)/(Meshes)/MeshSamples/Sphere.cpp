@@ -9,99 +9,51 @@
 
 namespace AttemptAt3D::MeshSamples
 {
-	// TODO: delete the arrays from memory after they are returned
-
 	template <std::size_t Size>
-	std::size_t Sphere<Size>::verticesSize() const
-	{
-		const int numLayers = Size;
-		const int numVertsPerLayer = Size * 2 + 2;
-		return sizeof(float) * 3 * (1 + numLayers * numVertsPerLayer + 1);
-	}
-
-	template <std::size_t Size>
-	const float* Sphere<Size>::vertices() const
+	std::unique_ptr<const std::vector<Vec>> Sphere<Size>::vertPositions3D() const
 	{
 		if (Size < 2)
 		{ Debug::LogFatalError("Sphere size must be at least 2."); }
 
-		Vec bottomVert = Vec(0.0f, 0.0f, -1.0f);
-		Vec topVert = Vec(0.0f, 0.0f, +1.0f);
-
 		const int numLayers = Size;
 		const int numVertsPerLayer = Size * 2 + 2;
 
-		std::vector<std::unique_ptr<std::vector<Vec>>> layers;
+		std::unique_ptr<std::vector<Vec>> ret = std::make_unique<std::vector<Vec>>();
+
+		// bottom vert
+		ret->push_back(Vec(0.0f, 0.0f, -1.0f));
+
+		// middle verts
 		for (int i = 0; i < numLayers; i++)
 		{
 			float fractionOfVerticalSemicircle = (float)(i + 1) / (float)(numLayers + 1);
 			float z = std::sin(Math::Pi * fractionOfVerticalSemicircle - Math::PiOver2);
 			float r = std::cos(Math::Pi * fractionOfVerticalSemicircle - Math::PiOver2);
 
-			layers.push_back(std::make_unique<std::vector<Vec>>());
 			for (int j = 0; j < numVertsPerLayer; j++)
 			{
 				float fractionOfHorizontalCircle = (float)j / (float)numVertsPerLayer;
 				float x = r * std::cos(Math::TwoPi * fractionOfHorizontalCircle);
 				float y = r * std::sin(Math::TwoPi * fractionOfHorizontalCircle);
 
-				layers[i]->push_back(Vec(x, y, z));
-			}
-		}
-
-		// Debug::Log("start");
-		// for (int i = 0; i < numLayers; i++)
-		// {
-		// 	Debug::Printf("  Layer\n");
-		// 	for (int j = 0; j < numVertsPerLayer; j++)
-		// 	{
-		// 		Debug::Printf("    %s\n", Vecs::ToString(layers[i]->at(j)).c_str());
-		// 	}
-		// }
-		// Debug::Log("end");
-
-		/* Create final array */
-
-		std::size_t finalArray_l = 3 * (1 + numLayers * numVertsPerLayer + 1);
-		float* finalArray = new float[finalArray_l];
-
-		// bottom vertex
-		finalArray[0] = bottomVert.x;
-		finalArray[1] = bottomVert.y;
-		finalArray[2] = bottomVert.z;
-
-		// middle verts
-		for (int i = 0; i < numLayers; i++)
-		{
-			for (int j = 0; j < numVertsPerLayer; j++)
-			{
-				finalArray[3 * (1 + i * numVertsPerLayer + j) + 0] = layers[i]->at(j).x;
-				finalArray[3 * (1 + i * numVertsPerLayer + j) + 1] = layers[i]->at(j).y;
-				finalArray[3 * (1 + i * numVertsPerLayer + j) + 2] = layers[i]->at(j).z;
+				ret->push_back(Vec(x, y, z));
 			}
 		}
 
 		// top vert
-		finalArray[finalArray_l - 3] = topVert.x;
-		finalArray[finalArray_l - 2] = topVert.y;
-		finalArray[finalArray_l - 1] = topVert.z;
-
-		return finalArray;
+		ret->push_back(Vec(0.0f, 0.0f, +1.0f));
+		
+		return ret;
 	}
 
 	template <std::size_t Size>
-	std::size_t Sphere<Size>::elementsSize() const
+	std::unique_ptr<const std::vector<Vec>> Sphere<Size>::vertNormals3D() const
 	{
-		const int numLayers = Size;
-		const int numVertsPerLayer = Size * 2 + 2;
-		const int numVerts = 1 + numLayers * numVertsPerLayer + 1;
-		const int numTriangles = numVertsPerLayer * (1 + 2 * (numLayers - 1) + 1);
-
-		return sizeof(GLuint) * 3 * numTriangles;
+		return this->vertPositions3D();
 	}
 
 	template <std::size_t Size>
-	const GLuint* Sphere<Size>::elements() const
+	std::unique_ptr<const std::vector<std::tuple<GLuint, GLuint, GLuint>>> Sphere<Size>::triangles() const
 	{
 		const int numLayers = Size;
 		const int numVertsPerLayer = Size * 2 + 2;
@@ -111,10 +63,7 @@ namespace AttemptAt3D::MeshSamples
 		int bottomVert_i = 0;
 		int topVert_i = numVerts - 1;
 
-		/* Create final array */
-
-		std::size_t finalArray_l = 3 * numTriangles;
-		GLuint* finalArray = new GLuint[finalArray_l];
+		std::unique_ptr<std::vector<std::tuple<GLuint, GLuint, GLuint>>> ret = std::make_unique<std::vector<std::tuple<GLuint, GLuint, GLuint>>>();
 
 		// bottom cap
 		for (int j = 0; j < numVertsPerLayer; j++)
@@ -125,9 +74,7 @@ namespace AttemptAt3D::MeshSamples
 				1 + 0 :
 				1 + j + 1;
 
-			finalArray[3 * j + 0] = vertBottom;
-			finalArray[3 * j + 1] = vertTopRight;
-			finalArray[3 * j + 2] = vertTopLeft;
+			ret->push_back(std::make_tuple(vertBottom, vertTopRight, vertTopLeft));
 		}
 
 		// middle squares
@@ -135,27 +82,19 @@ namespace AttemptAt3D::MeshSamples
 		{
 			for (int j = 0; j < numVertsPerLayer; j++)
 			{
-				int vertBottomLeft = (1 + (numVertsPerLayer * (i + 0))) + j + 0;
-				int vertBottomRight = (j == numVertsPerLayer - 1) ?
+				GLuint vertBottomLeft = (1 + (numVertsPerLayer * (i + 0))) + j + 0;
+				GLuint vertBottomRight = (j == numVertsPerLayer - 1) ?
 					(1 + (numVertsPerLayer * (i + 0))) + 0 :
 					(1 + (numVertsPerLayer * (i + 0))) + j + 1;
-				int vertTopLeft = (1 + (numVertsPerLayer * (i + 1))) + j + 0;
-				int vertTopRight = (j == numVertsPerLayer - 1) ?
+				GLuint vertTopLeft = (1 + (numVertsPerLayer * (i + 1))) + j + 0;
+				GLuint vertTopRight = (j == numVertsPerLayer - 1) ?
 					(1 + (numVertsPerLayer * (i + 1))) + 0 :
 					(1 + (numVertsPerLayer * (i + 1))) + j + 1;
 				
-				finalArray[3 * (numVertsPerLayer * (1 + 2 * i) + 2 * j) + 0] = vertTopRight;
-				finalArray[3 * (numVertsPerLayer * (1 + 2 * i) + 2 * j) + 1] = vertTopLeft;
-				finalArray[3 * (numVertsPerLayer * (1 + 2 * i) + 2 * j) + 2] = vertBottomLeft;
-				finalArray[3 * (numVertsPerLayer * (1 + 2 * i) + 2 * j) + 3] = vertTopRight;
-				finalArray[3 * (numVertsPerLayer * (1 + 2 * i) + 2 * j) + 4] = vertBottomLeft;
-				finalArray[3 * (numVertsPerLayer * (1 + 2 * i) + 2 * j) + 5] = vertBottomRight;
+				ret->push_back(std::make_tuple(vertTopRight, vertTopLeft, vertBottomLeft));
+				ret->push_back(std::make_tuple(vertTopRight, vertBottomLeft, vertBottomRight));
 			}
 		}
-		// for (int i = 3 * (numVertsPerLayer - 1) + 2 + 1; i < 3 * (numVertsPerLayer * (1 + 2 * (numLayers - 1)) + (numVertsPerLayer - 1)) + 0; i++)
-		// {
-		// 	finalArray[i] = topVert_i;
-		// }
 
 		// top cap
 		for (int j = 0; j < numVertsPerLayer; j++)
@@ -166,12 +105,10 @@ namespace AttemptAt3D::MeshSamples
 				(1 + (numVertsPerLayer * (numLayers - 1))) + 0 :
 				(1 + (numVertsPerLayer * (numLayers - 1))) + j + 1;
 
-			finalArray[3 * (numVertsPerLayer * (1 + 2 * (numLayers - 1)) + j) + 0] = vertTop;
-			finalArray[3 * (numVertsPerLayer * (1 + 2 * (numLayers - 1)) + j) + 1] = vertBottomLeft;
-			finalArray[3 * (numVertsPerLayer * (1 + 2 * (numLayers - 1)) + j) + 2] = vertBottomRight;
+			ret->push_back(std::make_tuple(vertTop, vertBottomLeft, vertBottomRight));
 		}
 
-		return finalArray;
+		return ret;
 	}
 
 	// solves linker errors

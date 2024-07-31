@@ -236,6 +236,7 @@ namespace AttemptAt3D
 	static ShaderProgram* shaderProgram_flat = nullptr;
 	static ShaderProgram* shaderProgram_smooth = nullptr;
 	static Mesh* cubeMesh = nullptr;
+	static Mesh* sphereMesh = nullptr;
 
 	void Head::onStart()
 	{
@@ -259,7 +260,8 @@ namespace AttemptAt3D
 
 		/// Temp ///
 		////////////////////////////////////////////////////////////
-		cubeMesh = this->worldState.meshManager.add(*shaderProgram_smooth, std::move(MeshSamples::Cube().make(shaderProgram_smooth->attribFlagsForMeshSamples())));
+		cubeMesh = this->worldState.meshManager.add(*shaderProgram_flat, std::move(MeshSamples::Cube().make(shaderProgram_flat->attribFlagsForMeshSamples())));
+		sphereMesh = this->worldState.meshManager.add(*shaderProgram_smooth, std::move(MeshSamples::Sphere<17>().make(shaderProgram_smooth->attribFlagsForMeshSamples())));
 
 		{
 			long long seed = std::chrono::time_point_cast<std::chrono::microseconds>(std::chrono::system_clock::now()).time_since_epoch().count();
@@ -276,11 +278,27 @@ namespace AttemptAt3D
 				vec *= glm::length2(vec);
 
 				std::unique_ptr<PhysicForm> form1 = PhysicForm::New(this->worldState);
-				form1->setMeshAndLinkToShaderProgram(shaderProgram_smooth, cubeMesh);
+				form1->setMeshAndLinkToShaderProgram(shaderProgram_flat, cubeMesh);
 				form1->tran.acqPosition() = vec;
 				form1->velocity = -0.002f * vec;
 				form1->friction = 0.001f;
-				// form1->tran.rotate(Vecs::Forwards, 0.1f);
+				this->worldState.forms.push_back(std::move(form1));
+			}
+
+			for (int i = 0; i < 100; i++)
+			{
+				float xPos = randDist(randGen);
+				float yPos = randDist(randGen);
+				float zPos = randDist(randGen);
+
+				Vec vec = Vec(xPos, yPos, zPos);
+				vec *= glm::length2(vec);
+
+				std::unique_ptr<PhysicForm> form1 = PhysicForm::New(this->worldState);
+				form1->setMeshAndLinkToShaderProgram(shaderProgram_smooth, sphereMesh);
+				form1->tran.acqPosition() = vec;
+				form1->velocity = -0.002f * vec;
+				form1->friction = 0.001f;
 				this->worldState.forms.push_back(std::move(form1));
 			}
 		}
