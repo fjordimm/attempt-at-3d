@@ -3,7 +3,7 @@
 
 namespace AttemptAt3D::MeshSamples
 {
-	std::unique_ptr<const std::vector<Vec>> Cube::vertPositions3D() const
+	std::unique_ptr<std::vector<Vec>> Cube::vertPositions3D() const
 	{
 		std::unique_ptr<std::vector<Vec>> ret(new std::vector<Vec>{
 			Vec(-1.0f, +1.0f, -1.0f),
@@ -19,7 +19,7 @@ namespace AttemptAt3D::MeshSamples
 		return std::move(ret);
 	}
 
-	std::unique_ptr<const std::vector<Vec>> Cube::vertNormals3D() const
+	std::unique_ptr<std::vector<Vec>> Cube::vertNormals3D() const
 	{
 		std::unique_ptr<std::vector<Vec>> ret(new std::vector<Vec>{
 			glm::normalize(Vec(-1.0f, +1.0f, -1.0f)),
@@ -35,7 +35,7 @@ namespace AttemptAt3D::MeshSamples
 		return std::move(ret);
 	}
 
-	std::unique_ptr<const std::vector<std::tuple<GLuint, GLuint, GLuint>>> Cube::triangles() const
+	std::unique_ptr<std::vector<std::tuple<GLuint, GLuint, GLuint>>> Cube::triangles() const
 	{
 		std::unique_ptr<std::vector<std::tuple<GLuint, GLuint, GLuint>>> ret(new std::vector<std::tuple<GLuint, GLuint, GLuint>>{
 			// bottom

@@ -10,7 +10,7 @@
 namespace AttemptAt3D::MeshSamples
 {
 	template <std::size_t Size>
-	std::unique_ptr<const std::vector<Vec>> Sphere<Size>::vertPositions3D() const
+	std::unique_ptr<std::vector<Vec>> Sphere<Size>::vertPositions3D() const
 	{
 		if (Size < 2)
 		{ Debug::LogFatalError("Sphere size must be at least 2."); }
@@ -47,13 +47,20 @@ namespace AttemptAt3D::MeshSamples
 	}
 
 	template <std::size_t Size>
-	std::unique_ptr<const std::vector<Vec>> Sphere<Size>::vertNormals3D() const
+	std::unique_ptr<std::vector<Vec>> Sphere<Size>::vertNormals3D() const
 	{
-		return this->vertPositions3D();
+		std::unique_ptr<std::vector<Vec>> ret = this->vertPositions3D();
+
+		for (std::size_t i = 0; i < ret->size(); i++)
+		{
+			ret->at(i) = glm::normalize(ret->at(i));
+		}
+
+		return std::move(ret);
 	}
 
 	template <std::size_t Size>
-	std::unique_ptr<const std::vector<std::tuple<GLuint, GLuint, GLuint>>> Sphere<Size>::triangles() const
+	std::unique_ptr<std::vector<std::tuple<GLuint, GLuint, GLuint>>> Sphere<Size>::triangles() const
 	{
 		const int numLayers = Size;
 		const int numVertsPerLayer = Size * 2 + 2;

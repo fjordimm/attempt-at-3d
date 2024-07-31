@@ -11,7 +11,10 @@ namespace AttemptAt3D::ShaderPrograms
 		attribPosition(-1),
 		uniView(-1),
 		uniProj(-1),
-		uniSunRot(-1)
+		uniSunRot(-1),
+		uniSunBrightness(-1),
+		uniSunAmbientLight(-1),
+		uniSunColor(-1)
 	{}
 
 	/* Getters & Setters */
@@ -24,6 +27,15 @@ namespace AttemptAt3D::ShaderPrograms
 
 	void InSpace::setUniSunRot(const glm::mat4& val) const
 	{ glUniformMatrix4fv(this->uniSunRot, 1, GL_FALSE, glm::value_ptr(val)); }
+	
+	void InSpace::setUniSunBrightness(const float& val) const
+	{ glUniform1f(this->uniSunBrightness, val); }
+	
+	void InSpace::setUniSunAmbientLight(const float& val) const
+	{ glUniform1f(this->uniSunAmbientLight, val); }
+	
+	void InSpace::setUniSunColor(const glm::vec3& val) const
+	{ glUniform3fv(this->uniSunColor, 1, glm::value_ptr(val)); }
 
 	/* Methods */
 
@@ -62,6 +74,18 @@ namespace AttemptAt3D::ShaderPrograms
 		this->uniSunRot = glGetUniformLocation(this->program, "uni_SunRot");
 		glm::mat4 uniSunRot_val = glm::mat4(1.0f);
 		glUniformMatrix4fv(this->uniSunRot, 1, GL_FALSE, glm::value_ptr(uniSunRot_val));
+
+		this->uniSunBrightness = glGetUniformLocation(this->program, "uni_SunBrightness");
+		float uniSunBrightness_val = 1.0f;
+		glUniform1f(this->uniSunBrightness, uniSunBrightness_val);
+
+		this->uniSunAmbientLight = glGetUniformLocation(this->program, "uni_SunAmbientLight");
+		float uniSunAmbientLight_val = 0.0f;
+		glUniform1f(this->uniSunAmbientLight, uniSunAmbientLight_val);
+
+		this->uniSunColor = glGetUniformLocation(this->program, "uni_SunColor");
+		glm::vec3 uniSunColor_val = glm::vec3(1.0f, 1.0f, 1.0f);
+		glUniform3fv(this->uniSunColor, 1, glm::value_ptr(uniSunColor_val));
 
 		this->setupUniforms_();
 	}

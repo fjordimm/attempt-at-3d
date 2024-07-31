@@ -10,8 +10,8 @@ namespace AttemptAt3D::MeshSamples
 	class Sphere : public MeshSample
 	{
 	   protected:
-		std::unique_ptr<const std::vector<Vec>> vertPositions3D() const final;
-		std::unique_ptr<const std::vector<Vec>> vertNormals3D() const final;
-		std::unique_ptr<const std::vector<std::tuple<GLuint, GLuint, GLuint>>> triangles() const final;
+		std::unique_ptr<std::vector<Vec>> vertPositions3D() const final;
+		std::unique_ptr<std::vector<Vec>> vertNormals3D() const final;
+		std::unique_ptr<std::vector<std::tuple<GLuint, GLuint, GLuint>>> triangles() const final;
 	};
 }

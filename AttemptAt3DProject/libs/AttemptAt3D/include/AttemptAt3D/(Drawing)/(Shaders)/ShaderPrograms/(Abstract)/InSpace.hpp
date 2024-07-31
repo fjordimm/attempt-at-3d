@@ -23,6 +23,9 @@ namespace AttemptAt3D::ShaderPrograms
 		GLint uniView;
 		GLint uniProj;
 		GLint uniSunRot;
+		GLint uniSunBrightness;
+		GLint uniSunAmbientLight;
+		GLint uniSunColor;
 
 		/* Getters & Setters */
 
@@ -30,6 +33,9 @@ namespace AttemptAt3D::ShaderPrograms
 		void setUniView(const glm::mat4& val) const;
 		void setUniProj(const glm::mat4& val) const;
 		void setUniSunRot(const glm::mat4& val) const;
+		void setUniSunBrightness(const float& val) const;
+		void setUniSunAmbientLight(const float& val) const;
+		void setUniSunColor(const glm::vec3& val) const;
 
 		/* Methods */
 

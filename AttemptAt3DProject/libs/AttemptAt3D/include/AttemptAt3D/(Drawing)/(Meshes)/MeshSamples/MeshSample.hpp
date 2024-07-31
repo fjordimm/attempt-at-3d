@@ -40,9 +40,9 @@ namespace AttemptAt3D::MeshSamples
 		std::unique_ptr<MeshData> make(MeshVertAttribs attribs) const;
 
 	   protected:
-		virtual std::unique_ptr<const std::vector<Vec>> vertPositions3D() const = 0;
-		virtual std::unique_ptr<const std::vector<Vec>> vertNormals3D() const = 0;
-		virtual std::unique_ptr<const std::vector<std::tuple<GLuint, GLuint, GLuint>>> triangles() const = 0;
+		virtual std::unique_ptr<std::vector<Vec>> vertPositions3D() const = 0;
+		virtual std::unique_ptr<std::vector<Vec>> vertNormals3D() const = 0;
+		virtual std::unique_ptr<std::vector<std::tuple<GLuint, GLuint, GLuint>>> triangles() const = 0;
 	};
 
 	/* Enum Operator Overloads */

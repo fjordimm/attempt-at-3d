@@ -83,7 +83,7 @@ namespace AttemptAt3D::MeshSamples
 		std::size_t elemsLen = -1;
 		std::unique_ptr<GLuint[]> elems = nullptr;
 		{
-			std::unique_ptr<const std::vector<std::tuple<GLuint, GLuint, GLuint>>> triangles = this->triangles();
+			std::unique_ptr<std::vector<std::tuple<GLuint, GLuint, GLuint>>> triangles = this->triangles();
 
 			trianglesLen = triangles->size();
 
