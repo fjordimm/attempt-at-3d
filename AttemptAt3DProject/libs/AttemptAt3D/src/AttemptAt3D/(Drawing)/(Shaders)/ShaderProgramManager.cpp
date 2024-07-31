@@ -9,7 +9,8 @@ namespace AttemptAt3D
 	/* Constructors */
 
 	ShaderProgramManager::ShaderProgramManager() :
-		shaderPrograms()
+		shaderPrograms(),
+		_sunColor(0.0f, 0.0f, 0.0f, 0.0f)
 	{}
 
 	/* Getters and Setters */
@@ -36,6 +37,57 @@ namespace AttemptAt3D
 	{
 		this->_farClippingPlane = val;
 		this->_updateProjectionMatrix();
+	}
+
+	void ShaderProgramManager::setSunBrightness(float val)
+	{
+		this->_sunBrightness = val;
+
+		for (std::unique_ptr<ShaderProgram>& shaderProgram_ : this->shaderPrograms)
+		{
+			ShaderProgram* shaderProgram = shaderProgram_.get();
+
+			ShaderPrograms::InSpace* inSpaceShaderProgram = dynamic_cast<ShaderPrograms::InSpace*>(shaderProgram);
+			if (inSpaceShaderProgram != nullptr)
+			{
+				inSpaceShaderProgram->use();
+				inSpaceShaderProgram->setUniSunBrightness(val);
+			}
+		}
+	}
+
+	void ShaderProgramManager::setSunAmbientLight(float val)
+	{
+		this->_sunAmbientLight = val;
+
+		for (std::unique_ptr<ShaderProgram>& shaderProgram_ : this->shaderPrograms)
+		{
+			ShaderProgram* shaderProgram = shaderProgram_.get();
+
+			ShaderPrograms::InSpace* inSpaceShaderProgram = dynamic_cast<ShaderPrograms::InSpace*>(shaderProgram);
+			if (inSpaceShaderProgram != nullptr)
+			{
+				inSpaceShaderProgram->use();
+				inSpaceShaderProgram->setUniSunAmbientLight(val);
+			}
+		}
+	}
+
+	void ShaderProgramManager::setSunColor(Color val)
+	{
+		this->_sunColor = val;
+
+		for (std::unique_ptr<ShaderProgram>& shaderProgram_ : this->shaderPrograms)
+		{
+			ShaderProgram* shaderProgram = shaderProgram_.get();
+
+			ShaderPrograms::InSpace* inSpaceShaderProgram = dynamic_cast<ShaderPrograms::InSpace*>(shaderProgram);
+			if (inSpaceShaderProgram != nullptr)
+			{
+				inSpaceShaderProgram->use();
+				inSpaceShaderProgram->setUniSunColor(glm::vec3(val.r, val.g, val.b));
+			}
+		}
 	}
 
 	/* Methods */

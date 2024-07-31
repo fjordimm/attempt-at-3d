@@ -7,11 +7,7 @@ namespace AttemptAt3D::Forms
 {
 	/* Constructors */
 
-	Sun::Sun(WorldState& worldState) : Form(worldState),
-		brightness(1.0f),
-		ambientLight(0.0f),
-		color(Colors::White)
-	{}
+	Sun::Sun(WorldState& worldState) : Form(worldState) {}
 
 	/* Methods */
 

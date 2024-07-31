@@ -251,6 +251,9 @@ namespace AttemptAt3D
 		this->worldState.theSun->tran.locallyRotate(Vecs::Up, 0.4f);
 		this->worldState.theSun->tran.rotate(Vecs::Right, 0.3f);
 		this->worldState.theSun->recalculateAndApplySunRotMatrix(this->worldState);
+		this->worldState.shaderProgramManager.setSunBrightness(1.0f);
+		this->worldState.shaderProgramManager.setSunAmbientLight(0.2f);
+		this->worldState.shaderProgramManager.setSunColor(Colors::White);
 		
 		this->worldState.mainCamera = Forms::Camera::New(this->worldState);
 		this->worldState.mainCamera->tran.acqPosition() = Vec(0.0f, -100.0f, 0.0f);
@@ -260,7 +263,7 @@ namespace AttemptAt3D
 
 		/// Temp ///
 		////////////////////////////////////////////////////////////
-		cubeMesh = this->worldState.meshManager.add(*shaderProgram_smooth, std::move(MeshSamples::Cube().make(shaderProgram_smooth->attribFlagsForMeshSamples())));
+		cubeMesh = this->worldState.meshManager.add(*shaderProgram_flat, std::move(MeshSamples::Cube().make(shaderProgram_flat->attribFlagsForMeshSamples())));
 		sphereMesh = this->worldState.meshManager.add(*shaderProgram_smooth, std::move(MeshSamples::Sphere<17>().make(shaderProgram_smooth->attribFlagsForMeshSamples())));
 
 		{
@@ -278,7 +281,7 @@ namespace AttemptAt3D
 				vec *= glm::length2(vec);
 
 				std::unique_ptr<PhysicForm> form1 = PhysicForm::New(this->worldState);
-				form1->setMeshAndLinkToShaderProgram(shaderProgram_smooth, cubeMesh);
+				form1->setMeshAndLinkToShaderProgram(shaderProgram_flat, cubeMesh);
 				form1->tran.acqPosition() = vec;
 				form1->velocity = -0.002f * vec;
 				form1->friction = 0.001f;

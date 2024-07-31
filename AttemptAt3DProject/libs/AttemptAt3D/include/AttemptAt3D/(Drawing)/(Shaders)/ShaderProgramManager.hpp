@@ -4,6 +4,7 @@
 #include <vector>
 #include <memory>
 #include "AttemptAt3D/(Drawing)/(Shaders)/ShaderProgram.hpp"
+#include "AttemptAt3D/(Util)/(Color)/Color.hpp"
 
 namespace AttemptAt3D
 {
@@ -27,6 +28,10 @@ namespace AttemptAt3D
 		float _nearClippingPlane;
 		float _farClippingPlane;
 
+		float _sunBrightness;
+		float _sunAmbientLight;
+		Color _sunColor;
+
 		/* Getters and Setters */
 
 	   public:
@@ -35,6 +40,10 @@ namespace AttemptAt3D
 		void setNearClippingPlane(float val);
 		void setFarClippingPlane(float val);
 
+		void setSunBrightness(float val);
+		void setSunAmbientLight(float val);
+		void setSunColor(Color val);
+
 		/* Methods */
 
 	   public:
@@ -42,6 +51,8 @@ namespace AttemptAt3D
 		void drawEverything();
 		void setViewMatrix(const glm::mat4& val);
 		void setSunRotMatrix(const glm::mat4& val);
+
+		// TODO: optimize _updateProjectionMatrix() and the setters for the sun uniforms so they only do stuff once per frame instead of on every call
 
 	   private:
 		void _updateProjectionMatrix();

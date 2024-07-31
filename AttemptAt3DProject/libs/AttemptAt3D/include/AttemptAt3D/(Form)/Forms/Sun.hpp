@@ -26,13 +26,6 @@ namespace AttemptAt3D::Forms
 		static inline std::unique_ptr<Sun> New(WorldState& worldState)
 		{ return Sun::New<Sun>(worldState); }
 
-		/* Fields */
-
-	   public:
-		float brightness;
-		float ambientLight;
-		Color color;
-
 		/* Methods */
 
 	   public:
