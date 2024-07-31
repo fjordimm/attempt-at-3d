@@ -38,7 +38,7 @@ namespace AttemptAt3D::ShaderPrograms
 
 	void HasNormals::setupAttributes__()
 	{
-		this->attribNormal = glGetAttribLocation(this->program, "attrib_normal");
+		this->attribNormal = glGetAttribLocation(this->program, "attrib_Normal");
 
 		this->setupAttributes___();
 	}

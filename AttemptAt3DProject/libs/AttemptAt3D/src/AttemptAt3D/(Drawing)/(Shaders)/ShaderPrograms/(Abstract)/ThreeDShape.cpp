@@ -43,15 +43,15 @@ namespace AttemptAt3D::ShaderPrograms
 
 	void ThreeDShape::setupUniforms_()
 	{
-		this->uniTransScale = glGetUniformLocation(this->program, "uni_transScale");
+		this->uniTransScale = glGetUniformLocation(this->program, "uni_TransScale");
 		glm::mat4 uniTransScale_val = glm::mat4(1.0f);
 		glUniformMatrix4fv(this->uniTransScale, 1, GL_FALSE, glm::value_ptr(uniTransScale_val));
 
-		this->uniTransRot = glGetUniformLocation(this->program, "uni_transRot");
+		this->uniTransRot = glGetUniformLocation(this->program, "uni_TransRot");
 		glm::mat4 uniTransRot_val = glm::mat4(1.0f);
 		glUniformMatrix4fv(this->uniTransRot, 1, GL_FALSE, glm::value_ptr(uniTransRot_val));
 		
-		this->uniTransPos = glGetUniformLocation(this->program, "uni_transPos");
+		this->uniTransPos = glGetUniformLocation(this->program, "uni_TransPos");
 		glm::mat4 uniTransPos_val = glm::mat4(1.0f);
 		glUniformMatrix4fv(this->uniTransPos, 1, GL_FALSE, glm::value_ptr(uniTransPos_val));
 

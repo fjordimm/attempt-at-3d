@@ -30,6 +30,7 @@ namespace AttemptAt3D::Forms
 
 	   public:
 		float brightness;
+		float ambientLight;
 		Color color;
 
 		/* Methods */

@@ -8,7 +8,8 @@ namespace AttemptAt3D::Forms
 	/* Constructors */
 
 	Sun::Sun(WorldState& worldState) : Form(worldState),
-		brightness(0.0f),
+		brightness(1.0f),
+		ambientLight(0.0f),
 		color(Colors::White)
 	{}
 

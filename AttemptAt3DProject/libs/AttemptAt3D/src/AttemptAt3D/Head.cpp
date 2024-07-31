@@ -319,6 +319,8 @@ namespace AttemptAt3D
 			timeCounter = 0.0f;
 			frameCounter = 0.0f;
 		}
+
+		// this->worldState.theSun->recalculateAndApplySunRotMatrix();
 	}
 
 	/* Functions */

@@ -47,7 +47,7 @@ namespace AttemptAt3D::ShaderPrograms
 
 	void InSpace::setupUniforms()
 	{
-		this->uniView = glGetUniformLocation(this->program, "uni_view");
+		this->uniView = glGetUniformLocation(this->program, "uni_View");
 		glm::mat4 uniView_val = glm::lookAt(
 			glm::vec3(0.0f, -15.0f, 0.0f),
 			glm::vec3(0.0f, 0.0f, 0.0f),
@@ -55,11 +55,11 @@ namespace AttemptAt3D::ShaderPrograms
 		);
 		glUniformMatrix4fv(this->uniView, 1, GL_FALSE, glm::value_ptr(uniView_val));
 
-		this->uniProj = glGetUniformLocation(this->program, "uni_proj");
+		this->uniProj = glGetUniformLocation(this->program, "uni_Proj");
 		glm::mat4 uniProj_val = glm::perspective(glm::radians(45.0f), 1.0f /*aspect ratio*/, 1.0f, 100000.0f);
 		glUniformMatrix4fv(this->uniProj, 1, GL_FALSE, glm::value_ptr(uniProj_val));
 
-		this->uniSunRot = glGetUniformLocation(this->program, "uni_sunRot");
+		this->uniSunRot = glGetUniformLocation(this->program, "uni_SunRot");
 		glm::mat4 uniSunRot_val = glm::mat4(1.0f);
 		glUniformMatrix4fv(this->uniSunRot, 1, GL_FALSE, glm::value_ptr(uniSunRot_val));
 
@@ -68,7 +68,7 @@ namespace AttemptAt3D::ShaderPrograms
 
 	void InSpace::setupAttributes()
 	{
-		this->attribPosition = glGetAttribLocation(this->program, "attrib_position");
+		this->attribPosition = glGetAttribLocation(this->program, "attrib_Position");
 
 		this->setupAttributes_();
 	}
