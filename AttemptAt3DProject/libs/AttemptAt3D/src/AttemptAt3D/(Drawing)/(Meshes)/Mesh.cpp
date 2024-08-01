@@ -5,7 +5,8 @@ namespace AttemptAt3D
 {
 	/* Constructors */
 
-	Mesh::Mesh(std::unique_ptr<MeshData> meshData) :
+	Mesh::Mesh(ShaderProgram* shaderProgram, std::unique_ptr<MeshData> meshData) :
+		shaderProgram(shaderProgram),
 		meshData(std::move(meshData)),
 		vao(-1),
 		vbo(-1),

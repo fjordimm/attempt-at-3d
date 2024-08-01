@@ -46,7 +46,7 @@ namespace AttemptAt3D
 		/* Methods */
 
 	   public:
-		void setMeshAndLinkToShaderProgram(ShaderProgram* newShaderProgram, Mesh* mesh);
+		void setMeshAndLinkToShaderProgram(Mesh* mesh);
 
 	   private:
 		void onCreate(WorldState& worldState);

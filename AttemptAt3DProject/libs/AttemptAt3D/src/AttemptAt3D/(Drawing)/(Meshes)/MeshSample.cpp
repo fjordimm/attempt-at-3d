@@ -1,10 +1,10 @@
 
-#include "AttemptAt3D/(Drawing)/(Meshes)/MeshSamples/MeshSample.hpp"
+#include "AttemptAt3D/(Drawing)/(Meshes)/MeshSample.hpp"
 
 #include <cstring>
 #include "AttemptAt3D/(Debug)/Debug.hpp"
 
-namespace AttemptAt3D::MeshSamples
+namespace AttemptAt3D
 {
 	/* Constructors */
 
@@ -12,8 +12,9 @@ namespace AttemptAt3D::MeshSamples
 
 	/* Methods */
 
-	std::unique_ptr<MeshData> MeshSample::make(MeshVertAttribs attribs) const
+	std::unique_ptr<MeshData> MeshSample::make(const ShaderProgram& shaderProgram) const
 	{
+		MeshVertAttribs attribs = shaderProgram.attribFlagsForMeshSamples();
 		bool doPositions3D = (attribs & MeshVertAttribs::Positions3D) != MeshVertAttribs::None;
 		bool doNormals3D = (attribs & MeshVertAttribs::Normals3D) != MeshVertAttribs::None;
 
@@ -103,66 +104,5 @@ namespace AttemptAt3D::MeshSamples
 		/* Finish */
 
 		return std::make_unique<MeshData>(vertsLen, std::move(verts), elemsLen, std::move(elems));
-
-		///////////////////////////////////
-
-		// std::size_t vertsLen = this->verticesSize() / sizeof(float);
-
-		// std::unique_ptr<float[]> verts(new float[vertsLen]);
-		// std::memcpy(verts.get(), this->vertices(), this->verticesSize());
-
-		// std::size_t elemsLen = this->elementsSize() / sizeof(GLuint);
-
-		// std::unique_ptr<GLuint[]> elems(new GLuint[elemsLen]);
-		// std::memcpy(elems.get(), this->elements(), this->elementsSize());
-
-		// return std::make_unique<MeshData>(vertsLen, std::move(verts), elemsLen, std::move(elems));
-	}
-
-	/* Enum Operator Overloads */
-
-	MeshSample::MeshVertAttribs operator|(MeshSample::MeshVertAttribs lhs, MeshSample::MeshSample::MeshVertAttribs rhs)
-	{
-		return static_cast<MeshSample::MeshVertAttribs>(
-			static_cast<std::underlying_type_t<MeshSample::MeshVertAttribs>>(lhs) |
-			static_cast<std::underlying_type_t<MeshSample::MeshVertAttribs>>(rhs)
-		);
-	}
-
-	MeshSample::MeshSample::MeshVertAttribs operator&(MeshSample::MeshVertAttribs lhs, MeshSample::MeshVertAttribs rhs)
-	{
-		return static_cast<MeshSample::MeshVertAttribs>(
-			static_cast<std::underlying_type_t<MeshSample::MeshVertAttribs>>(lhs) &
-			static_cast<std::underlying_type_t<MeshSample::MeshVertAttribs>>(rhs)
-		);
-	}
-
-	MeshSample::MeshSample::MeshVertAttribs operator^(MeshSample::MeshVertAttribs lhs, MeshSample::MeshVertAttribs rhs)
-	{
-		return static_cast<MeshSample::MeshVertAttribs>(
-			static_cast<std::underlying_type_t<MeshSample::MeshVertAttribs>>(lhs) ^
-			static_cast<std::underlying_type_t<MeshSample::MeshVertAttribs>>(rhs)
-		);
-	}
-
-	MeshSample::MeshSample::MeshVertAttribs operator~(MeshSample::MeshVertAttribs the)
-	{
-		return static_cast<MeshSample::MeshVertAttribs>(
-			~static_cast<std::underlying_type_t<MeshSample::MeshVertAttribs>>(the)
-		);
-	}
-
-	bool operator==(MeshSample::MeshVertAttribs lhs, MeshSample::MeshVertAttribs rhs)
-	{
-		return
-			static_cast<std::underlying_type_t<MeshSample::MeshVertAttribs>>(lhs) ==
-			static_cast<std::underlying_type_t<MeshSample::MeshVertAttribs>>(rhs);
-	}
-
-	bool operator!=(MeshSample::MeshVertAttribs lhs, MeshSample::MeshVertAttribs rhs)
-	{
-		return
-			static_cast<std::underlying_type_t<MeshSample::MeshVertAttribs>>(lhs) !=
-			static_cast<std::underlying_type_t<MeshSample::MeshVertAttribs>>(rhs);
 	}
 }

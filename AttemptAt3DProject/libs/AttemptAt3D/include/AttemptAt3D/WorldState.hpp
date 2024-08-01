@@ -9,8 +9,7 @@
 
 namespace AttemptAt3D
 {
-	/* Forward Declarations */
-
+	// Forward declarations
 	class Form;
 	namespace Forms { class Camera; }
 	namespace Forms { class Sun; }

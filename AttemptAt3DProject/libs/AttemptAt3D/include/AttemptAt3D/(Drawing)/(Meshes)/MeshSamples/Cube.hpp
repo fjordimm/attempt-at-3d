@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include "AttemptAt3D/(Drawing)/(Meshes)/MeshSamples/MeshSample.hpp"
+#include "AttemptAt3D/(Drawing)/(Meshes)/MeshSample.hpp"
 
 namespace AttemptAt3D::MeshSamples
 {

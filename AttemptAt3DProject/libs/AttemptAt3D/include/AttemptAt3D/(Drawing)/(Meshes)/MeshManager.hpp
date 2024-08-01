@@ -5,6 +5,7 @@
 #include <memory>
 #include "AttemptAt3D/(Drawing)/(Meshes)/Mesh.hpp"
 #include "AttemptAt3D/(Drawing)/(Shaders)/ShaderProgram.hpp"
+#include "AttemptAt3D/(Drawing)/(Meshes)/MeshSample.hpp"
 
 namespace AttemptAt3D
 {
@@ -26,7 +27,8 @@ namespace AttemptAt3D
 		/* Methods */
 
 	   public:
-		Mesh* add(ShaderProgram& shaderProgram, std::unique_ptr<MeshData> meshData); // Only to be used after the main loop has started
+		Mesh* add(ShaderProgram* shaderProgram, std::unique_ptr<MeshData> meshData); // Only to be used after the main loop has started
+		Mesh* add(ShaderProgram* shaderProgram, const MeshSample& meshSample); // Only to be used after the main loop has started
 		void remove(Mesh* mesh);
 	};
 }

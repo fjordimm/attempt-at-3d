@@ -23,7 +23,7 @@ namespace AttemptAt3D::ShaderPrograms
 		/* Methods */
 
 	   protected:
-		MeshSamples::MeshSample::MeshVertAttribs attribFlagsForMeshSamples__() const final;
+		MeshVertAttribs attribFlagsForMeshSamples__() const final;
 		void enableAttribsForMesh__() final;
 	   	std::size_t getStride__() final;
 		void setupUniforms__() final;
@@ -31,7 +31,7 @@ namespace AttemptAt3D::ShaderPrograms
 		void updateUniformsFromTran__(Tran& tran) const final;
 
 	   protected:
-		virtual MeshSamples::MeshSample::MeshVertAttribs attribFlagsForMeshSamples___() const { return MeshSamples::MeshSample::MeshVertAttribs::None; };
+		virtual MeshVertAttribs attribFlagsForMeshSamples___() const { return MeshVertAttribs::None; };
 		virtual void enableAttribsForMesh___() {}
 		virtual std::size_t getStride___() { return 0; }
 		virtual void setupUniforms___() {}

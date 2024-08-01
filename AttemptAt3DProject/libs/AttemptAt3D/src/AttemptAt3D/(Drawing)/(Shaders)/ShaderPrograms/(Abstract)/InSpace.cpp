@@ -39,9 +39,9 @@ namespace AttemptAt3D::ShaderPrograms
 
 	/* Methods */
 
-	MeshSamples::MeshSample::MeshVertAttribs InSpace::attribFlagsForMeshSamples() const
+	MeshVertAttribs InSpace::attribFlagsForMeshSamples() const
 	{
-		return MeshSamples::MeshSample::MeshVertAttribs::Positions3D | this->attribFlagsForMeshSamples_();
+		return MeshVertAttribs::Positions3D | this->attribFlagsForMeshSamples_();
 	}
 
 	void InSpace::enableAttribsForMesh()

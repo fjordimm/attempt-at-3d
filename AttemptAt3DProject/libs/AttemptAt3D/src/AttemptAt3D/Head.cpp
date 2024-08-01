@@ -233,8 +233,8 @@ namespace AttemptAt3D
 	}
 
 	// TEMP
-	static ShaderProgram* shaderProgram_flat = nullptr;
-	static ShaderProgram* shaderProgram_smooth = nullptr;
+	static ShaderProgram* flatShaderProgram = nullptr;
+	static ShaderProgram* smoothShaderProgram = nullptr;
 	static Mesh* cubeMesh = nullptr;
 	static Mesh* sphereMesh = nullptr;
 
@@ -242,8 +242,8 @@ namespace AttemptAt3D
 	{
 		/* Make shaders */
 
-		shaderProgram_flat = this->worldState.shaderProgramManager.add(std::make_unique<ShaderPrograms::Flat>());
-		shaderProgram_smooth = this->worldState.shaderProgramManager.add(std::make_unique<ShaderPrograms::Smooth>());
+		flatShaderProgram = this->worldState.shaderProgramManager.add(std::make_unique<ShaderPrograms::Flat>());
+		smoothShaderProgram = this->worldState.shaderProgramManager.add(std::make_unique<ShaderPrograms::Smooth>());
 
 		/* Make sun and camera */
 
@@ -263,8 +263,8 @@ namespace AttemptAt3D
 
 		/// Temp ///
 		////////////////////////////////////////////////////////////
-		cubeMesh = this->worldState.meshManager.add(*shaderProgram_flat, std::move(MeshSamples::Cube().make(shaderProgram_flat->attribFlagsForMeshSamples())));
-		sphereMesh = this->worldState.meshManager.add(*shaderProgram_smooth, std::move(MeshSamples::Sphere<17>().make(shaderProgram_smooth->attribFlagsForMeshSamples())));
+		cubeMesh = this->worldState.meshManager.add(flatShaderProgram, MeshSamples::Cube());
+		sphereMesh = this->worldState.meshManager.add(smoothShaderProgram, MeshSamples::Sphere<17>());
 
 		{
 			long long seed = std::chrono::time_point_cast<std::chrono::microseconds>(std::chrono::system_clock::now()).time_since_epoch().count();
@@ -281,7 +281,7 @@ namespace AttemptAt3D
 				vec *= glm::length2(vec);
 
 				std::unique_ptr<PhysicForm> form1 = PhysicForm::New(this->worldState);
-				form1->setMeshAndLinkToShaderProgram(shaderProgram_flat, cubeMesh);
+				form1->setMeshAndLinkToShaderProgram(cubeMesh);
 				form1->tran.acqPosition() = vec;
 				form1->velocity = -0.002f * vec;
 				form1->friction = 0.001f;
@@ -298,7 +298,7 @@ namespace AttemptAt3D
 				vec *= glm::length2(vec);
 
 				std::unique_ptr<PhysicForm> form1 = PhysicForm::New(this->worldState);
-				form1->setMeshAndLinkToShaderProgram(shaderProgram_smooth, sphereMesh);
+				form1->setMeshAndLinkToShaderProgram(sphereMesh);
 				form1->tran.acqPosition() = vec;
 				form1->velocity = -0.002f * vec;
 				form1->friction = 0.001f;

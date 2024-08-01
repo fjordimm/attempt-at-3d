@@ -16,8 +16,10 @@ namespace AttemptAt3D
 
 	/* Methods */
 
-	void Form::setMeshAndLinkToShaderProgram(ShaderProgram* newShaderProgram, Mesh* mesh)
+	void Form::setMeshAndLinkToShaderProgram(Mesh* mesh)
 	{
+		ShaderProgram* newShaderProgram = mesh->getShaderProgram();
+
 		if (this->shaderProgram != nullptr)
 		{
 			this->shaderProgram->removeForm(this->shaderProgramSpot);

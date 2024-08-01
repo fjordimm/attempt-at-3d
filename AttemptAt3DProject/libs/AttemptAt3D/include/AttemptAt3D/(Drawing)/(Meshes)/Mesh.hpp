@@ -11,6 +11,9 @@
 
 namespace AttemptAt3D
 {
+	// Forward declarations
+	class ShaderProgram;
+
 	class Mesh
 	{
 		/* Constructors */
@@ -20,11 +23,12 @@ namespace AttemptAt3D
 		Mesh(const Mesh&) = delete;
 		Mesh& operator=(const Mesh&) = delete;
 		
-		Mesh(std::unique_ptr<MeshData> meshData); // Only to be used by MeshManager
+		Mesh(ShaderProgram* shaderProgram, std::unique_ptr<MeshData> meshData); // Only to be used by MeshManager
 		
 		/* Fields */
 
 	   private:
+		ShaderProgram* shaderProgram;
 		std::unique_ptr<MeshData> meshData;
 
 		GLuint vao;
@@ -34,6 +38,7 @@ namespace AttemptAt3D
 		/* Getters and Setters */
 
 	   public:
+		inline ShaderProgram* getShaderProgram() { return this->shaderProgram; }
 		inline std::size_t getVerticesLen() { return this->meshData->verticesLen; }
 		inline const float* getVertices() { return this->meshData->vertices.get(); }
 		inline std::size_t getElementsLen() { return this->meshData->elementsLen; }
@@ -52,7 +57,7 @@ namespace AttemptAt3D
 		/* Friends */
 
 		friend class MeshManager;
-		friend std::unique_ptr<Mesh> std::make_unique<Mesh>(std::unique_ptr<AttemptAt3D::MeshData>&&);
+		friend std::unique_ptr<Mesh> std::make_unique<Mesh>(AttemptAt3D::ShaderProgram*&, std::unique_ptr<AttemptAt3D::MeshData>&&);
 
 		// TODO: cleanupForGl
 	};

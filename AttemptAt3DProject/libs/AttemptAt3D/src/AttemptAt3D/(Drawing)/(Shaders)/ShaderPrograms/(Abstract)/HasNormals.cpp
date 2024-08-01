@@ -13,9 +13,9 @@ namespace AttemptAt3D::ShaderPrograms
 
 	/* Methods */
 
-	MeshSamples::MeshSample::MeshVertAttribs HasNormals::attribFlagsForMeshSamples__() const
+	MeshVertAttribs HasNormals::attribFlagsForMeshSamples__() const
 	{
-		return MeshSamples::MeshSample::MeshVertAttribs::Normals3D | this->attribFlagsForMeshSamples___();
+		return MeshVertAttribs::Normals3D | this->attribFlagsForMeshSamples___();
 	}
 
 	void HasNormals::enableAttribsForMesh__()

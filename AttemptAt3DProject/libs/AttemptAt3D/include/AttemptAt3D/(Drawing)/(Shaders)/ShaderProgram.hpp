@@ -9,7 +9,7 @@
 #include <GLFW/glfw3.h>
 #include "AttemptAt3D/(Util)/(Tran)/Tran.hpp"
 #include "AttemptAt3D/(Drawing)/(Meshes)/Mesh.hpp"
-#include "AttemptAt3D/(Drawing)/(Meshes)/MeshSamples/MeshSample.hpp"
+#include "AttemptAt3D/(Drawing)/(Meshes)/MeshVertAttribs.hpp"
 
 namespace AttemptAt3D
 {
@@ -45,7 +45,7 @@ namespace AttemptAt3D
 		void removeForm(const std::list<std::tuple<Mesh*, Tran*>>::const_iterator& iter);
 		void drawAllTrans() const;
 		
-		virtual MeshSamples::MeshSample::MeshVertAttribs attribFlagsForMeshSamples() const = 0;
+		virtual MeshVertAttribs attribFlagsForMeshSamples() const = 0;
 
 		virtual void enableAttribsForMesh() = 0;
 
