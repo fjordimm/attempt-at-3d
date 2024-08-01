@@ -67,7 +67,6 @@ namespace AttemptAt3D
 		ShaderProgram* add(std::unique_ptr<ShaderProgram> shaderProgram);
 		void drawEverything();
 		void setViewMatrix(const glm::mat4& val);
-		void setSunRotMatrix(const glm::mat4& val);
 
 	   private:
 		void _updateProjectionMatrix();

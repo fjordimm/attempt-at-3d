@@ -263,16 +263,17 @@ namespace AttemptAt3D
 
 		/// Temp ///
 		////////////////////////////////////////////////////////////
+
 		cubeMesh = this->worldState.meshManager.add(flatShaderProgram, MeshSamples::Cube());
 		sphereMesh = this->worldState.meshManager.add(smoothShaderProgram, MeshSamples::Sphere<10>());
 
-		// this->worldState.theSun = Forms::Sun::New(this->worldState);
-		// this->worldState.theSun->tran.locallyRotate(Vecs::Up, 0.4f);
-		// this->worldState.theSun->tran.rotate(Vecs::Right, 0.3f);
-		// this->worldState.theSun->recalculateAndApplySunRotMatrix(this->worldState);
-		// this->worldState.shaderProgramManager.setSunBrightness(1.0f);
-		// this->worldState.shaderProgramManager.setSunAmbientLight(0.2f);
-		// this->worldState.shaderProgramManager.setSunColor(Colors::White);
+		Quat initialSunRotation = Quats::Identity;
+		initialSunRotation = Quats::LocallyRotate(initialSunRotation, Vecs::Up, 0.4f);
+		initialSunRotation = Quats::Rotate(initialSunRotation, Vecs::Right, 0.3f);
+		this->worldState.shaderProgramManager.acqSunRot() = initialSunRotation;
+		this->worldState.shaderProgramManager.acqSunBrightness() = 1.0f;
+		this->worldState.shaderProgramManager.acqSunAmbientLight() = 0.2f;
+		this->worldState.shaderProgramManager.acqSunColor() = Colors::White;
 
 		{
 			long long seed = std::chrono::time_point_cast<std::chrono::microseconds>(std::chrono::system_clock::now()).time_since_epoch().count();
@@ -313,6 +314,7 @@ namespace AttemptAt3D
 				this->worldState.forms.push_back(std::move(form1));
 			}
 		}
+
 		////////////////////////////////////////////////////////////
 	}
 
@@ -332,6 +334,13 @@ namespace AttemptAt3D
 		}
 
 		// this->worldState.theSun->recalculateAndApplySunRotMatrix();
+
+		// for (std::unique_ptr<Form>& _form : this->worldState.forms)
+		// {
+		// 	Form* form = _form.get();
+
+		// 	form->tran.rotate(Vecs::Up, 0.01f * deltaTime);
+		// }
 	}
 
 	/* Functions */

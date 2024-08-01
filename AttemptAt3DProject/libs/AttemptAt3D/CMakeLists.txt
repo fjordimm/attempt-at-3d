@@ -23,6 +23,7 @@ add_executable(AttemptAt3DExec
 	"src/AttemptAt3D/(Drawing)/(Meshes)/MeshManager.cpp"
 	"src/AttemptAt3D/(Util)/(Tran)/Tran.cpp"
 	"src/AttemptAt3D/(Util)/(Tran)/Vec.cpp"
+	"src/AttemptAt3D/(Util)/(Tran)/Quat.cpp"
 	"src/AttemptAt3D/(Form)/Form.cpp"
 	"src/AttemptAt3D/(Form)/Forms/Camera.cpp"
 	"src/AttemptAt3D/(Form)/PhysicForm.cpp"

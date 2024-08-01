@@ -159,24 +159,17 @@ namespace AttemptAt3D
 
 	void Tran::rotate(const Vec& axis, float radians)
 	{
-		this->acqRotation() = glm::angleAxis(radians, axis) * this->getRotation();
+		this->acqRotation() = Quats::Rotate(this->getRotation(), axis, radians);
 	}
 
 	void Tran::locallyRotate(const Vec& axis, float radians)
 	{
-		this->acqRotation() = this->getRotation() * glm::angleAxis(radians, axis);
+		this->acqRotation() = Quats::LocallyRotate(this->getRotation(), axis, radians);
 	}
 
 	void Tran::lookTowards(const Vec& target, const Vec& up)
 	{
-		Vec newForwards = glm::normalize(target - this->getPosition());
-
-		Vec xAxis = glm::normalize(glm::cross(newForwards, up));
-		Vec yAxis = newForwards;
-		Vec zAxis = glm::normalize(glm::cross(xAxis, newForwards));
-		glm::mat3 rotationMatrix = glm::mat3(xAxis, yAxis, zAxis);
-
-		this->acqRotation() = glm::quat_cast(rotationMatrix);
+		this->acqRotation() = Quats::LookTowards(this->getPosition(), target, up);
 	}
 
 	void Tran::_updatePositionDeps()
