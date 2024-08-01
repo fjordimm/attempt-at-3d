@@ -12,7 +12,6 @@ namespace AttemptAt3D
 	// Forward declarations
 	class Form;
 	namespace Forms { class Camera; }
-	namespace Forms { class Sun; }
 
 	class WorldState
 	{
@@ -36,7 +35,5 @@ namespace AttemptAt3D
 		std::unique_ptr<Forms::Camera> mainCamera;
 		float mainCameraMovementSpeed;
 		float mainCameraRotationSpeed;
-
-		std::unique_ptr<Forms::Sun> theSun;
 	};
 }

@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include "AttemptAt3D/(Util)/(Tran)/Vec.hpp"
+
 namespace AttemptAt3D
 {
 	class Color
@@ -23,6 +25,9 @@ namespace AttemptAt3D
 		float a;
 
 		/* Methods */
+
+	   public:
+		Vec toVec() const;
 	};
 
 	namespace Colors

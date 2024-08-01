@@ -20,13 +20,18 @@ namespace AttemptAt3D
 	Head::Head() :
 		windowForGlfw(nullptr),
 		ptrForGlfw(),
-		worldState()
+		worldState(),
+		_windowWidth(-1),
+		_windowHeight(-1)
 	{}
 	
 	/* Methods */
 
 	void Head::start(int windowWidth, int windowHeight, const std::string windowTitle)
 	{
+		this->_windowWidth = windowWidth;
+		this->_windowHeight = windowHeight;
+
 		/* Create the window, initializing GLFW and GLEW */
 
 		{
@@ -65,10 +70,6 @@ namespace AttemptAt3D
 		/* Head settings */
 
 		glfwSetWindowSizeCallback(this->windowForGlfw, Head::onWindowResize);
-		this->worldState.shaderProgramManager.setFov(glm::radians(45.0f));
-		this->worldState.shaderProgramManager.setAspectRatio((float)windowWidth / (float)windowHeight);
-		this->worldState.shaderProgramManager.setNearClippingPlane(0.01f);
-		this->worldState.shaderProgramManager.setFarClippingPlane(100000.0f);
 
 		this->worldState.inputManager.giveWindowForGlfw(this->windowForGlfw);
 
@@ -240,20 +241,19 @@ namespace AttemptAt3D
 
 	void Head::onStart()
 	{
+		/* Projection settings */
+
+		this->worldState.shaderProgramManager.acqFov() = Math::PiOver4;
+		this->worldState.shaderProgramManager.acqAspectRatio() = (float)this->getWindowWidth() / (float)this->getWindowHeight();
+		this->worldState.shaderProgramManager.acqNearClippingPlane() = 0.01f;
+		this->worldState.shaderProgramManager.acqFarClippingPlane() = 100000.0f;
+
 		/* Make shaders */
 
 		flatShaderProgram = this->worldState.shaderProgramManager.add(std::make_unique<ShaderPrograms::Flat>());
 		smoothShaderProgram = this->worldState.shaderProgramManager.add(std::make_unique<ShaderPrograms::Smooth>());
 
-		/* Make sun and camera */
-
-		this->worldState.theSun = Forms::Sun::New(this->worldState);
-		this->worldState.theSun->tran.locallyRotate(Vecs::Up, 0.4f);
-		this->worldState.theSun->tran.rotate(Vecs::Right, 0.3f);
-		this->worldState.theSun->recalculateAndApplySunRotMatrix(this->worldState);
-		this->worldState.shaderProgramManager.setSunBrightness(1.0f);
-		this->worldState.shaderProgramManager.setSunAmbientLight(0.2f);
-		this->worldState.shaderProgramManager.setSunColor(Colors::White);
+		/* Make camera */
 		
 		this->worldState.mainCamera = Forms::Camera::New(this->worldState);
 		this->worldState.mainCamera->tran.acqPosition() = Vec(0.0f, -100.0f, 0.0f);
@@ -265,6 +265,14 @@ namespace AttemptAt3D
 		////////////////////////////////////////////////////////////
 		cubeMesh = this->worldState.meshManager.add(flatShaderProgram, MeshSamples::Cube());
 		sphereMesh = this->worldState.meshManager.add(smoothShaderProgram, MeshSamples::Sphere<17>());
+
+		// this->worldState.theSun = Forms::Sun::New(this->worldState);
+		// this->worldState.theSun->tran.locallyRotate(Vecs::Up, 0.4f);
+		// this->worldState.theSun->tran.rotate(Vecs::Right, 0.3f);
+		// this->worldState.theSun->recalculateAndApplySunRotMatrix(this->worldState);
+		// this->worldState.shaderProgramManager.setSunBrightness(1.0f);
+		// this->worldState.shaderProgramManager.setSunAmbientLight(0.2f);
+		// this->worldState.shaderProgramManager.setSunColor(Colors::White);
 
 		{
 			long long seed = std::chrono::time_point_cast<std::chrono::microseconds>(std::chrono::system_clock::now()).time_since_epoch().count();
@@ -352,7 +360,10 @@ namespace AttemptAt3D
 	{
 		Head* self = PtrForGlfw::Retrieve(windowForGlfw)->get<Head>();
 
+		self->_windowWidth = width;
+		self->_windowHeight = height;
+
 		glViewport(0, 0, width, height);
-		self->worldState.shaderProgramManager.setAspectRatio((float)width / (float)height);
+		self->worldState.shaderProgramManager.acqAspectRatio() = (float)width / (float)height;
 	}
 }

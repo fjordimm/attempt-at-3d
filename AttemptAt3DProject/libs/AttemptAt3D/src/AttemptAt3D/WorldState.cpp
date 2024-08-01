@@ -3,7 +3,6 @@
 
 #include "AttemptAt3D/(Form)/Form.hpp"
 #include "AttemptAt3D/(Form)/Forms/Camera.hpp"
-#include "AttemptAt3D/(Form)/Forms/Sun.hpp"
 
 namespace AttemptAt3D
 {
@@ -17,7 +16,6 @@ namespace AttemptAt3D
 		hasCapturedCursorForCamera(false),
 		mainCamera(nullptr),
 		mainCameraMovementSpeed(0.008f),
-		mainCameraRotationSpeed(0.0025f),
-		theSun(nullptr)
+		mainCameraRotationSpeed(0.0025f)
 	{}
 }

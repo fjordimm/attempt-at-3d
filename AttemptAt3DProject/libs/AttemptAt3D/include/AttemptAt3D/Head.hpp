@@ -12,7 +12,6 @@
 #include "AttemptAt3D/WorldState.hpp"
 #include "AttemptAt3D/(Form)/Form.hpp"
 #include "AttemptAt3D/(Form)/Forms/Camera.hpp"
-#include "AttemptAt3D/(Form)/Forms/Sun.hpp"
 
 namespace AttemptAt3D
 {
@@ -32,6 +31,15 @@ namespace AttemptAt3D
 		GLFWwindow* windowForGlfw;
 		PtrForGlfw ptrForGlfw;
 		WorldState worldState;
+
+		int _windowWidth;
+		int _windowHeight;
+
+		/* Getters & Setters */
+
+	   private:
+		inline const int& getWindowWidth() { return this->_windowWidth; }
+		inline const int& getWindowHeight() { return this->_windowHeight; }
 
 		/* Methods */
 

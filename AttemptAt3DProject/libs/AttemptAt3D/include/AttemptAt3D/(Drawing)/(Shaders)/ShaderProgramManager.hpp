@@ -23,11 +23,18 @@ namespace AttemptAt3D
 	   private:
 		std::vector<std::unique_ptr<ShaderProgram>> shaderPrograms;
 
+		bool _mayHaveChangedProjectionMatrix;
 		float _fov;
 		float _aspectRatio;
 		float _nearClippingPlane;
 		float _farClippingPlane;
+		glm::mat4 _cached_projectionMatrix;
 
+		bool _mayHaveChangedSunRotMatrix;
+		Quat _sunRot;
+		glm::mat4 _cached_sunRotMatrix;
+
+		bool _mayHaveChangedSunlight;
 		float _sunBrightness;
 		float _sunAmbientLight;
 		Color _sunColor;
@@ -35,14 +42,24 @@ namespace AttemptAt3D
 		/* Getters and Setters */
 
 	   public:
-		void setFov(float val);
-		void setAspectRatio(float val);
-		void setNearClippingPlane(float val);
-		void setFarClippingPlane(float val);
+		inline const float& getFov() const { return this->_fov; }
+		inline const float& getAspectRatio() const { return this->_aspectRatio; }
+		inline const float& getNearClippingPlane() const { return this->_nearClippingPlane; }
+		inline const float& getFarClippingPlane() const { return this->_farClippingPlane; }
+		inline float& acqFov() { this->_mayHaveChangedProjectionMatrix = true; return this->_fov; }
+		inline float& acqAspectRatio() { this->_mayHaveChangedProjectionMatrix = true; return this->_aspectRatio; }
+		inline float& acqNearClippingPlane() { this->_mayHaveChangedProjectionMatrix = true; return this->_nearClippingPlane; }
+		inline float& acqFarClippingPlane() { this->_mayHaveChangedProjectionMatrix = true; return this->_farClippingPlane; }
 
-		void setSunBrightness(float val);
-		void setSunAmbientLight(float val);
-		void setSunColor(Color val);
+		inline const Quat& getSunRot() const { return this->_sunRot; }
+		inline Quat& acqSunRot() { this->_mayHaveChangedSunRotMatrix = true; return this->_sunRot; }
+
+		inline const float& getSunBrightness() const { return this->_sunBrightness; }
+		inline const float& getSunAmbientLight() const { return this->_sunAmbientLight; }
+		inline const Color& getSunColor() const { return this->_sunColor; }
+		inline float& acqSunBrightness() { this->_mayHaveChangedSunlight = true; return this->_sunBrightness; }
+		inline float& acqSunAmbientLight() { this->_mayHaveChangedSunlight = true; return this->_sunAmbientLight; }
+		inline Color& acqSunColor() { this->_mayHaveChangedSunlight = true; return this->_sunColor; }
 
 		/* Methods */
 
@@ -52,9 +69,8 @@ namespace AttemptAt3D
 		void setViewMatrix(const glm::mat4& val);
 		void setSunRotMatrix(const glm::mat4& val);
 
-		// TODO: optimize _updateProjectionMatrix() and the setters for the sun uniforms so they only do stuff once per frame instead of on every call
-
 	   private:
 		void _updateProjectionMatrix();
+		void _updateSunRotMatrix();
 	};
 }

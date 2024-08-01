@@ -10,85 +10,18 @@ namespace AttemptAt3D
 
 	ShaderProgramManager::ShaderProgramManager() :
 		shaderPrograms(),
-		_sunColor(0.0f, 0.0f, 0.0f, 0.0f)
+		_mayHaveChangedProjectionMatrix(true),
+		_fov(Math::PiOver4),
+		_aspectRatio(1.0f),
+		_nearClippingPlane(0.01f),
+		_farClippingPlane(100000.0f),
+		_mayHaveChangedSunRotMatrix(true),
+		_sunRot(Quats::Identity),
+		_mayHaveChangedSunlight(true),
+		_sunBrightness(1.0f),
+		_sunAmbientLight(0.0f),
+		_sunColor(Colors::White)
 	{}
-
-	/* Getters and Setters */
-
-	void ShaderProgramManager::setFov(float val)
-	{
-		this->_fov = val;
-		this->_updateProjectionMatrix();
-	}
-
-	void ShaderProgramManager::setAspectRatio(float val)
-	{
-		this->_aspectRatio = val;
-		this->_updateProjectionMatrix();
-	}
-
-	void ShaderProgramManager::setNearClippingPlane(float val)
-	{
-		this->_nearClippingPlane = val;
-		this->_updateProjectionMatrix();
-	}
-
-	void ShaderProgramManager::setFarClippingPlane(float val)
-	{
-		this->_farClippingPlane = val;
-		this->_updateProjectionMatrix();
-	}
-
-	void ShaderProgramManager::setSunBrightness(float val)
-	{
-		this->_sunBrightness = val;
-
-		for (std::unique_ptr<ShaderProgram>& shaderProgram_ : this->shaderPrograms)
-		{
-			ShaderProgram* shaderProgram = shaderProgram_.get();
-
-			ShaderPrograms::InSpace* inSpaceShaderProgram = dynamic_cast<ShaderPrograms::InSpace*>(shaderProgram);
-			if (inSpaceShaderProgram != nullptr)
-			{
-				inSpaceShaderProgram->use();
-				inSpaceShaderProgram->setUniSunBrightness(val);
-			}
-		}
-	}
-
-	void ShaderProgramManager::setSunAmbientLight(float val)
-	{
-		this->_sunAmbientLight = val;
-
-		for (std::unique_ptr<ShaderProgram>& shaderProgram_ : this->shaderPrograms)
-		{
-			ShaderProgram* shaderProgram = shaderProgram_.get();
-
-			ShaderPrograms::InSpace* inSpaceShaderProgram = dynamic_cast<ShaderPrograms::InSpace*>(shaderProgram);
-			if (inSpaceShaderProgram != nullptr)
-			{
-				inSpaceShaderProgram->use();
-				inSpaceShaderProgram->setUniSunAmbientLight(val);
-			}
-		}
-	}
-
-	void ShaderProgramManager::setSunColor(Color val)
-	{
-		this->_sunColor = val;
-
-		for (std::unique_ptr<ShaderProgram>& shaderProgram_ : this->shaderPrograms)
-		{
-			ShaderProgram* shaderProgram = shaderProgram_.get();
-
-			ShaderPrograms::InSpace* inSpaceShaderProgram = dynamic_cast<ShaderPrograms::InSpace*>(shaderProgram);
-			if (inSpaceShaderProgram != nullptr)
-			{
-				inSpaceShaderProgram->use();
-				inSpaceShaderProgram->setUniSunColor(glm::vec3(val.r, val.g, val.b));
-			}
-		}
-	}
 
 	/* Methods */
 
@@ -105,11 +38,56 @@ namespace AttemptAt3D
 
 	void ShaderProgramManager::drawEverything()
 	{
+		bool madeNewProjectionMatrix = false;
+		if (this->_mayHaveChangedProjectionMatrix)
+		{
+			this->_updateProjectionMatrix();
+			madeNewProjectionMatrix = true;
+			this->_mayHaveChangedProjectionMatrix = false;
+		}
+
+		bool madeNewSunRotMatrix = false;
+		if (this->_mayHaveChangedSunRotMatrix)
+		{
+			this->_updateSunRotMatrix();
+			madeNewSunRotMatrix = true;
+			this->_mayHaveChangedSunRotMatrix = false;
+		}
+
+		bool madeNewSunlight = false;
+		if (this->_mayHaveChangedSunlight)
+		{
+			madeNewSunlight = true;
+			this->_mayHaveChangedSunlight = false;
+		}
+
 		for (std::unique_ptr<ShaderProgram>& shaderProgram_ : this->shaderPrograms)
 		{
 			ShaderProgram* shaderProgram = shaderProgram_.get();
 
 			shaderProgram->use();
+			
+			ShaderPrograms::InSpace* inSpaceShaderProgram = dynamic_cast<ShaderPrograms::InSpace*>(shaderProgram);
+			if (inSpaceShaderProgram != nullptr)
+			{
+				if (madeNewProjectionMatrix)
+				{
+					inSpaceShaderProgram->setUniProj(this->_cached_projectionMatrix);
+				}
+
+				if (madeNewSunRotMatrix)
+				{
+					inSpaceShaderProgram->setUniSunRot(this->_cached_sunRotMatrix);
+				}
+
+				if (madeNewSunlight)
+				{
+					inSpaceShaderProgram->setUniSunBrightness(this->_sunBrightness);
+					inSpaceShaderProgram->setUniSunAmbientLight(this->_sunAmbientLight);
+					inSpaceShaderProgram->setUniSunColor(this->_sunColor.toVec());
+				}
+			}
+
 			shaderProgram->drawAllTrans();
 		}
 	}
@@ -129,35 +107,13 @@ namespace AttemptAt3D
 		}
 	}
 
-	void ShaderProgramManager::setSunRotMatrix(const glm::mat4& val)
-	{
-		for (std::unique_ptr<ShaderProgram>& shaderProgram_ : this->shaderPrograms)
-		{
-			ShaderProgram* shaderProgram = shaderProgram_.get();
-
-			ShaderPrograms::InSpace* inSpaceShaderProgram = dynamic_cast<ShaderPrograms::InSpace*>(shaderProgram);
-			if (inSpaceShaderProgram != nullptr)
-			{
-				inSpaceShaderProgram->use();
-				inSpaceShaderProgram->setUniSunRot(val);
-			}
-		}
-	}
-
 	void ShaderProgramManager::_updateProjectionMatrix()
 	{
-		glm::mat4 projMat = glm::perspective(this->_fov, this->_aspectRatio, this->_nearClippingPlane, this->_farClippingPlane);
+		this->_cached_projectionMatrix = glm::perspective(this->_fov, this->_aspectRatio, this->_nearClippingPlane, this->_farClippingPlane);
+	}
 
-		for (std::unique_ptr<ShaderProgram>& shaderProgram_ : this->shaderPrograms)
-		{
-			ShaderProgram* shaderProgram = shaderProgram_.get();
-
-			ShaderPrograms::InSpace* inSpaceShaderProgram = dynamic_cast<ShaderPrograms::InSpace*>(shaderProgram);
-			if (inSpaceShaderProgram != nullptr)
-			{
-				inSpaceShaderProgram->use();
-				inSpaceShaderProgram->setUniProj(projMat);
-			}
-		}
+	void ShaderProgramManager::_updateSunRotMatrix()
+	{
+		this->_cached_sunRotMatrix = glm::mat4_cast(this->_sunRot);
 	}
 }

@@ -29,5 +29,10 @@ namespace AttemptAt3D
 		return *this;
 	}
 
+	Vec Color::toVec() const
+	{
+		return Vec(this->r, this->g, this->b);
+	}
+
 	/* Methods */
 }
