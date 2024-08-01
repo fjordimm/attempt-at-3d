@@ -5,7 +5,6 @@
 #include <cstdio>
 #include <cstdarg>
 #include <cstdlib>
-#include "CMakeConfig.h"
 
 #ifdef CMAKECONFIG_DO_TERMINAL_COLORS
 static constexpr char PRINTCOLOR_DEBUG[] = "\033[32m"; // green

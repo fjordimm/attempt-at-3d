@@ -264,7 +264,7 @@ namespace AttemptAt3D
 		/// Temp ///
 		////////////////////////////////////////////////////////////
 		cubeMesh = this->worldState.meshManager.add(flatShaderProgram, MeshSamples::Cube());
-		sphereMesh = this->worldState.meshManager.add(smoothShaderProgram, MeshSamples::Sphere<17>());
+		sphereMesh = this->worldState.meshManager.add(smoothShaderProgram, MeshSamples::Sphere<10>());
 
 		// this->worldState.theSun = Forms::Sun::New(this->worldState);
 		// this->worldState.theSun->tran.locallyRotate(Vecs::Up, 0.4f);

@@ -12,8 +12,7 @@ namespace AttemptAt3D::MeshSamples
 	template <std::size_t Size>
 	std::unique_ptr<std::vector<Vec>> Sphere<Size>::vertPositions3D() const
 	{
-		if (Size < 2)
-		{ Debug::LogFatalError("Sphere size must be at least 2."); }
+		ATTEMPTAT3D_DEBUG_ASSERT(Size > 0);
 
 		const int numLayers = Size;
 		const int numVertsPerLayer = Size * 2 + 2;
@@ -119,6 +118,7 @@ namespace AttemptAt3D::MeshSamples
 	}
 
 	// solves linker errors
+	Sphere<1>   sphere1;
 	Sphere<2>   sphere2;
 	Sphere<3>   sphere3;
 	Sphere<4>   sphere4;
