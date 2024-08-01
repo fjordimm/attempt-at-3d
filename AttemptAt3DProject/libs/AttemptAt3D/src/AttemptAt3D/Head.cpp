@@ -275,45 +275,113 @@ namespace AttemptAt3D
 		this->worldState.shaderProgramManager.acqSunAmbientLight() = 0.2f;
 		this->worldState.shaderProgramManager.acqSunColor() = Colors::White;
 
+		//////////
+
 		{
-			long long seed = std::chrono::time_point_cast<std::chrono::microseconds>(std::chrono::system_clock::now()).time_since_epoch().count();
-			std::default_random_engine randGen(seed);
-			std::normal_distribution<float> randDist(0.0f, 3.0f);
-			
-			for (int i = 0; i < 100; i++)
-			{
-				float xPos = randDist(randGen);
-				float yPos = randDist(randGen);
-				float zPos = randDist(randGen);
-
-				Vec vec = Vec(xPos, yPos, zPos);
-				vec *= glm::length2(vec);
-
-				std::unique_ptr<PhysicForm> form1 = PhysicForm::New(this->worldState);
-				form1->setMeshAndLinkToShaderProgram(cubeMesh);
-				form1->tran.acqPosition() = vec;
-				form1->velocity = -0.002f * vec;
-				form1->friction = 0.001f;
-				this->worldState.forms.push_back(std::move(form1));
-			}
-
-			for (int i = 0; i < 100; i++)
-			{
-				float xPos = randDist(randGen);
-				float yPos = randDist(randGen);
-				float zPos = randDist(randGen);
-
-				Vec vec = Vec(xPos, yPos, zPos);
-				vec *= glm::length2(vec);
-
-				std::unique_ptr<PhysicForm> form1 = PhysicForm::New(this->worldState);
-				form1->setMeshAndLinkToShaderProgram(sphereMesh);
-				form1->tran.acqPosition() = vec;
-				form1->velocity = -0.002f * vec;
-				form1->friction = 0.001f;
-				this->worldState.forms.push_back(std::move(form1));
-			}
+			std::unique_ptr<PhysicForm> theOrigin = PhysicForm::New(this->worldState);
+			theOrigin->setMeshAndLinkToShaderProgram(sphereMesh);
+			theOrigin->tran.acqScale() = Vec(0.3f, 0.3f, 0.3f);
+			this->worldState.forms.push_back(std::move(theOrigin));
 		}
+		{
+			static constexpr int n = 30;
+			static constexpr float frequency = 0.25f;
+			static constexpr float altitude = 3.0f;
+			static constexpr float scale = 1.0f;
+
+			class Terrain : public MeshSample
+			{
+				std::unique_ptr<std::vector<Vec>> vertPositions3D() const
+				{
+					std::unique_ptr<std::vector<Vec>> ret = std::make_unique<std::vector<Vec>>();
+
+					for (int i = 0; i < n + 1; i++)
+					{
+						for (int j = 0; j < n + 1; j++)
+						{
+							float x = (float)i;
+							float y = (float)j;
+							float z = altitude * std::sin(x * frequency) * std::sin(y * frequency);
+							ret->push_back(scale * Vec(x, y, z));
+						}
+					}
+
+					return std::move(ret);
+				}
+
+				std::unique_ptr<std::vector<Vec>> vertNormals3D() const
+				{
+					return nullptr;
+				}
+
+				std::unique_ptr<std::vector<std::tuple<GLuint, GLuint, GLuint>>> triangles() const
+				{
+					std::unique_ptr<std::vector<std::tuple<GLuint, GLuint, GLuint>>> ret = std::make_unique<std::vector<std::tuple<GLuint, GLuint, GLuint>>>();
+
+					for (int i = 0; i < n; i++)
+					{
+						for (int j = 0; j < n; j++)
+						{
+							GLuint bottomLeft = i * (n + 1) + j;
+							GLuint topLeft = i * (n + 1) + (j + 1);
+							GLuint bottomRight = (i + 1) * (n + 1) + j;
+							GLuint topRight = (i + 1) * (n + 1) + (j + 1);
+
+							ret->push_back(std::make_tuple(bottomLeft, topRight, topLeft));
+							ret->push_back(std::make_tuple(topRight, bottomLeft, bottomRight));
+						}
+					}
+
+					return std::move(ret);
+				}
+			} terrainMeshSample;
+
+			Mesh* terrainMesh = this->worldState.meshManager.add(flatShaderProgram, terrainMeshSample);
+
+			std::unique_ptr<PhysicForm> terrain = PhysicForm::New(this->worldState);
+			terrain->setMeshAndLinkToShaderProgram(terrainMesh);
+			this->worldState.forms.push_back(std::move(terrain));
+		}
+
+		// {
+		// 	long long seed = std::chrono::time_point_cast<std::chrono::microseconds>(std::chrono::system_clock::now()).time_since_epoch().count();
+		// 	std::default_random_engine randGen(seed);
+		// 	std::normal_distribution<float> randDist(0.0f, 3.0f);
+			
+		// 	for (int i = 0; i < 100; i++)
+		// 	{
+		// 		float xPos = randDist(randGen);
+		// 		float yPos = randDist(randGen);
+		// 		float zPos = randDist(randGen);
+
+		// 		Vec vec = Vec(xPos, yPos, zPos);
+		// 		vec *= glm::length2(vec);
+
+		// 		std::unique_ptr<PhysicForm> form1 = PhysicForm::New(this->worldState);
+		// 		form1->setMeshAndLinkToShaderProgram(cubeMesh);
+		// 		form1->tran.acqPosition() = vec;
+		// 		form1->velocity = -0.002f * vec;
+		// 		form1->friction = 0.001f;
+		// 		this->worldState.forms.push_back(std::move(form1));
+		// 	}
+
+		// 	for (int i = 0; i < 100; i++)
+		// 	{
+		// 		float xPos = randDist(randGen);
+		// 		float yPos = randDist(randGen);
+		// 		float zPos = randDist(randGen);
+
+		// 		Vec vec = Vec(xPos, yPos, zPos);
+		// 		vec *= glm::length2(vec);
+
+		// 		std::unique_ptr<PhysicForm> form1 = PhysicForm::New(this->worldState);
+		// 		form1->setMeshAndLinkToShaderProgram(sphereMesh);
+		// 		form1->tran.acqPosition() = vec;
+		// 		form1->velocity = -0.002f * vec;
+		// 		form1->friction = 0.001f;
+		// 		this->worldState.forms.push_back(std::move(form1));
+		// 	}
+		// }
 
 		////////////////////////////////////////////////////////////
 	}
